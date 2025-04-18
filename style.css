@@ -237,7 +237,7 @@ body{
 
 /*Battle page*/
 .battle-page-body{
-    margin: 0; position:relative;
+    margin: 0; position:relative; height: 100vh; width: 100vw;
     background-image: url("images/background-battle-center.jpg"), url("images/background-battle-bottom.png");
     background-size: 60% 70vh, 100% 30vh;
     background-position:top, bottom;
@@ -270,6 +270,12 @@ body{
 
     display: flex; flex-direction: row;
 }
+.used-battle-poke-card{
+    background-color: var(--poke-red-transp);
+}
+.current-use-battle-poke-card{
+    background-color: var(--poke-blue-transp);
+}
 
 .battle-poke-image{
     height: 80%; width:auto;
@@ -279,4 +285,33 @@ body{
     display: flex;
     width:auto; height: 100%;
     flex-direction: column;
+}
+
+.round-details{
+    display:flex; position: absolute;
+    top:0; 
+    width:auto; left:22%; right:22% ;
+    border: solid 0.25rem teal;
+    background-color: var(--poke-darkred);
+    
+    justify-content: space-around;
+}
+
+.num-user-win{
+
+}
+.num-round{
+
+}
+.num-opp-win{
+
+}
+
+.bottom-space{
+    position:absolute;  left:2%; right:2%; bottom:2.5vh;
+    display:flex; flex-direction: row;
+    height: 25vh;
+    background-color: var(--poke-grey);
+    width: 96%;
+
 }
