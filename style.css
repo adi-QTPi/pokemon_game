@@ -297,7 +297,7 @@ body{
     justify-content: space-around;
 }
 
-.num-user-win{
+/* .num-user-win{
 
 }
 .num-round{
@@ -305,7 +305,7 @@ body{
 }
 .num-opp-win{
 
-}
+} */
 
 .bottom-space{
     position:absolute;  left:2%; right:2%; bottom:2.5vh;
@@ -331,10 +331,16 @@ body{
 
 
 /*for battle_page2.html */
+.battle2-page-body{
+    margin: 0; position:relative; height: 100vh; width: 100vw;
+    background-image: url("images/background-battle-center.jpg"), url("images/background-battle-bottom.png");
+    background-size: 60% 70vh, 100% 30vh;
+    background-position:top, bottom;
+}
 
 .poke-ability-card{
     position: relative;
-    height: 11vh; width: 95%;
+    height: 12vh; width: 90%;
     background-color: yellow;
     border: solid 3px red;
     padding-left:0.5rem;
@@ -349,7 +355,7 @@ body{
     width:20%; height: 70vh;
     background-color: green;
 
-    justify-content:flex-end; align-items: center;
+    justify-content:space-around; align-items: center;
 }
 .left-battle-ability-list{
     top:0; left:0;
@@ -362,9 +368,22 @@ body{
     position:absolute;  left:2%; right:2%; bottom:2.5vh;
     display:flex; flex-direction: row;
     justify-content: space-around;
-    height: 22vh;
+    height: 23vh;
     background-color: var(--poke-grey);
-    width: 96%;
+    width: 95%;
 
-    border: solid 1rem teal;
+    border: solid 1vh teal;
+}
+
+.floater-user-poke{
+    font-size: 1rem; color: var(--poke-blue);
+    font-weight: 700;
+    position: absolute;
+    top:50vh; left:35vw;
+}
+.floater-opp-poke{
+    font-size: 1rem; color: var(--poke-red);
+    font-weight: 700;
+    position: absolute;
+    top:30vh; right:35vw;
 }
