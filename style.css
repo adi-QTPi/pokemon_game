@@ -336,6 +336,8 @@ body{
     background-image: url("images/background-battle-center.jpg"), url("images/background-battle-bottom.png");
     background-size: 60% 70vh, 100% 30vh;
     background-position:top, bottom;
+
+    letter-spacing: 0.1rem;
 }
 
 .poke-ability-card{
@@ -347,6 +349,10 @@ body{
     align-items: center;
 
     display: flex; flex-direction: row;
+    row-gap: 0.2rem;
+}
+.poke-ability-card-selected{
+    background-color: var(--poke-blue-transp);
 }
 
 .battle-ability-list{
