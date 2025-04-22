@@ -326,3 +326,45 @@ body{
     height: 100%; width: 40%; 
     border: solid 4px teal;
 }
+
+
+
+
+/*for battle_page2.html */
+
+.poke-ability-card{
+    position: relative;
+    height: 11vh; width: 95%;
+    background-color: yellow;
+    border: solid 3px red;
+    padding-left:0.5rem;
+    align-items: center;
+
+    display: flex; flex-direction: row;
+}
+
+.battle-ability-list{
+    display: flex; flex-direction: column;
+    position: absolute; 
+    width:20%; height: 70vh;
+    background-color: green;
+
+    justify-content:flex-end; align-items: center;
+}
+.left-battle-ability-list{
+    top:0; left:0;
+}
+.right-battle-ability-list{
+    top:0; right:0;
+}
+
+.bottom-space-battle2{
+    position:absolute;  left:2%; right:2%; bottom:2.5vh;
+    display:flex; flex-direction: row;
+    justify-content: space-around;
+    height: 22vh;
+    background-color: var(--poke-grey);
+    width: 96%;
+
+    border: solid 1rem teal;
+}
