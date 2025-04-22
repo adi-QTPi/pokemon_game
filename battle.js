@@ -16,6 +16,8 @@ const right_battle_poke_list = document.getElementsByClassName('right-battle-pok
 const right_battle_poke_card = document.getElementsByClassName('right-battle-poke-card');
 //////////////////////////////////////
 
+let api_url = 'https://pokeapi.co/api/v2/pokemon/';
+
 function poke_card_init(element, obj_array){
     for(let i = 0; i<6; i++){
         let target = element.children[i].firstElementChild;
@@ -23,16 +25,27 @@ function poke_card_init(element, obj_array){
     }
 } 
 
+let num_user_win = 0;
+let num_opp_win = 0;
+
+
 function page_render(){
+    let round_num_user_win = document.getElementsByClassName('num-user-win')[0];
+    let round_num_opp_win = document.getElementsByClassName('num-opp-win')[0];
+
+    round_num_user_win.innerText = num_user_win;
+    round_num_opp_win.innerText = num_opp_win;
+
     poke_card_init(left_battle_poke_list, user_poke_obj_array);
     poke_card_init(right_battle_poke_list, opp_poke_obj_array);
     battle_prep();
-    console.log(round_history); // this has no effect of the clicky things! :(
+
+
+    // console.log(round_history); // this has no effect of the clicky things! :(
 }
 
 let round_history = [
-    {"user_poke" : "rattata" , "opp_poke" : "omaster" , "winner" : "rattata"} ,
-    {"user_poke": "venomoth", "opp_poke": "omaster", "winner": "venomoth"}
+    {"user_poke" : "charmander" , "opp_poke" : "wigglytuff" , "winner" : "charmander"} ,
 ];
 
 function battle_prep(){
@@ -42,7 +55,7 @@ function battle_prep(){
     let isAllowed = false;
     let rand_num ;
 
-    while(!isAllowed){
+    while(!isAllowed && round_history.length >0){
         rand_num = getRandomInt0to5();
         for(obj2 of round_history){
             if(opp_poke_obj_array[rand_num]["name"] == obj2.opp_poke){
@@ -67,9 +80,11 @@ function battle_prep(){
         let array_index = user_poke_obj_array.indexOf(obj);
         let target_el = left_battle_poke_list.children[array_index];
 
-        for(obj2 of round_history){
-            if(poke_name == obj2.user_poke){
-                target_el.classList.add('used-battle-poke-card');
+        if(round_history.length != 0){
+            for(obj2 of round_history){
+                if(poke_name == obj2.user_poke){
+                    target_el.classList.add('used-battle-poke-card');
+                }
             }
         }
 
@@ -82,10 +97,25 @@ function battle_prep(){
 
                 let curr_round_obj = round_history.pop();
                 curr_round_obj["user_poke"] = poke_name;
+
+
                 curr_round_obj["winner"] = poke_name;
+
+
                 // console.log(curr_round_obj);
                 round_history.push(curr_round_obj);
                 console.log(round_history);
+
+                let name = document.getElementsByClassName('name')[0];
+                let hp = document.getElementsByClassName('hp')[0];
+                let moves_el = document.getElementsByClassName('moves')[0];
+                name.innerText = curr_round_obj["user_poke"];
+
+
+                fetch_and_put_hp(hp, poke_name);
+
+                fetch_and_put_moves(moves_el,poke_name);
+
             }
         })
     }  
@@ -103,6 +133,32 @@ function battle_prep(){
             element.classList.add('current-use-battle-poke-card');
         }
     }
+}
+
+
+async function fetch_and_put_hp(element, id){
+    element.innerText = 'HP : '
+    let response = await fetch(api_url+id);
+    let data = await response.json();
+    let base_hp = data.stats[0].base_stat;
+
+    element.innerText += `${base_hp}`;
+    // console.log(base_hp);
+}
+
+async function fetch_and_put_moves(element, id){
+    element.innerText = `Attacks :`;
+
+    let response = await fetch(api_url+id);
+    let data = await response.json();
+
+    for(let i = 0; i<3; i++){
+        let temp_move_name = data.moves[i].move.name;
+        element.innerText += `${temp_move_name}_`;
+    }
+
+    // console.log("armada");
+    // console.log(data2);
 }
 
 

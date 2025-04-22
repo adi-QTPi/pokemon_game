@@ -310,8 +310,19 @@ body{
 .bottom-space{
     position:absolute;  left:2%; right:2%; bottom:2.5vh;
     display:flex; flex-direction: row;
+    justify-content: space-around;
     height: 25vh;
     background-color: var(--poke-grey);
     width: 96%;
 
+}
+
+.user-current-poke-stats{
+    height: 100%; width: 40%; 
+    border: solid 4px teal;
+}
+
+.opp-current-poke-stats{
+    height: 100%; width: 40%; 
+    border: solid 4px teal;
 }
