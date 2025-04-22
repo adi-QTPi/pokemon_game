@@ -348,11 +348,22 @@ body{
     padding-left:0.5rem;
     align-items: center;
 
-    display: flex; flex-direction: row;
+    display: flex; flex-direction: column;
     row-gap: 0.2rem;
+    justify-content: space-around;
 }
 .poke-ability-card-selected{
     background-color: var(--poke-blue-transp);
+}
+
+.move-name{
+    font-size: 2vh;
+}
+.damage{
+    font-size: 1.8vh;
+}
+.pp{
+    font-size: 1.8vh;
 }
 
 .battle-ability-list{
@@ -381,15 +392,26 @@ body{
     border: solid 1vh teal;
 }
 
-.floater-user-poke{
-    font-size: 1rem; color: var(--poke-blue);
-    font-weight: 700;
+.floater-user{
     position: absolute;
-    top:50vh; left:35vw;
+    top:40vh; left:35vw;
 }
-.floater-opp-poke{
-    font-size: 1rem; color: var(--poke-red);
-    font-weight: 700;
+.floater-opp{
     position: absolute;
     top:30vh; right:35vw;
+}
+
+.floater-user-poke-hp{
+    font-size: 1rem; color: var(--poke-blue);
+    font-weight: 700;
+}
+.floater-opp-poke-hp{
+    font-size: 1rem; color: var(--poke-red);
+    font-weight: 700;
+}
+.floater-user-poke-img{
+    width: 10rem;
+}
+.floater-opp-poke-img{
+    width: 10rem;
 }

@@ -3,8 +3,8 @@ const coeff_of_attack_dampness = 0.1;
 
 //Imported data//////////////////
 let curr_fight_record = {
-    "user_poke" : "94", 
-    "opp_poke" : "102" , 
+    "user_poke" : "4", 
+    "opp_poke" : "1" , 
     "winner" : ""
 };
 
@@ -22,20 +22,24 @@ let hp_obj = {
 let user_move_info_lib = [];
 let opp_move_info_lib = [];
 
+let max_user_hp = 0; 
+let max_opp_hp = 0; 
+
 ///////////////////////////////
 
 document.getElementsByClassName('num-user-win')[0].innerText = num_round_record.user_win;
 document.getElementsByClassName('num-opp-win')[0].innerText = num_round_record.opp_win;
 document.getElementsByClassName('num-round')[0].innerText = `Round : ${num_round_record.total}/6`;
 
-const floater_user_poke = document.getElementsByClassName('floater-user-poke')[0];
-const floater_opp_poke = document.getElementsByClassName('floater-opp-poke')[0];
+const floater_user_poke_hp = document.getElementsByClassName('floater-user-poke-hp')[0];
+const floater_opp_poke_hp = document.getElementsByClassName('floater-opp-poke-hp')[0];
+let floater_user_poke_img = document.getElementsByClassName('floater-user-poke-img')[0];
+let floater_opp_poke_img = document.getElementsByClassName('floater-opp-poke-img')[0];
 const match_description = document.getElementsByClassName('match-description')[0];
 let left_battle_ability_list = document.getElementsByClassName('battle-ability-list')[0];
 let right_battle_ability_list = document.getElementsByClassName('battle-ability-list')[1];
 
 //fill the moves array for user
-
 
 async function user_poke_ability_init(){
     
@@ -54,7 +58,7 @@ async function user_poke_ability_init(){
         let data2 = await response2.json();
 
         if(data2.power == null){
-            console.log('gotcha ' + i);
+            // console.log('gotcha ' + i);
             offset_index++;
         }
         else{
@@ -85,7 +89,10 @@ async function user_poke_ability_init(){
     }   
 
     hp_obj.user_hp = data.stats[0].base_stat; // inserted below
-    floater_user_poke.innerText = `User HP : ${hp_obj.user_hp}`;
+    max_user_hp = hp_obj.user_hp;
+    floater_user_poke_hp.innerText = `User HP : ${hp_obj.user_hp}`;
+
+    floater_user_poke_img.src = data["sprites"]["other"]["showdown"]["back_default"];
 
     let bottom_desc_user = document.getElementsByClassName('user-poke-details')[0];
     bottom_desc_user.innerText = data.name;
@@ -139,7 +146,10 @@ async function opp_poke_ability_init(){
     }
 
     hp_obj.opp_hp = data.stats[0].base_stat;// inserted in floater below
-    floater_opp_poke.innerText = `Opp HP : ${hp_obj.opp_hp}`;
+    max_opp_hp = hp_obj.opp_hp;
+    floater_opp_poke_hp.innerText = `Opp HP : ${hp_obj.opp_hp} `;
+
+    floater_opp_poke_img.src = data["sprites"]["other"]["showdown"]["front_default"];
 
     let bottom_desc_user = document.getElementsByClassName('opp-poke-details')[0];
     bottom_desc_user.innerText = data.name;
@@ -155,25 +165,29 @@ function battle_round(){
     //user choice
     let left_battle_ability_list = document.getElementsByClassName('battle-ability-list')[0];
     let children = Array.from(left_battle_ability_list.children);
+    let isProcessing = false;
     for(let i = 0; i<5; i++){
         children[i].addEventListener('click', ()=>{
+            if(isProcessing == true)return;
+
             for(obj of children){
                 obj.classList.remove('poke-ability-card-selected');
             }
             children[i].classList.add('poke-ability-card-selected');
 
             let target_arr = children[i].lastElementChild;
-            details_update(i, target_arr, floater_opp_poke, match_description, user_move_info_lib, 'user-attack');
+            details_update(i, target_arr, floater_opp_poke_hp, match_description, user_move_info_lib, 'user-attack');
 
             //COMPUTER CHOICE/////////////////////
+            isProcessing = true;
             setTimeout(()=>{
-                console.log("kabadra");
+                console.log("attack in progress");
 
                 let comp_choose_rand_num = getRandomInteger();
                 let target_el = Array.from(right_battle_ability_list.children)[comp_choose_rand_num];
                 target_el.classList.add('poke-ability-card-selected');
-                details_update(comp_choose_rand_num, target_el.lastElementChild, floater_user_poke, match_description, opp_move_info_lib, 'opp-attack');
-
+                details_update(comp_choose_rand_num, target_el.lastElementChild, floater_user_poke_hp, match_description, opp_move_info_lib, 'opp-attack');
+                // isProcessing = false;
             }, 3000);
 
             setTimeout(()=>{
@@ -184,6 +198,7 @@ function battle_round(){
                 for(obj of children){
                     obj.classList.remove('poke-ability-card-selected');
                 }
+                isProcessing = false;
             }, 6000);
         })
     }
@@ -195,14 +210,14 @@ function details_update(num, pp_element, hp_element, description_element, librar
         let x = hp_obj.opp_hp;
         x -= library[num].move_damage;
         hp_obj.opp_hp = x;
-        hp_element.innerText = `Opp HP : ${hp_obj.opp_hp}`;
+        hp_element.innerText = `Opp HP : ${hp_obj.opp_hp}/${max_opp_hp}`;
     }
 
     else if(who_attack == 'opp-attack'){
         let x = hp_obj.user_hp;
         x -= library[num].move_damage;
         hp_obj.user_hp = x;
-        hp_element.innerText = `User HP : ${hp_obj.user_hp}`;
+        hp_element.innerText = `User HP : ${hp_obj.user_hp}/${max_user_hp}`;
     }
 
     let y = library[num].move_pp;
@@ -217,10 +232,10 @@ function details_update(num, pp_element, hp_element, description_element, librar
 
 async function page_render(){
     user_move_info_lib = await user_poke_ability_init();
-    console.log(user_move_info_lib);
+    // console.log(user_move_info_lib);
 
     opp_move_info_lib = await opp_poke_ability_init();
-    console.log(opp_move_info_lib);
+    // console.log(opp_move_info_lib);
 
     battle_round();
 }
