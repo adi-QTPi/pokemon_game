@@ -3,6 +3,9 @@ const api_url = 'https://pokeapi.co/api/v2/pokemon/';
 const session_string3 = sessionStorage.getItem('attack_dampness');
 const coeff_of_attack_dampness = JSON.parse(session_string3);
 
+const session_string4 = sessionStorage.getItem('max_round');
+const max_round = JSON.parse(session_string4);
+
 //Imported data//////////////////
 
 const session_string1 = sessionStorage.getItem('round_history');
@@ -50,7 +53,7 @@ let max_opp_hp = 0;
 
 document.getElementsByClassName('num-user-win')[0].innerText = num_round_record.user_win;
 document.getElementsByClassName('num-opp-win')[0].innerText = num_round_record.opp_win;
-document.getElementsByClassName('num-round')[0].innerText = `Round : ${num_round_record.total}/6`;
+document.getElementsByClassName('num-round')[0].innerText = `Round : ${num_round_record.total}/${max_round}`;
 
 const floater_user_poke_hp = document.getElementsByClassName('floater-user-poke-hp')[0];
 const floater_opp_poke_hp = document.getElementsByClassName('floater-opp-poke-hp')[0];

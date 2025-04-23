@@ -11,6 +11,9 @@ console.log(opp_poke_obj_array);
 const coeff_of_attack_dampness = 0.1;
 sessionStorage.setItem('attack_dampness', JSON.stringify(coeff_of_attack_dampness));
 
+const max_round = 3;
+sessionStorage.setItem('max_round', JSON.stringify(max_round));
+
 //ELEMENTS////////////////////////////
 const left_battle_poke_list = document.getElementsByClassName('left-battle-poke-list')[0];
 const left_battle_poke_card = document.getElementsByClassName('left-battle-poke-card');
@@ -82,14 +85,14 @@ function page_render(){
 
     round_num_user_win.innerText = num_round_record.user_win;
     round_num_opp_win.innerText = num_round_record.opp_win;
-    round_num_total.innerText = `Rounds : ${num_round_record.user_win+num_round_record.opp_win}/6`;
+    round_num_total.innerText = `Rounds : ${num_round_record.user_win+num_round_record.opp_win}/${max_round}`;
 
     poke_card_init(left_battle_poke_list, user_poke_obj_array);
     poke_card_init(right_battle_poke_list, opp_poke_obj_array);
 
     setTimeout(
         ()=>{
-            if((num_round_record.user_win+num_round_record.opp_win) == 1){
+            if((num_round_record.user_win+num_round_record.opp_win) == max_round){
                 if(num_round_record.user_win > num_round_record.opp_win){
                     alert('user has won the MATCH... Redirecting to home');
                 }
