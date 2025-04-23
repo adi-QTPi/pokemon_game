@@ -8,6 +8,9 @@ console.log(user_poke_obj_array);
 console.log(opp_poke_obj_array);
 //fetch poke-details//////////////////
 
+const coeff_of_attack_dampness = 0.1;
+sessionStorage.setItem('attack_dampness', JSON.stringify(coeff_of_attack_dampness));
+
 //ELEMENTS////////////////////////////
 const left_battle_poke_list = document.getElementsByClassName('left-battle-poke-list')[0];
 const left_battle_poke_card = document.getElementsByClassName('left-battle-poke-card');
@@ -47,9 +50,9 @@ if(sessionStorage.getItem('num_round_record_from_battle2')){
     num_round_record = JSON.parse(intermediate);
 }
 
-let num_user_win = num_round_record.user_win;
-let num_opp_win = num_round_record.opp_win;
-let num_total_round = num_round_record.total;
+// let num_user_win = num_round_record.user_win;
+// let num_opp_win = num_round_record.opp_win;
+// let num_total_round = num_round_record.total;
 
 let round_history = [];
 
@@ -58,6 +61,7 @@ if(sessionStorage.getItem('round_history_from_battle2')){
     round_history = JSON.parse(intermediate);
 }
 
+console.log(num_round_record);
 console.log(round_history);
 
 // if(sessionStorage.getItem('round_history_from_battle2')){
@@ -76,12 +80,31 @@ function page_render(){
     let round_num_opp_win = document.getElementsByClassName('num-opp-win')[0];
     let round_num_total = document.getElementsByClassName('num-round-total')[0];
 
-    round_num_user_win.innerText = num_user_win;
-    round_num_opp_win.innerText = num_opp_win;
-    round_num_total.innerText = `Rounds : ${num_total_round}/6`;
+    round_num_user_win.innerText = num_round_record.user_win;
+    round_num_opp_win.innerText = num_round_record.opp_win;
+    round_num_total.innerText = `Rounds : ${num_round_record.user_win+num_round_record.opp_win}/6`;
 
     poke_card_init(left_battle_poke_list, user_poke_obj_array);
     poke_card_init(right_battle_poke_list, opp_poke_obj_array);
+
+    setTimeout(
+        ()=>{
+            if((num_round_record.user_win+num_round_record.opp_win) == 1){
+                if(num_round_record.user_win > num_round_record.opp_win){
+                    alert('user has won the MATCH... Redirecting to home');
+                }
+                else if (num_round_record.user_win === num_round_record.opp_win){
+                    alert('the match is DRAW... Redirecting to home');
+                }
+                else{
+                    alert('opp has won the MATCH... Redirecting to home');
+                }
+                window.location.href = "index.html";
+            }
+        },3000
+    )
+    
+
     round_history = battle_prep();
     
     // let lets_battle_button = document.getElementsByClassName('lets-battle-button-clickable')[0];
@@ -101,7 +124,7 @@ function battle_prep(){
 
     //computer random opponent
     let isAllowed = false;
-    let rand_num = 0;
+    let rand_num = -1;
 
     while(!isAllowed && round_history.length >=0){
         rand_num = getRandomInt0to5();
@@ -110,6 +133,7 @@ function battle_prep(){
             if(opp_poke_obj_array[rand_num]["name"] == obj2.opp_poke){
                 isAllowed = false;
                 console.log("isallowed false"+rand_num);
+                break;
             }
             else{
                 isAllowed = true;
@@ -117,6 +141,9 @@ function battle_prep(){
             }   
         }
     }
+
+
+
     let chosen_opp_name = opp_poke_obj_array[rand_num]["name"];
     new_obj["opp_poke"] = chosen_opp_name;
 
@@ -127,6 +154,20 @@ function battle_prep(){
     fetch_and_put_moves(document.getElementsByClassName('moves')[1], chosen_opp_name);
 
     round_history.push(new_obj);
+
+    let target_el2 = Array.from(right_battle_poke_list.children);
+    for(element of target_el2){
+        let num = target_el2.indexOf(element);
+        let poke_name_in_target_el2 = opp_poke_obj_array[num].name;
+        for(let i = 0; i<round_history.length; i++){
+            if(round_history[i].opp_poke == poke_name_in_target_el2){
+                element.classList.add('used-battle-poke-card');
+            }
+        }
+        if(round_history[round_history.length-1].opp_poke == poke_name_in_target_el2){
+            element.classList.add('current-use-battle-poke-card');
+        }
+    }
 
     //user's choices
 
@@ -183,21 +224,7 @@ function battle_prep(){
 
             }
         })
-    }  
-    
-    let target_el2 = Array.from(right_battle_poke_list.children);
-    for(element of target_el2){
-        let num = target_el2.indexOf(element);
-        let poke_name_in_target_el2 = opp_poke_obj_array[num].name;
-        for(let i = 0; i<round_history.length; i++){
-            if(round_history[i].opp_poke == poke_name_in_target_el2){
-                element.classList.add('used-battle-poke-card');
-            }
-        }
-        if(round_history[round_history.length-1].opp_poke == poke_name_in_target_el2){
-            element.classList.add('current-use-battle-poke-card');
-        }
-    }
+    } 
 
     return round_history;
 }
@@ -227,7 +254,7 @@ async function fetch_and_put_moves(element, id){
         let temp_move_name = data.moves[x].move.name;
         let temp_move_power = data2.power;
         if(temp_move_power){
-            element.innerText += `\n${temp_move_name} (${temp_move_power})`;
+            element.innerText += `\n${temp_move_name} (${temp_move_power*coeff_of_attack_dampness})`;
             count++;
         }
         if(count == 3)break;

@@ -1,10 +1,12 @@
 const api_url = 'https://pokeapi.co/api/v2/pokemon/';
-const coeff_of_attack_dampness = 0.1;
+
+const session_string3 = sessionStorage.getItem('attack_dampness');
+const coeff_of_attack_dampness = JSON.parse(session_string3);
 
 //Imported data//////////////////
 
 const session_string1 = sessionStorage.getItem('round_history');
-const  round_history = JSON.parse(session_string1);
+const round_history = JSON.parse(session_string1);
 const per_move_gap_time = 1000; //in ms
 
 let curr_fight_record = round_history.pop();
@@ -182,6 +184,9 @@ async function opp_poke_ability_init() {
 function getRandomInteger() {
     return Math.floor(Math.random() * 5);
 }
+function getRandomIntInclusiveLowerExclusiveUpper(min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
+}
 
 function battle_round(){
     //user choice
@@ -205,7 +210,9 @@ function battle_round(){
             setTimeout(()=>{
                 console.log("attack in progress");
 
-                let comp_choose_rand_num = getRandomInteger();
+                // let comp_choose_rand_num = getRandomInteger();
+                let comp_choose_rand_num = getRandomIntInclusiveLowerExclusiveUpper(0, opp_move_info_lib.length);
+
                 let target_el = Array.from(right_battle_ability_list.children)[comp_choose_rand_num];
                 target_el.classList.add('poke-ability-card-selected');
                 details_update(comp_choose_rand_num, target_el.lastElementChild, floater_user_poke_hp, match_description, opp_move_info_lib, 'opp-attack');
@@ -260,7 +267,6 @@ function details_update(num, pp_element, hp_element, description_element, librar
         x -= library[num].move_damage;
         hp_obj.user_hp = x;
         if(hp_obj.user_hp <= 0){
-            hp_element.innerText = `User HP : ${hp_obj.user_hp}/${max_user_hp}`;
             alert('opp won!');
             curr_fight_record.winner = "opp";
             // num_round_record.opp_win += 1;
