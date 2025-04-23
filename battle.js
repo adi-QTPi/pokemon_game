@@ -21,6 +21,11 @@ let api_url = 'https://pokeapi.co/api/v2/pokemon/';
 function poke_card_init(element, obj_array){
     for(let i = 0; i<6; i++){
         let target = element.children[i].firstElementChild;
+        let target_text = document.createElement('div');
+        target_text.classList.add('battle-poke-card-text-flex');
+        
+        element.children[i].appendChild(target_text);
+        target_text.innerText = obj_array[i]["name"];
         if(obj_array[i].length == 4){
             target.src = obj_array[i]["dream_world_front_img_url"];
         }
@@ -115,6 +120,12 @@ function battle_prep(){
     let chosen_opp_name = opp_poke_obj_array[rand_num]["name"];
     new_obj["opp_poke"] = chosen_opp_name;
 
+    let name = document.getElementsByClassName('name')[1];
+    name.innerText = chosen_opp_name;
+
+    fetch_and_put_hp(document.getElementsByClassName('hp')[1], chosen_opp_name);
+    fetch_and_put_moves(document.getElementsByClassName('moves')[1], chosen_opp_name);
+
     round_history.push(new_obj);
 
     //user's choices
@@ -200,11 +211,8 @@ async function fetch_and_put_moves(element, id){
 
     for(let i = 0; i<3; i++){
         let temp_move_name = data.moves[i].move.name;
-        element.innerText += `${temp_move_name}_`;
-    }
-
-    // console.log("armada");
-    // console.log(data2);
+        element.innerText += `\n${temp_move_name}`;
+    }element.innerText += '...';
 }
 
 

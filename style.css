@@ -332,7 +332,7 @@ body{
 
 .battle-poke-card-text-flex{
     display: flex;
-    width:auto; height: 100%;
+    width:auto; 
     flex-direction: column;
 }
 
@@ -367,14 +367,33 @@ body{
 }
 
 .user-current-poke-stats{
+    padding-left: 2rem;
+    padding-right: 1rem;
     height: 100%; width: 40%; 
     border: solid 4px teal;
+    display: flex; flex-direction: column;
+}
+.name{
+    font-size: 1rem;
+}
+.hp-and-attack-flex{
+    display: flex; flex-direction: row;
+}
+.hp{
+    width:40%;
+    font-size: 4rem;
+}
+.moves{
+    width: auto;
 }
 
 .opp-current-poke-stats{
+    padding-left: 2rem;
+    padding-right: 1rem;
     height: 100%; width: 40%; 
     border: solid 4px teal;
-}
+    display: flex; flex-direction: column;
+} 
 
 .lets-battle-button{
     color: white;
