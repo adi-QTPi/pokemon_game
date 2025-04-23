@@ -357,20 +357,20 @@ body{
 } */
 
 .bottom-space{
-    position:absolute;  left:2%; right:2%; bottom:2.5vh;
+    position:absolute;  left:2%; right:2%; bottom:8vh;
     display:flex; flex-direction: row;
     justify-content: space-around;
-    height: 25vh;
+    height: 20vh;
     background-color: var(--poke-grey);
     width: 96%;
-
+    align-items: center;
 }
 
 .user-current-poke-stats{
     padding-left: 2rem;
     padding-right: 1rem;
     height: 100%; width: 40%; 
-    border: solid 4px teal;
+    /* border: solid 4px teal; */
     display: flex; flex-direction: column;
 }
 .name{
@@ -391,14 +391,30 @@ body{
     padding-left: 2rem;
     padding-right: 1rem;
     height: 100%; width: 40%; 
-    border: solid 4px teal;
+    /* border: solid 4px teal; */
     display: flex; flex-direction: column;
 } 
 
 .lets-battle-button{
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+
+    color: black;
+    background-color: gray;
+    border: solid 2px teal;
+
+    height: 50%;
+
+    padding: 1rem;
+    border-radius: 2rem;
+}
+
+.lets-battle-button-clickable{
     color: white;
     background-color: var(--poke-red-transp);
-    border: solid 2px teal;
+    border: solid 2px gray;
 }
 
 
@@ -456,14 +472,15 @@ body{
 }
 
 .bottom-space-battle2{
-    position:absolute;  left:2%; right:2%; bottom:2.5vh;
+    position:absolute;  left:2%; right:2%; bottom:4vh;
     display:flex; flex-direction: row;
     justify-content: space-around;
+    align-items: center;
     height: 23vh;
-    background-color: var(--poke-grey);
+    /* background-color: var(--poke-grey); */
     width: 95%;
 
-    border: solid 1vh teal;
+    /* border: solid 1vh teal; */
 }
 
 .floater-user{

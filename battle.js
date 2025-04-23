@@ -84,15 +84,15 @@ function page_render(){
     poke_card_init(right_battle_poke_list, opp_poke_obj_array);
     round_history = battle_prep();
     
-    let lets_battle_button = document.getElementsByClassName('lets-battle-button')[0];
-    lets_battle_button.addEventListener('click', ()=>{
+    // let lets_battle_button = document.getElementsByClassName('lets-battle-button-clickable')[0];
+    // lets_battle_button.addEventListener('click', ()=>{
 
-        window.location = "battle_page2.html";
-        if (sessionStorage.getItem('round_history')) {
-            sessionStorage.removeItem('round_history');
-        }
-        sessionStorage.setItem('round_history', JSON.stringify(round_history));
-    });
+    //     window.location = "battle_page2.html";
+    //     if (sessionStorage.getItem('round_history')) {
+    //         sessionStorage.removeItem('round_history');
+    //     }
+    //     sessionStorage.setItem('round_history', JSON.stringify(round_history));
+    // });
     // console.log(round_history); // this has no effect of the clicky things! :(
 }
 
@@ -166,6 +166,16 @@ function battle_prep(){
                 let moves_el = document.getElementsByClassName('moves')[0];
                 name.innerText = curr_round_obj["user_poke"];
 
+                document.getElementsByClassName('lets-battle-button')[0].classList.add('lets-battle-button-clickable');
+                let lets_battle_button = document.getElementsByClassName('lets-battle-button-clickable')[0];
+                lets_battle_button.addEventListener('click', ()=>{
+
+                    window.location = "battle_page2.html";
+                    if (sessionStorage.getItem('round_history')) {
+                        sessionStorage.removeItem('round_history');
+                    }
+                    sessionStorage.setItem('round_history', JSON.stringify(round_history));
+                });
 
                 fetch_and_put_hp(hp, poke_name);
 
@@ -209,9 +219,19 @@ async function fetch_and_put_moves(element, id){
     let response = await fetch(api_url+id);
     let data = await response.json();
 
-    for(let i = 0; i<3; i++){
-        let temp_move_name = data.moves[i].move.name;
-        element.innerText += `\n${temp_move_name}`;
+    let x = 0; let count = 0;
+    while(true){
+        let response2 = await fetch(data.moves[x].move.url);
+        let data2 = await response2.json();
+
+        let temp_move_name = data.moves[x].move.name;
+        let temp_move_power = data2.power;
+        if(temp_move_power){
+            element.innerText += `\n${temp_move_name} (${temp_move_power})`;
+            count++;
+        }
+        if(count == 3)break;
+        x++;
     }element.innerText += '...';
 }
 
