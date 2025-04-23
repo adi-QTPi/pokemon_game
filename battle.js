@@ -21,13 +21,33 @@ let api_url = 'https://pokeapi.co/api/v2/pokemon/';
 function poke_card_init(element, obj_array){
     for(let i = 0; i<6; i++){
         let target = element.children[i].firstElementChild;
-        target.src = obj_array[i]["dream_world_front_img_url"];
+        if(obj_array[i].length == 4){
+            target.src = obj_array[i]["dream_world_front_img_url"];
+        }
+        else{
+            target.src = obj_array[i]["img_url"];
+        }
     }
 } 
 
 let num_user_win = 0;
 let num_opp_win = 0;
 
+let intermediate = sessionStorage.getItem('round_history_from_battle2');
+let round_history = JSON.parse(intermediate);
+
+console.log(round_history);
+
+// if(sessionStorage.getItem('round_history_from_battle2')){
+//     round_history = sessionStorage.getItem('round_history_from_battle2');
+// }
+// else{
+//     round_history =[];
+// }
+
+// let round_history = [
+//     // {"user_poke" : "charmander" , "opp_poke" : "wigglytuff" , "winner" : "charmander"} ,
+// ];
 
 function page_render(){
     let round_num_user_win = document.getElementsByClassName('num-user-win')[0];
@@ -38,25 +58,30 @@ function page_render(){
 
     poke_card_init(left_battle_poke_list, user_poke_obj_array);
     poke_card_init(right_battle_poke_list, opp_poke_obj_array);
-    battle_prep();
+    round_history = battle_prep();
+    
+    let lets_battle_button = document.getElementsByClassName('lets-battle-button')[0];
+    lets_battle_button.addEventListener('click', ()=>{
 
-
+        window.location = "battle_page2.html";
+        if (sessionStorage.getItem('round_history')) {
+            sessionStorage.removeItem('round_history');
+        }
+        sessionStorage.setItem('round_history', JSON.stringify(round_history));
+    });
     // console.log(round_history); // this has no effect of the clicky things! :(
 }
-
-let round_history = [
-    {"user_poke" : "charmander" , "opp_poke" : "wigglytuff" , "winner" : "charmander"} ,
-];
 
 function battle_prep(){
     let new_obj = {}; //all 3 information about that round.
 
     //computer random opponent
     let isAllowed = false;
-    let rand_num ;
+    let rand_num = 0;
 
-    while(!isAllowed && round_history.length >0){
+    while(!isAllowed && round_history.length >=0){
         rand_num = getRandomInt0to5();
+        if(round_history.length == 0)isAllowed = true;
         for(obj2 of round_history){
             if(opp_poke_obj_array[rand_num]["name"] == obj2.opp_poke){
                 isAllowed = false;
@@ -96,10 +121,10 @@ function battle_prep(){
                 target_el.classList.add('current-use-battle-poke-card');
 
                 let curr_round_obj = round_history.pop();
+
                 curr_round_obj["user_poke"] = poke_name;
 
-
-                curr_round_obj["winner"] = poke_name;
+                // curr_round_obj["winner"] = poke_name;
 
 
                 // console.log(curr_round_obj);
@@ -133,6 +158,8 @@ function battle_prep(){
             element.classList.add('current-use-battle-poke-card');
         }
     }
+
+    return round_history;
 }
 
 

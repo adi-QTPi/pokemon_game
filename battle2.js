@@ -2,11 +2,17 @@ const api_url = 'https://pokeapi.co/api/v2/pokemon/';
 const coeff_of_attack_dampness = 0.1;
 
 //Imported data//////////////////
-let curr_fight_record = {
-    "user_poke" : "4", 
-    "opp_poke" : "1" , 
-    "winner" : ""
-};
+
+const session_string1 = sessionStorage.getItem('round_history');
+const  round_history = JSON.parse(session_string1);
+
+let curr_fight_record = round_history.pop();
+
+// let curr_fight_record = {
+//     "user_poke" : "4", 
+//     "opp_poke" : "1" , 
+//     "winner" : ""
+// };
 
 let num_round_record = {
     "user_win" : 3 ,
@@ -189,6 +195,7 @@ function battle_round(){
                 details_update(comp_choose_rand_num, target_el.lastElementChild, floater_user_poke_hp, match_description, opp_move_info_lib, 'opp-attack');
                 // isProcessing = false;
             }, 3000);
+            
 
             setTimeout(()=>{
                 for(let i = 0; i<5; i++){
@@ -200,6 +207,7 @@ function battle_round(){
                 }
                 isProcessing = false;
             }, 6000);
+            
         })
     }
 }
@@ -210,6 +218,18 @@ function details_update(num, pp_element, hp_element, description_element, librar
         let x = hp_obj.opp_hp;
         x -= library[num].move_damage;
         hp_obj.opp_hp = x;
+        if(hp_obj.opp_hp <= 0 ){
+            hp_element.innerText = `Opp HP : ${hp_obj.opp_hp}/${max_opp_hp}`;
+            alert('user won!');
+            curr_fight_record.winner = "user";
+            num_round_record.user_win += 1;
+            
+            round_history.push(curr_fight_record);
+            sessionStorage.setItem('round_history_from_battle2', JSON.stringify(round_history));
+            window.location = "battle_page.html";
+
+            return;
+        }
         hp_element.innerText = `Opp HP : ${hp_obj.opp_hp}/${max_opp_hp}`;
     }
 
@@ -217,6 +237,18 @@ function details_update(num, pp_element, hp_element, description_element, librar
         let x = hp_obj.user_hp;
         x -= library[num].move_damage;
         hp_obj.user_hp = x;
+        if(hp_obj.user_hp <= 0){
+            hp_element.innerText = `User HP : ${hp_obj.user_hp}/${max_user_hp}`;
+            alert('opp won!');
+            curr_fight_record.winner = "opp";
+            num_round_record.opp_win += 1;
+
+            round_history.push(curr_fight_record);
+            sessionStorage.setItem('round_history_from_battle2', JSON.stringify(round_history));
+            window.location = "battle_page.html";
+
+            return;
+        }
         hp_element.innerText = `User HP : ${hp_obj.user_hp}/${max_user_hp}`;
     }
 

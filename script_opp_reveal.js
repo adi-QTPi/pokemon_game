@@ -38,6 +38,10 @@ async function objectify(){
 }
 
 async function opp_page_render(){
+    let battle_button = document.getElementsByClassName('redirect-battle')[0];
+    battle_button.addEventListener('click', ()=>{
+        window.location = "battle_page.html";
+    })
 
     objectify();
     opp_poke_obj_array = await random_opp_generator(opp_poke_obj_array);

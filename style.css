@@ -175,6 +175,7 @@ body{
 }
 
 
+
 /*///////////////////////////////////////////////////*/
 /*battle_2.html*/
 
@@ -325,6 +326,12 @@ body{
 .opp-current-poke-stats{
     height: 100%; width: 40%; 
     border: solid 4px teal;
+}
+
+.lets-battle-button{
+    color: white;
+    background-color: var(--poke-red-transp);
+    border: solid 2px teal;
 }
 
 
