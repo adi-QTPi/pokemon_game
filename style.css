@@ -203,6 +203,8 @@ body{
     flex-wrap: wrap;
     width: 40%; height: 100%;
     border: solid 0.25rem teal;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .opponent{
@@ -210,28 +212,74 @@ body{
     flex-wrap: wrap;
     width: 40%; height: 100%;
     border: solid 0.25rem teal;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .opp-poke-card{
-    height: fit-content;
+    height: 30vh; width: 30%;
     border: solid 0.25rem teal;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--poke-blue-transp);
+
+    border-radius: 2rem;
+    padding-top:0.5rem;
+}
+.opp-poke-card>img{
+    width:90%;
+}
+.opp-poke-card>p{
+    text-align: center;
 }
 
 .opp-poke-name{
-    font-size: 1rem;
+    font-size: 0.7rem;
+    color:gold;
+    font-weight: 700;
 }
 
 .opp-page-center{
     display: flex; flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .redirect-battle{
-    border: solid 4px red;
+    display: flex;
+    /* border: solid 4px red; */
+    background-color: var(--poke-red-transp);
+    color: white;
+    text-decoration: none;
+    width: fit-content;
+    height: fit-content;   
+    border-radius: 2rem; 
+    justify-content: center;
+    align-items: center;
+
+    padding:1rem;
+}
+.redirect-battle>div{
+    font-size: 3rem;
 }
 
 .redirect-selection{
-    border: solid 4px red;
+    display: flex;
+    /* border: solid 4px red; */
+    background-color: var(--poke-red-transp);
+    color: white;
+    text-decoration: none;
+    width: fit-content;
+    height: fit-content;   
+    border-radius: 2rem; 
+    justify-content: center;
+    align-items: center;
+
+    padding: 1rem;
+    margin: 2rem;
+}
+.redirect-selection>div{
+    font-size: 3rem;
 }
 
 
