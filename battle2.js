@@ -5,6 +5,7 @@ const coeff_of_attack_dampness = 0.1;
 
 const session_string1 = sessionStorage.getItem('round_history');
 const  round_history = JSON.parse(session_string1);
+const per_move_gap_time = 1000; //in ms
 
 let curr_fight_record = round_history.pop();
 
@@ -14,12 +15,24 @@ let curr_fight_record = round_history.pop();
 //     "winner" : ""
 // };
 
-let num_round_record = {
-    "user_win" : 3 ,
-    "opp_win" : 1 ,
+// let num_round_record = {
+//     "user_win" : 3 ,
+//     "opp_win" : 1 ,
     
-    get total(){return this.user_win + this.opp_win;}
-};
+//     get total(){return this.user_win + this.opp_win;}
+// };
+
+let num_round_record = {};
+
+if(sessionStorage.getItem('num_round_record_from_battle2')){
+    let intermediate = sessionStorage.getItem('num_round_record_from_battle2');
+    num_round_record = JSON.parse(intermediate);
+}
+else{
+    num_round_record = {'user_win':0, 
+        'opp_win':0, 
+        get total(){return this.user_win + this.opp_win;}}
+}
 
 let hp_obj = {
     //"user_hp" : , "opp_hp"
@@ -47,121 +60,124 @@ let right_battle_ability_list = document.getElementsByClassName('battle-ability-
 
 //fill the moves array for user
 
-async function user_poke_ability_init(){
-    
-    let children = Array.from(left_battle_ability_list.children);
 
-    //fetch user poke data
+async function user_poke_ability_init() {
+    let children = Array.from(left_battle_ability_list.children);
     let response = await fetch(api_url + curr_fight_record.user_poke);
     let data = await response.json();
 
-    //fetch moves with non null power(damage)
-    let offset_index = 0;
+    let moveCount = 0;
+    let moveIndex = 0;
 
-    for(let i = 0; i<(5+offset_index); i++){
-        let current_card_el = children[i-offset_index]; current_card_el.style.fontSize = "0.5rem";
-        let response2 = await fetch(data.moves[i].move.url);
+    while (moveCount < 5 && moveIndex < data.moves.length) {
+        const moveData = data.moves[moveIndex];
+        moveIndex++;
+
+        if (!moveData.move) continue;
+        else if(!moveData.move.url) continue;
+
+        let response2 = await fetch(moveData.move.url);
         let data2 = await response2.json();
 
-        if(data2.power == null){
-            // console.log('gotcha ' + i);
-            offset_index++;
-        }
-        else{
-            let new_obj = {
-                "move_id" : i,
-                "move_name" : data2.name,
-                "move_damage" : (data2.power*coeff_of_attack_dampness),
-                "move_pp" : data2.pp,
-                "move_flavor_text" : data2.flavor_text_entries[3].flavor_text
-            }
-            user_move_info_lib.push(new_obj);
+        if (data2.power == null) continue;
 
+        let new_obj = {
+            "move_id": moveIndex - 1,
+            "move_name": data2.name,
+            "move_damage": (data2.power * coeff_of_attack_dampness),
+            "move_pp": data2.pp,
+            "move_flavor_text": data2.flavor_text_entries.find(f => f.language.name === 'en')?.flavor_text || 'No flavor text'
+        };
 
-            let new_el_movename = document.createElement('div');
-            new_el_movename.classList.add('move-name');
-            new_el_movename.innerText = `Move Name : ${new_obj.move_name}`;
-    
-            let new_el_damage = document.createElement('div');
-            new_el_damage.classList.add('damage');
-            new_el_damage.innerText = `Damage : ${new_obj.move_damage}`;
-    
-            let new_el_pp = document.createElement('div');
-            new_el_pp.classList.add('pp');
-            new_el_pp.innerText = `PP : ${new_obj.move_pp}`;
-    
-            current_card_el.append(new_el_movename, new_el_damage, new_el_pp);
-        }
-    }   
+        user_move_info_lib.push(new_obj);
 
-    hp_obj.user_hp = data.stats[0].base_stat; // inserted below
+        let current_card_el = children[moveCount];
+        current_card_el.style.fontSize = "0.5rem";
+
+        let new_el_movename = document.createElement('div');
+        new_el_movename.classList.add('move-name');
+        new_el_movename.innerText = `Move Name: ${new_obj.move_name}`;
+
+        let new_el_damage = document.createElement('div');
+        new_el_damage.classList.add('damage');
+        new_el_damage.innerText = `Damage: ${new_obj.move_damage}`;
+
+        let new_el_pp = document.createElement('div');
+        new_el_pp.classList.add('pp');
+        new_el_pp.innerText = `PP: ${new_obj.move_pp}`;
+
+        current_card_el.append(new_el_movename, new_el_damage, new_el_pp);
+
+        moveCount++;
+    }
+
+    hp_obj.user_hp = data.stats[0].base_stat;
     max_user_hp = hp_obj.user_hp;
-    floater_user_poke_hp.innerText = `User HP : ${hp_obj.user_hp}`;
-
+    floater_user_poke_hp.innerText = `User HP: ${hp_obj.user_hp}`;
     floater_user_poke_img.src = data["sprites"]["other"]["showdown"]["back_default"];
-
-    let bottom_desc_user = document.getElementsByClassName('user-poke-details')[0];
-    bottom_desc_user.innerText = data.name;
+    document.getElementsByClassName('user-poke-details')[0].innerText = data.name;
 
     return user_move_info_lib;
 }
 
-async function opp_poke_ability_init(){
+async function opp_poke_ability_init() {
     let children = Array.from(right_battle_ability_list.children);
-
-    //fetch user poke data
     let response = await fetch(api_url + curr_fight_record.opp_poke);
     let data = await response.json();
-    
-    //fetch moves with non null power(damage)
-    let offset_index = 0;
 
-    for(let i = 0; i<(5+offset_index); i++){
-        let current_card_el = children[i-offset_index]; current_card_el.style.fontSize = "0.5rem";
-        let response2 = await fetch(data.moves[i].move.url);
+    let moveCount = 0;
+    let moveIndex = 0;
+
+    while (moveCount < 5 && moveIndex < data.moves.length) {
+        const moveData = data.moves[moveIndex];
+        moveIndex++;
+
+        if (!moveData.move) continue;
+        else if(!moveData.move.url) continue;
+
+        let response2 = await fetch(moveData.move.url);
         let data2 = await response2.json();
 
-        if(data2.power == null){
-            // console.log('gotcha ' + i);
-            offset_index++;
-        }
-        else{
-            let new_obj = {
-                "move_id" : i,
-                "move_name" : data2.name,
-                "move_damage" : (data2.power*coeff_of_attack_dampness),
-                "move_pp" : data2.pp,
-                "move_flavor_text" : data2.flavor_text_entries[3].flavor_text
-            }
-            opp_move_info_lib.push(new_obj);
+        if (data2.power == null) continue;
 
-            let new_el_movename = document.createElement('div');
-            new_el_movename.classList.add('move-name');
-            new_el_movename.innerText = `Move Name : ${new_obj.move_name}`;
-    
-            let new_el_damage = document.createElement('div');
-            new_el_damage.classList.add('damage');
-            new_el_damage.innerText = `Damage : ${new_obj.move_damage}`;
-    
-            let new_el_pp = document.createElement('div');
-            new_el_pp.classList.add('pp');
-            new_el_pp.innerText = `PP : ${new_obj.move_pp}`;
-    
-            current_card_el.append(new_el_movename, new_el_damage, new_el_pp);
-        }
+        let new_obj = {
+            "move_id": moveIndex - 1,
+            "move_name": data2.name,
+            "move_damage": (data2.power * coeff_of_attack_dampness),
+            "move_pp": data2.pp,
+            "move_flavor_text": data2.flavor_text_entries.find(f => f.language.name === 'en')?.flavor_text || 'No flavor text'
+        };
+
+        opp_move_info_lib.push(new_obj);
+
+        let current_card_el = children[moveCount];
+        current_card_el.style.fontSize = "0.5rem";
+
+        let new_el_movename = document.createElement('div');
+        new_el_movename.classList.add('move-name');
+        new_el_movename.innerText = `Move Name: ${new_obj.move_name}`;
+
+        let new_el_damage = document.createElement('div');
+        new_el_damage.classList.add('damage');
+        new_el_damage.innerText = `Damage: ${new_obj.move_damage}`;
+
+        let new_el_pp = document.createElement('div');
+        new_el_pp.classList.add('pp');
+        new_el_pp.innerText = `PP: ${new_obj.move_pp}`;
+
+        current_card_el.append(new_el_movename, new_el_damage, new_el_pp);
+
+        moveCount++;
     }
 
-    hp_obj.opp_hp = data.stats[0].base_stat;// inserted in floater below
+    hp_obj.opp_hp = data.stats[0].base_stat;
     max_opp_hp = hp_obj.opp_hp;
-    floater_opp_poke_hp.innerText = `Opp HP : ${hp_obj.opp_hp} `;
-
+    floater_opp_poke_hp.innerText = `Opp HP: ${hp_obj.opp_hp}`;
     floater_opp_poke_img.src = data["sprites"]["other"]["showdown"]["front_default"];
-
-    let bottom_desc_user = document.getElementsByClassName('opp-poke-details')[0];
-    bottom_desc_user.innerText = data.name;
+    document.getElementsByClassName('opp-poke-details')[0].innerText = data.name;
 
     return opp_move_info_lib;
-}
+} 
 
 function getRandomInteger() {
     return Math.floor(Math.random() * 5);
@@ -194,7 +210,7 @@ function battle_round(){
                 target_el.classList.add('poke-ability-card-selected');
                 details_update(comp_choose_rand_num, target_el.lastElementChild, floater_user_poke_hp, match_description, opp_move_info_lib, 'opp-attack');
                 // isProcessing = false;
-            }, 3000);
+            }, per_move_gap_time);
             
 
             setTimeout(()=>{
@@ -206,10 +222,15 @@ function battle_round(){
                     obj.classList.remove('poke-ability-card-selected');
                 }
                 isProcessing = false;
-            }, 6000);
+            }, 2*per_move_gap_time);
             
         })
     }
+}
+
+function update_and_store_num_round(who_win){
+    num_round_record[who_win] += 1;
+    sessionStorage.setItem('num_round_record_from_battle2', JSON.stringify(num_round_record));
 }
 
 function details_update(num, pp_element, hp_element, description_element, library, who_attack){
@@ -222,7 +243,8 @@ function details_update(num, pp_element, hp_element, description_element, librar
             hp_element.innerText = `Opp HP : ${hp_obj.opp_hp}/${max_opp_hp}`;
             alert('user won!');
             curr_fight_record.winner = "user";
-            num_round_record.user_win += 1;
+            // num_round_record.user_win += 1;
+            update_and_store_num_round("user_win");
             
             round_history.push(curr_fight_record);
             sessionStorage.setItem('round_history_from_battle2', JSON.stringify(round_history));
@@ -241,7 +263,8 @@ function details_update(num, pp_element, hp_element, description_element, librar
             hp_element.innerText = `User HP : ${hp_obj.user_hp}/${max_user_hp}`;
             alert('opp won!');
             curr_fight_record.winner = "opp";
-            num_round_record.opp_win += 1;
+            // num_round_record.opp_win += 1;
+            update_and_store_num_round("opp_win");
 
             round_history.push(curr_fight_record);
             sessionStorage.setItem('round_history_from_battle2', JSON.stringify(round_history));

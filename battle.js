@@ -30,11 +30,28 @@ function poke_card_init(element, obj_array){
     }
 } 
 
-let num_user_win = 0;
-let num_opp_win = 0;
+let num_round_record = {
+    "user_win" : 0 ,
+    "opp_win" : 0 ,
+    
+    get total(){return this.user_win + this.opp_win;}
+}
 
-let intermediate = sessionStorage.getItem('round_history_from_battle2');
-let round_history = JSON.parse(intermediate);
+if(sessionStorage.getItem('num_round_record_from_battle2')){
+    let intermediate = sessionStorage.getItem('num_round_record_from_battle2');
+    num_round_record = JSON.parse(intermediate);
+}
+
+let num_user_win = num_round_record.user_win;
+let num_opp_win = num_round_record.opp_win;
+let num_total_round = num_round_record.total;
+
+let round_history = [];
+
+if(sessionStorage.getItem('round_history_from_battle2')){
+    let intermediate = sessionStorage.getItem('round_history_from_battle2');
+    round_history = JSON.parse(intermediate);
+}
 
 console.log(round_history);
 
@@ -52,9 +69,11 @@ console.log(round_history);
 function page_render(){
     let round_num_user_win = document.getElementsByClassName('num-user-win')[0];
     let round_num_opp_win = document.getElementsByClassName('num-opp-win')[0];
+    let round_num_total = document.getElementsByClassName('num-round-total')[0];
 
     round_num_user_win.innerText = num_user_win;
     round_num_opp_win.innerText = num_opp_win;
+    round_num_total.innerText = `Rounds : ${num_total_round}/6`;
 
     poke_card_init(left_battle_poke_list, user_poke_obj_array);
     poke_card_init(right_battle_poke_list, opp_poke_obj_array);

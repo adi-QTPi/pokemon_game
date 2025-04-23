@@ -40,7 +40,7 @@ async function objectify(){
 async function opp_page_render(){
     let battle_button = document.getElementsByClassName('redirect-battle')[0];
     battle_button.addEventListener('click', ()=>{
-        window.location = "battle_page.html";
+        battle_button.setAttribute('href', 'battle_page.html');
     })
 
     objectify();
