@@ -314,7 +314,7 @@ body{
     display: flex; flex-direction: column;
     position: absolute; 
     width:20%; height: 70vh;
-    background-color: green;
+    background-color: rgb(41, 107, 41);
 
     justify-content:space-around; align-items: center;
 }
@@ -336,6 +336,8 @@ body{
     align-items: center;
 
     display: flex; flex-direction: row;
+
+    border-radius: 2rem;
 }
 .used-battle-poke-card{
     background-color: var(--poke-red-transp);
@@ -358,8 +360,12 @@ body{
     display:flex; position: absolute;
     top:0; 
     width:auto; left:22%; right:22% ;
-    border: solid 0.25rem teal;
-    background-color: var(--poke-darkred);
+    border: solid 0.25rem;
+    border-color: var(--poke-darkred);
+    background-color: var(--poke-grass1);
+
+    border-bottom-left-radius: 2rem;
+    border-bottom-right-radius: 2rem;
     
     justify-content: space-around;
 }
@@ -473,6 +479,8 @@ body{
     padding-left:0.5rem;
     align-items: center;
 
+    border-radius: 2rem;
+
     display: flex; flex-direction: column;
     row-gap: 0.2rem;
     justify-content: space-around;
@@ -535,12 +543,16 @@ body{
     font-size: 1rem; color: var(--poke-blue);
     font-weight: 700;
     background-color: var(--poke-grass1);
+
+    border-radius: 1rem;
 }
 .floater-opp-poke-hp{
     text-align: center; padding:0.5rem; 
     font-size: 1rem; color: var(--poke-red);
     background-color: var(--poke-grass1);
     font-weight: 700;
+
+    border-radius: 1rem;
 }
 .floater-user-poke-img{
     width: 10rem;
