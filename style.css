@@ -10,6 +10,8 @@
     --poke-grass2 : #b8c870;
     --poke-grey : #878787;
     --poke-sky-blue : #daeaf7;
+    --poke-hp-bar-blue: rgb(20, 80, 176);
+
     --cursor: pointer;
     --disallow_cursor: not-allowed;
     --default : default;
@@ -678,4 +680,47 @@ body{
 
 .active-indicator{
     color: var(--poke-yellow);
+}
+
+.health-bar-container{
+    display: flex;
+    position: absolute;
+    bottom: 30vh;
+    width: auto;
+    left: 22%;
+    right: 22%;
+    border: solid 0.25rem;
+    border-color: var(--poke-darkred);
+    background-color: var(--poke-grass1);
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
+    justify-content: center;
+    
+    height: 3vh;
+}
+.user{
+    display: flex; flex-direction: row;
+    width:50%; 
+    /* height: 5vh; */
+    justify-content: flex-end;
+    border-right:solid 0.1rem var(--poke-darkred);
+}
+.opp{
+    border-left:solid 0.1rem var(--poke-darkred);
+    display: flex; flex-direction: row-reverse;
+    width:50%; 
+    /* height: 5vh; */
+    justify-content: flex-end;
+}
+.user-bar{
+    width:50%;
+
+    height: 100%;
+    background-color: rgb(20, 80, 176);
+}
+.opp-bar{
+    width:50%;
+
+    height: 100%;
+    background-color: rgb(20, 80, 176);
 }

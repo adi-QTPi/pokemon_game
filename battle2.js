@@ -207,6 +207,9 @@ function battle_round(){
             for(obj of children){
                 obj.classList.remove('poke-ability-card-selected');
             }
+
+            console.log(user_move_info_lib);
+
             children[i].classList.add('poke-ability-card-selected');
 
             let target_arr = children[i].lastElementChild;
@@ -255,51 +258,58 @@ function update_and_store_num_round(who_win){
 }
 
 function details_update(num, pp_element, hp_element, description_element, library, who_attack){
+    let pp = library[num].move_pp;
 
-    if(who_attack == 'user-attack'){
-        let x = hp_obj.opp_hp;
-        x -= library[num].move_damage;
-        hp_obj.opp_hp = x;
-        if(hp_obj.opp_hp <= 0 ){
+    if(pp === 0){
+        alert('player tried to play an exhausted move...But other player is mercyless...');
+        description_element.innerText = "Player tried to play exhausted move";
+    }
+    else{
+        if(who_attack == 'user-attack'){
+            let x = hp_obj.opp_hp;
+            x -= library[num].move_damage;
+            hp_obj.opp_hp = x;
+            if(hp_obj.opp_hp <= 0 ){
+                hp_element.innerText = `Opp HP : ${hp_obj.opp_hp}/${max_opp_hp}`;
+                alert('user won!');
+                curr_fight_record.winner = "user";
+                // num_round_record.user_win += 1;
+                update_and_store_num_round("user_win");
+                
+                round_history.push(curr_fight_record);
+                sessionStorage.setItem('round_history_from_battle2', JSON.stringify(round_history));
+                window.location = "battle_page.html";
+    
+                return;
+            }
             hp_element.innerText = `Opp HP : ${hp_obj.opp_hp}/${max_opp_hp}`;
-            alert('user won!');
-            curr_fight_record.winner = "user";
-            // num_round_record.user_win += 1;
-            update_and_store_num_round("user_win");
-            
-            round_history.push(curr_fight_record);
-            sessionStorage.setItem('round_history_from_battle2', JSON.stringify(round_history));
-            window.location = "battle_page.html";
-
-            return;
         }
-        hp_element.innerText = `Opp HP : ${hp_obj.opp_hp}/${max_opp_hp}`;
+    
+        else if(who_attack == 'opp-attack'){
+            let x = hp_obj.user_hp;
+            x -= library[num].move_damage;
+            hp_obj.user_hp = x;
+            if(hp_obj.user_hp <= 0){
+                alert('opp won!');
+                curr_fight_record.winner = "opp";
+                // num_round_record.opp_win += 1;
+                update_and_store_num_round("opp_win");
+    
+                round_history.push(curr_fight_record);
+                sessionStorage.setItem('round_history_from_battle2', JSON.stringify(round_history));
+                window.location = "battle_page.html";
+    
+                return;
+            }
+            hp_element.innerText = `User HP : ${hp_obj.user_hp}/${max_user_hp}`;
+        }
+    
+        pp -= 1;
+        library[num].move_pp = pp;
+        pp_element.innerText = `PP : ${library[num].move_pp}`;
+        description_element.innerText = `${library[num].move_flavor_text}`;
     }
 
-    else if(who_attack == 'opp-attack'){
-        let x = hp_obj.user_hp;
-        x -= library[num].move_damage;
-        hp_obj.user_hp = x;
-        if(hp_obj.user_hp <= 0){
-            alert('opp won!');
-            curr_fight_record.winner = "opp";
-            // num_round_record.opp_win += 1;
-            update_and_store_num_round("opp_win");
-
-            round_history.push(curr_fight_record);
-            sessionStorage.setItem('round_history_from_battle2', JSON.stringify(round_history));
-            window.location = "battle_page.html";
-
-            return;
-        }
-        hp_element.innerText = `User HP : ${hp_obj.user_hp}/${max_user_hp}`;
-    }
-
-    let y = library[num].move_pp;
-    y -= 1;
-    library[num].move_pp = y;
-    pp_element.innerText = `PP : ${library[num].move_pp}`;
-    description_element.innerText = `${library[num].move_flavor_text}`;
 }
 
 
