@@ -212,8 +212,9 @@ function battle_round(){
 
             children[i].classList.add('poke-ability-card-selected');
 
+            let hp_bar_el = document.getElementsByClassName('opp-bar')[0];
             let target_arr = children[i].lastElementChild;
-            details_update(i, target_arr, floater_opp_poke_hp, match_description_p, user_move_info_lib, 'user-attack');
+            details_update(i, target_arr, floater_opp_poke_hp, match_description_p, user_move_info_lib, 'user-attack', hp_bar_el);
 
             bottom_user_poke_name.classList.add('active-indicator');
 
@@ -227,7 +228,8 @@ function battle_round(){
 
                 let target_el = Array.from(right_battle_ability_list.children)[comp_choose_rand_num];
                 target_el.classList.add('poke-ability-card-selected');
-                details_update(comp_choose_rand_num, target_el.lastElementChild, floater_user_poke_hp, match_description_p, opp_move_info_lib, 'opp-attack');
+                let hp_bar_el = document.getElementsByClassName('user-bar')[0];
+                details_update(comp_choose_rand_num, target_el.lastElementChild, floater_user_poke_hp, match_description_p, opp_move_info_lib, 'opp-attack', hp_bar_el);
                 // isProcessing = false;
                 bottom_user_poke_name.classList.remove('active-indicator');
                 bottom_opp_poke_name.classList.add('active-indicator');
@@ -257,7 +259,7 @@ function update_and_store_num_round(who_win){
     sessionStorage.setItem('num_round_record_from_battle2', JSON.stringify(num_round_record));
 }
 
-function details_update(num, pp_element, hp_element, description_element, library, who_attack){
+function details_update(num, pp_element, hp_element, description_element, library, who_attack, hp_bar_el){
     let pp = library[num].move_pp;
 
     if(pp === 0){
@@ -265,6 +267,7 @@ function details_update(num, pp_element, hp_element, description_element, librar
         description_element.innerText = "Player tried to play exhausted move";
     }
     else{
+        let q = 20;
         if(who_attack == 'user-attack'){
             let x = hp_obj.opp_hp;
             x -= library[num].move_damage;
@@ -282,7 +285,15 @@ function details_update(num, pp_element, hp_element, description_element, librar
     
                 return;
             }
+
             hp_element.innerText = `Opp HP : ${hp_obj.opp_hp}/${max_opp_hp}`;
+            q = (hp_obj.opp_hp/max_opp_hp)*100;
+            // let total = document.getElementsByClassName('opp')[0].style.width;
+            // console.log(total);
+            // document.getElementsByClassName('opp')[0].style.width = "100px";
+            // console.log(document.getElementsByClassName('opp')[0].style.width);
+            // console.log(q);
+            // hp_bar_el.style.width = q*total;
         }
     
         else if(who_attack == 'opp-attack'){
@@ -302,14 +313,19 @@ function details_update(num, pp_element, hp_element, description_element, librar
                 return;
             }
             hp_element.innerText = `User HP : ${hp_obj.user_hp}/${max_user_hp}`;
+
+            hp_element.innerText = `Opp HP : ${hp_obj.opp_hp}/${max_opp_hp}`;
+            
+            q = (hp_obj.user_hp/max_user_hp)*100;            
         }
     
         pp -= 1;
         library[num].move_pp = pp;
         pp_element.innerText = `PP : ${library[num].move_pp}`;
         description_element.innerText = `${library[num].move_flavor_text}`;
-    }
 
+        hp_bar_el.style.width = `${q}%`;
+    }
 }
 
 

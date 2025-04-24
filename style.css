@@ -700,7 +700,7 @@ body{
 }
 .user{
     display: flex; flex-direction: row;
-    width:50%; 
+    width:100%; 
     /* height: 5vh; */
     justify-content: flex-end;
     border-right:solid 0.1rem var(--poke-darkred);
@@ -708,19 +708,23 @@ body{
 .opp{
     border-left:solid 0.1rem var(--poke-darkred);
     display: flex; flex-direction: row-reverse;
-    width:50%; 
+    width:100%; 
     /* height: 5vh; */
     justify-content: flex-end;
 }
 .user-bar{
-    width:50%;
+    width:100%;
 
     height: 100%;
     background-color: rgb(20, 80, 176);
+
+    border-top-left-radius: 2rem;
 }
 .opp-bar{
-    width:50%;
+    width:100%;
 
     height: 100%;
     background-color: rgb(20, 80, 176);
+
+    border-top-right-radius: 2rem;
 }
