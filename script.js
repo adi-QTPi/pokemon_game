@@ -103,6 +103,9 @@ async function page_render(left_half) {
 function info_button_init(){
     let element = document.getElementsByClassName('info-button')[0];
     let popup = document.getElementsByClassName('info-popup-hidden')[0];
+
+    // popup.classList.add('info-popup-unleashed');
+
     element.addEventListener('click', ()=>{
         popup.classList.add('info-popup-unleashed');
     })

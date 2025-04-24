@@ -9,6 +9,7 @@
     --poke-grass1 : #70c8a0;
     --poke-grass2 : #b8c870;
     --poke-grey : #878787;
+    --poke-sky-blue : #daeaf7;
     --cursor: pointer;
     --disallow_cursor: not-allowed;
     --default : default;
@@ -18,10 +19,16 @@
     height: 3rem;
     cursor: var(--cursor);
 }
+.info-button-opp-reveal{
+    position: fixed;
+    top:2vh; right:2vw;
+}
 .info-popup-hidden{
     display: none;
 
-    background-color: white;
+    background-color: var(--poke-sky-blue);
+
+    border-radius: 2rem;
 
     position: fixed;
     top:5vh; left:5vw;
@@ -42,7 +49,37 @@
     display: block;
     z-index: 200;
 }
+.info-flex{
+    position: relative;
+    display: flex; 
+    flex-wrap: wrap;
+    width: 90%; height: fit-content;
+    /* border: solid 3px teal; */
+    margin:0 auto;
+    margin-top:1rem;
+    flex-direction: column;
+    overflow-y: auto;
 
+    height: fit-content;
+}
+.heading{
+    font-size: 3rem;
+}
+.content{
+    display: flex; 
+    flex-direction: row;
+    align-items: center;
+}
+.tenor-gif{
+    width:50%;
+}
+.info-text{
+    padding-left: 4vw;
+    display: flex; flex-direction: column;
+    justify-content: center;
+    height: 70vh;
+    overflow-y:scroll;
+}
 
 body{
     /* background-color: var(--poke-grass2); */
@@ -399,6 +436,9 @@ body{
 .left-battle-poke-card{
     cursor: var(--cursor);
 }
+.left-battle-poke-card:hover{
+    /* opacity: 0.2; */
+}
 .right-battle-poke-card{
     cursor: var(--disallow_cursor);
 }
@@ -531,7 +571,7 @@ body{
     cursor: var(--cursor);
     position: relative;
     height: 12vh; width: 90%;
-    background-color: yellow;
+    background-color: rgb(255, 255, 0);
     border: solid 3px red;
     padding-left:0.5rem;
     align-items: center;
@@ -542,10 +582,14 @@ body{
     row-gap: 0.2rem;
     justify-content: space-around;
 }
+.poke-ability-card-clickable:hover{
+    opacity: 0.8;
+}
 .poke-ability-card-selected{
     background-color: var(--poke-blue-transp);
 }
 .poke-ability-card-no-click{
+    opacity: 0.6;
     cursor: var(--disallow_cursor);
 }
 

@@ -38,6 +38,8 @@ async function objectify(){
 }
 
 async function opp_page_render(){
+    info_button_init();
+    
     let battle_button = document.getElementsByClassName('redirect-battle')[0];
     battle_button.addEventListener('click', ()=>{
         battle_button.setAttribute('href', 'battle_page.html');
@@ -85,7 +87,25 @@ async function random_opp_generator(opp_poke_obj_array) {
 
 /////////////////
 
-window.onload = opp_page_render;
+function info_button_init(){
+    let element = document.getElementsByClassName('info-button')[0];
+    let popup = document.getElementsByClassName('info-popup-hidden')[0];
+
+    popup.classList.add('info-popup-unleashed');
+
+    element.addEventListener('click', ()=>{
+        popup.classList.add('info-popup-unleashed');
+    })
+
+    let cross_button = document.getElementsByClassName('close-button')[0];
+    cross_button.addEventListener('click', ()=>{
+        popup.classList.remove('info-popup-unleashed');
+    })
+}
+
+// info_button_init();
+opp_page_render();
+// window.onload = opp_page_render;
 
 /////////////////
 
