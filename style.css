@@ -728,3 +728,10 @@ body{
 
     border-top-right-radius: 2rem;
 }
+
+.player-dead{
+    filter:invert(1);
+}
+.player-dead2{
+    filter:invert(0.8);
+}

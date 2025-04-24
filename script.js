@@ -1,5 +1,16 @@
 const api_url = 'https://pokeapi.co/api/v2/pokemon/';
 
+let num_round_record = {
+    "user_win" : 0 ,
+    "opp_win" : 0 ,
+    
+    get total(){return this.user_win + this.opp_win;}
+}
+sessionStorage.setItem('num_round_record_from_battle2', JSON.stringify(num_round_record));
+
+let round_history =[];
+sessionStorage.setItem('round_history', JSON.stringify(round_history));
+
 //Elements//////////////////////////////
 const left_half = document.getElementsByClassName('half')[0];
 const right_half = document.getElementsByClassName('half')[1];

@@ -11,7 +11,7 @@ const max_round = JSON.parse(session_string4);
 const session_string1 = sessionStorage.getItem('round_history');
 const round_history = JSON.parse(session_string1);
 
-const per_move_gap_time = 2500; //in ms
+const per_move_gap_time = 500; //in ms
 
 let curr_fight_record = round_history.pop();
 
@@ -194,6 +194,9 @@ function getRandomInteger() {
 function getRandomIntInclusiveLowerExclusiveUpper(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 function battle_round(){
     //user choice
@@ -259,7 +262,7 @@ function update_and_store_num_round(who_win){
     sessionStorage.setItem('num_round_record_from_battle2', JSON.stringify(num_round_record));
 }
 
-function details_update(num, pp_element, hp_element, description_element, library, who_attack, hp_bar_el){
+async function details_update(num, pp_element, hp_element, description_element, library, who_attack, hp_bar_el){
     let pp = library[num].move_pp;
 
     if(pp === 0){
@@ -275,6 +278,18 @@ function details_update(num, pp_element, hp_element, description_element, librar
             if(hp_obj.opp_hp <= 0 ){
                 hp_element.innerText = `Opp HP : ${hp_obj.opp_hp}/${max_opp_hp}`;
                 alert('user won!');
+
+                let poke_sprite = document.getElementsByClassName('floater-opp-poke-img')[0];
+
+                
+                for(let i = 0; i<3; i++){
+                    // poke_sprite.classList.remove('player-dead2');
+                    poke_sprite.classList.add('player-dead');
+                    await sleep(500);
+                    poke_sprite.classList.remove('player-dead');
+                    await sleep(500);
+                    // poke_sprite.classList.add('player-dead2');
+                }
                 curr_fight_record.winner = "user";
                 // num_round_record.user_win += 1;
                 update_and_store_num_round("user_win");
@@ -304,6 +319,18 @@ function details_update(num, pp_element, hp_element, description_element, librar
                 alert('opp won!');
                 curr_fight_record.winner = "opp";
                 // num_round_record.opp_win += 1;
+
+                let poke_sprite = document.getElementsByClassName('floater-user-poke-img')[0];
+
+                for(let i = 0; i<3; i++){
+                    // poke_sprite.classList.remove('player-dead2');
+                    poke_sprite.classList.add('player-dead');
+                    await sleep(500);
+                    poke_sprite.classList.remove('player-dead');
+                    await sleep(500);
+                    // poke_sprite.classList.add('player-dead2');
+                }
+
                 update_and_store_num_round("opp_win");
     
                 round_history.push(curr_fight_record);
@@ -313,8 +340,6 @@ function details_update(num, pp_element, hp_element, description_element, librar
                 return;
             }
             hp_element.innerText = `User HP : ${hp_obj.user_hp}/${max_user_hp}`;
-
-            hp_element.innerText = `Opp HP : ${hp_obj.opp_hp}/${max_opp_hp}`;
             
             q = (hp_obj.user_hp/max_user_hp)*100;            
         }
