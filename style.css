@@ -29,6 +29,20 @@ body{
     background-image: url("images/background-lab.jpg");
 }
 
+.index-load-screen{
+    position:absolute;
+    top:0; left:0;
+    overflow-x: hidden;
+    background-color: var(--poke-grey);
+    height: 100vh;
+    width: 100vw;
+    z-index: 10;
+}
+.index-load-screen>img{
+    height: fit-content;
+
+}
+
 .selection-panel{
     display:flex; flex-direction: row;
     flex-wrap: wrap;
@@ -233,6 +247,8 @@ body{
 }
 .opp-poke-card>p{
     text-align: center;
+    font-size: 1.5rem;
+    padding-left:0.2rem; padding-right:0.2rem;
 }
 
 .opp-poke-name{
@@ -419,6 +435,23 @@ body{
     border: solid 2px gray;
 }
 
+.floater-battle{
+    /* z-index: ; */
+    display:flex; flex-direction: row-reverse;
+    position: absolute;
+    top:25vh;
+    left:30vw;
+    width: 40vw; 
+    height: 25vh;
+    justify-content: space-around;
+}
+.selected-poke-image{
+
+}
+.opp-poke-image{
+    /* height: 20vh; */
+}
+
 
 
 
@@ -487,19 +520,26 @@ body{
 
 .floater-user{
     position: absolute;
-    top:40vh; left:35vw;
+    top:35vh; left:35vw;
+    scale:1.5;
 }
+
 .floater-opp{
     position: absolute;
-    top:30vh; right:35vw;
+    top:28vh; right:35vw;
+    scale:1.5;
 }
 
 .floater-user-poke-hp{
+    text-align: center; padding:0.5rem;
     font-size: 1rem; color: var(--poke-blue);
     font-weight: 700;
+    background-color: var(--poke-grass1);
 }
 .floater-opp-poke-hp{
+    text-align: center; padding:0.5rem;
     font-size: 1rem; color: var(--poke-red);
+    background-color: var(--poke-grass1);
     font-weight: 700;
 }
 .floater-user-poke-img{

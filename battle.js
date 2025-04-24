@@ -145,13 +145,14 @@ function battle_prep(){
         }
     }
 
-
-
     let chosen_opp_name = opp_poke_obj_array[rand_num]["name"];
     new_obj["opp_poke"] = chosen_opp_name;
 
     let name = document.getElementsByClassName('name')[1];
     name.innerText = chosen_opp_name;
+
+    let poke_img_el = document.getElementsByClassName('selected-poke-sprite')[0];
+    fetch_and_put_sprite(poke_img_el, chosen_opp_name);
 
     fetch_and_put_hp(document.getElementsByClassName('hp')[1], chosen_opp_name);
     fetch_and_put_moves(document.getElementsByClassName('moves')[1], chosen_opp_name);
@@ -221,6 +222,9 @@ function battle_prep(){
                     sessionStorage.setItem('round_history', JSON.stringify(round_history));
                 });
 
+                let poke_img_el = document.getElementsByClassName('opp-poke-sprite')[0];
+                fetch_and_put_sprite(poke_img_el, poke_name);
+
                 fetch_and_put_hp(hp, poke_name);
 
                 fetch_and_put_moves(moves_el,poke_name);
@@ -263,6 +267,23 @@ async function fetch_and_put_moves(element, id){
         if(count == 3)break;
         x++;
     }element.innerText += '...';
+}
+
+async function fetch_and_put_sprite(img_element, id){
+    let response = await fetch(api_url+id);
+    let data = await response.json();
+
+    if(data.sprites.other.showdown.front_default){
+        img_url = data.sprites.other.showdown.front_default;
+    }    
+
+    // if(library[temp_index].length == 4){
+    //     img_url = await library[id]["dream_world_front_img_url"];
+    // }
+    // else{
+    //     img_url = await library[temp_index]["img_url"];
+    // }
+    img_element.src = img_url;
 }
 
 
