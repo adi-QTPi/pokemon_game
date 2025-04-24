@@ -441,14 +441,14 @@ body{
     position: absolute;
     top:25vh;
     left:30vw;
-    width: 40vw; 
-    height: 25vh;
+    width:40vw; 
+    height: 20vh;
     justify-content: space-around;
 }
-.selected-poke-image{
+.selected-poke-sprite{
 
 }
-.opp-poke-image{
+.opp-poke-sprite{
     /* height: 20vh; */
 }
 
@@ -521,13 +521,13 @@ body{
 .floater-user{
     position: absolute;
     top:35vh; left:35vw;
-    scale:1.5;
+    scale:1;
 }
 
 .floater-opp{
     position: absolute;
     top:28vh; right:35vw;
-    scale:1.5;
+    scale:1;
 }
 
 .floater-user-poke-hp{
