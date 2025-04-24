@@ -9,7 +9,40 @@
     --poke-grass1 : #70c8a0;
     --poke-grass2 : #b8c870;
     --poke-grey : #878787;
+    --cursor: pointer;
+    --disallow_cursor: not-allowed;
+    --default : default;
 }
+
+.info-button{
+    height: 3rem;
+    cursor: var(--cursor);
+}
+.info-popup-hidden{
+    display: none;
+
+    background-color: white;
+
+    position: fixed;
+    top:5vh; left:5vw;
+    height: 90vh;
+    width: 90vw;
+}
+.close-button{
+    position: absolute;
+    top:1rem; 
+    right: 1rem;
+    height: 3rem; width: 3rem;
+    color:red;
+    background-image: url('images/cross-button.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.info-popup-unleashed{
+    display: block;
+    z-index: 200;
+}
+
 
 body{
     /* background-color: var(--poke-grass2); */
@@ -26,6 +59,7 @@ body{
     background-attachment:fixed;
 }
 .selection-page-body{
+    cursor: var(--default);
     background-image: url("images/background-lab.jpg");
 }
 
@@ -111,6 +145,7 @@ body{
 }
 
 .poke-card{
+    cursor: var(--cursor);
     width: 13rem; height: fit-content;
 
     display:flex; flex-direction: column;
@@ -161,6 +196,7 @@ body{
 }
 
 .clear-selection-button{
+    cursor: var(--cursor);
     text-align: center;
     font-family: "Jersey 10", sans-serif;
     font-weight: 100;
@@ -176,6 +212,7 @@ body{
 }
 
 .battle-button{
+    cursor: var(--cursor);
     text-align: center;
     font-family: "Jersey 10", sans-serif;
     font-weight: 100;
@@ -208,7 +245,6 @@ body{
     justify-content: space-around;
     width:95%; margin:0 auto;
     margin-top:10vh;
-    border: solid 0.5rem teal;
     
     width: 90vw;
     height: 80vh;
@@ -218,7 +254,6 @@ body{
     display: flex; flex-direction: row;
     flex-wrap: wrap;
     width: 40%; height: 100%;
-    border: solid 0.25rem teal;
     justify-content: space-around;
     align-items: center;
 }
@@ -227,7 +262,6 @@ body{
     display: flex; flex-direction: row;
     flex-wrap: wrap;
     width: 40%; height: 100%;
-    border: solid 0.25rem teal;
     justify-content: space-around;
     align-items: center;
 }
@@ -264,9 +298,11 @@ body{
 }
 
 .redirect-battle{
+    cursor: var(--cursor);
+
     display: flex;
-    /* border: solid 4px red; */
     background-color: var(--poke-red-transp);
+    border: solid 0.25rem var(--poke-red-transp);
     color: white;
     text-decoration: none;
     width: fit-content;
@@ -277,14 +313,20 @@ body{
 
     padding:1rem;
 }
+.redirect-battle:hover{
+    scale:1;
+    color: var(--poke-red-transp);
+    background-color: white;
+}
 .redirect-battle>div{
     font-size: 3rem;
 }
 
 .redirect-selection{
+    cursor: var(--cursor);
     display: flex;
-    /* border: solid 4px red; */
     background-color: var(--poke-red-transp);
+    border: solid 0.25rem var(--poke-red-transp);
     color: white;
     text-decoration: none;
     width: fit-content;
@@ -296,6 +338,12 @@ body{
     padding: 1rem;
     margin: 2rem;
 }
+.redirect-selection:hover{
+    scale:1;
+    color: var(--poke-red-transp);
+    background-color: white;
+    border: solid 0.25rem var(--poke-red-transp);
+}
 .redirect-selection>div{
     font-size: 3rem;
 }
@@ -304,6 +352,7 @@ body{
 
 /*Battle page*/
 .battle-page-body{
+    cursor: var(--default);
     margin: 0; position:relative; height: 100vh; width: 100vw;
     background-image: url("images/background-battle-center.jpg"), url("images/background-battle-bottom.png");
     background-size: 60% 70vh, 100% 30vh;
@@ -340,10 +389,18 @@ body{
     border-radius: 2rem;
 }
 .used-battle-poke-card{
+    cursor:var(--disallow_cursor);
     background-color: var(--poke-red-transp);
 }
 .current-use-battle-poke-card{
+
     background-color: var(--poke-blue-transp);
+}
+.left-battle-poke-card{
+    cursor: var(--cursor);
+}
+.right-battle-poke-card{
+    cursor: var(--disallow_cursor);
 }
 
 .battle-poke-image{
@@ -381,6 +438,7 @@ body{
 } */
 
 .bottom-space{
+    cursor: var(--default);
     position:absolute;  left:2%; right:2%; bottom:8vh;
     display:flex; flex-direction: row;
     justify-content: space-around;
@@ -420,6 +478,7 @@ body{
 } 
 
 .lets-battle-button{
+    cursor: var(--disallow_cursor);
     display: flex;
     text-align: center;
     align-items: center;
@@ -436,13 +495,13 @@ body{
 }
 
 .lets-battle-button-clickable{
+    cursor: var(--cursor);
     color: white;
     background-color: var(--poke-red-transp);
     border: solid 2px gray;
 }
 
-.floater-battle{
-    /* z-index: ; */
+/* .floater-battle{
     display:flex; flex-direction: row-reverse;
     position: absolute;
     top:25vh;
@@ -450,19 +509,16 @@ body{
     width:40vw; 
     height: 20vh;
     justify-content: space-around;
-}
-.selected-poke-sprite{
+}*/
 
-}
-.opp-poke-sprite{
-    /* height: 20vh; */
-}
+
 
 
 
 
 /*for battle_page2.html */
 .battle2-page-body{
+    cursor: var(--default);
     margin: 0; position:relative; height: 100vh; width: 100vw;
     background-image: url("images/background-battle-center.jpg"), url("images/background-battle-bottom.png");
     background-size: 60% 70vh, 100% 30vh;
@@ -472,6 +528,7 @@ body{
 }
 
 .poke-ability-card{
+    cursor: var(--cursor);
     position: relative;
     height: 12vh; width: 90%;
     background-color: yellow;
@@ -487,6 +544,9 @@ body{
 }
 .poke-ability-card-selected{
     background-color: var(--poke-blue-transp);
+}
+.poke-ability-card-no-click{
+    cursor: var(--disallow_cursor);
 }
 
 .move-name{
@@ -511,6 +571,7 @@ body{
     top:0; left:0;
 }
 .right-battle-ability-list{
+    cursor: var(--disallow_cursor);
     top:0; right:0;
 }
 
@@ -520,10 +581,20 @@ body{
     justify-content: space-around;
     align-items: center;
     height: 23vh;
-    /* background-color: var(--poke-grey); */
     width: 95%;
-
-    /* border: solid 1vh teal; */
+}
+.user-poke-details{
+    font-size: 4rem;
+}
+.match-description{
+    display: flex; flex-direction: column;
+}
+.attack-who-to-who{
+    height: 30%; 
+    /* border:solid 0.25rem teal; */
+}
+.opp-poke-details{
+    font-size: 4rem;
 }
 
 .floater-user{
@@ -559,4 +630,8 @@ body{
 }
 .floater-opp-poke-img{
     width: 10rem;
+}
+
+.active-indicator{
+    color: var(--poke-yellow);
 }

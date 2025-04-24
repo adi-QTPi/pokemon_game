@@ -75,8 +75,6 @@ async function update_selected_poke_region(element, selected_poke_array){
 
 const selected_poke_array = [];
 
-// module.exports = selected_poke_array;
-
 async function page_render(left_half) {
 
     let num_loop_repeat = 50;
@@ -102,6 +100,20 @@ async function page_render(left_half) {
     })
 }
 
+function info_button_init(){
+    let element = document.getElementsByClassName('info-button')[0];
+    let popup = document.getElementsByClassName('info-popup-hidden')[0];
+    element.addEventListener('click', ()=>{
+        popup.classList.add('info-popup-unleashed');
+    })
+
+    let cross_button = document.getElementsByClassName('close-button')[0];
+    cross_button.addEventListener('click', ()=>{
+        popup.classList.remove('info-popup-unleashed');
+    })
+}
+
+info_button_init();
 page_render(left_half);
 
 // async function opp_reveal(container, array){

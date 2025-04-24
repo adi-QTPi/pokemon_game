@@ -11,7 +11,7 @@ const max_round = JSON.parse(session_string4);
 const session_string1 = sessionStorage.getItem('round_history');
 const round_history = JSON.parse(session_string1);
 
-const per_move_gap_time = 3000; //in ms
+const per_move_gap_time = 2500; //in ms
 
 let curr_fight_record = round_history.pop();
 
@@ -60,7 +60,10 @@ const floater_user_poke_hp = document.getElementsByClassName('floater-user-poke-
 const floater_opp_poke_hp = document.getElementsByClassName('floater-opp-poke-hp')[0];
 let floater_user_poke_img = document.getElementsByClassName('floater-user-poke-img')[0];
 let floater_opp_poke_img = document.getElementsByClassName('floater-opp-poke-img')[0];
-const match_description = document.getElementsByClassName('match-description')[0];
+const bottom_user_poke_name = document.getElementsByClassName('user-poke-details')[0];
+const bottom_opp_poke_name = document.getElementsByClassName('opp-poke-details')[0];
+const match_description_p = document.getElementsByClassName('match-description')[0].lastElementChild;
+const attack_who_to_who = document.getElementsByClassName('attack-who-to-who')[0];
 let left_battle_ability_list = document.getElementsByClassName('battle-ability-list')[0];
 let right_battle_ability_list = document.getElementsByClassName('battle-ability-list')[1];
 
@@ -207,7 +210,9 @@ function battle_round(){
             children[i].classList.add('poke-ability-card-selected');
 
             let target_arr = children[i].lastElementChild;
-            details_update(i, target_arr, floater_opp_poke_hp, match_description, user_move_info_lib, 'user-attack');
+            details_update(i, target_arr, floater_opp_poke_hp, match_description_p, user_move_info_lib, 'user-attack');
+
+            bottom_user_poke_name.classList.add('active-indicator');
 
             //COMPUTER CHOICE/////////////////////
             isProcessing = true;
@@ -219,8 +224,10 @@ function battle_round(){
 
                 let target_el = Array.from(right_battle_ability_list.children)[comp_choose_rand_num];
                 target_el.classList.add('poke-ability-card-selected');
-                details_update(comp_choose_rand_num, target_el.lastElementChild, floater_user_poke_hp, match_description, opp_move_info_lib, 'opp-attack');
+                details_update(comp_choose_rand_num, target_el.lastElementChild, floater_user_poke_hp, match_description_p, opp_move_info_lib, 'opp-attack');
                 // isProcessing = false;
+                bottom_user_poke_name.classList.remove('active-indicator');
+                bottom_opp_poke_name.classList.add('active-indicator');
             }, per_move_gap_time);
             
 
@@ -232,7 +239,10 @@ function battle_round(){
                 for(obj of children){
                     obj.classList.remove('poke-ability-card-selected');
                 }
+                match_description_p.innerText = "Choose your next attack...";
                 isProcessing = false;
+                bottom_opp_poke_name.classList.remove('active-indicator');
+                bottom_user_poke_name.classList.add('active-indicator');
             }, 2*per_move_gap_time);
             
         })
