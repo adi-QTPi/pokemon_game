@@ -377,7 +377,7 @@ body{
     padding: 1rem;
     margin: 2rem;
 }
-.redirect-selection:hover{
+.redirect-selection-hover:hover{
     scale:1;
     color: var(--poke-red-transp);
     background-color: white;
@@ -585,10 +585,14 @@ body{
     justify-content: space-around;
 }
 .poke-ability-card-clickable:hover{
+    scale:1;
+    color: var(--poke-red-transp);
+    background-color: white;
     opacity: 0.8;
 }
 .poke-ability-card-selected{
-    background-color: var(--poke-blue-transp);
+    background-color: var(--poke-grey);
+    color: black;
 }
 .poke-ability-card-no-click{
     opacity: 0.6;

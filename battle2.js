@@ -11,7 +11,7 @@ const max_round = JSON.parse(session_string4);
 const session_string1 = sessionStorage.getItem('round_history');
 const round_history = JSON.parse(session_string1);
 
-const per_move_gap_time = 500; //in ms
+const per_move_gap_time = 2500; //in ms
 
 let curr_fight_record = round_history.pop();
 
@@ -205,10 +205,14 @@ function battle_round(){
     let isProcessing = false;
     for(let i = 0; i<5; i++){
         children[i].addEventListener('click', ()=>{
-            if(isProcessing == true)return;
+            if(isProcessing == true){
+                return;
+            }
 
             for(obj of children){
                 obj.classList.remove('poke-ability-card-selected');
+                obj.classList.remove('poke-ability-card-clickable');
+                // obj.classList.add('redirect-selection-hover');
             }
 
             console.log(user_move_info_lib);
@@ -251,8 +255,16 @@ function battle_round(){
                 isProcessing = false;
                 bottom_opp_poke_name.classList.remove('active-indicator');
                 bottom_user_poke_name.classList.add('active-indicator');
+
+                for(obj of children){
+                    obj.classList.add('poke-ability-card-clickable');
+                }
+
             }, 2*per_move_gap_time);
             
+            // for(obj of children){
+            //     obj.classList.add('poke-ability-card-clickable');
+            // }//to add hover effect back
         })
     }
 }
@@ -276,8 +288,8 @@ async function details_update(num, pp_element, hp_element, description_element, 
             x -= library[num].move_damage;
             hp_obj.opp_hp = x;
             if(hp_obj.opp_hp <= 0 ){
-                hp_element.innerText = `Opp HP : ${hp_obj.opp_hp}/${max_opp_hp}`;
                 alert('user won!');
+                hp_element.innerText = `Opp HP : ${hp_obj.opp_hp}/${max_opp_hp}`;
 
                 let poke_sprite = document.getElementsByClassName('floater-opp-poke-img')[0];
 
@@ -303,12 +315,6 @@ async function details_update(num, pp_element, hp_element, description_element, 
 
             hp_element.innerText = `Opp HP : ${hp_obj.opp_hp}/${max_opp_hp}`;
             q = (hp_obj.opp_hp/max_opp_hp)*100;
-            // let total = document.getElementsByClassName('opp')[0].style.width;
-            // console.log(total);
-            // document.getElementsByClassName('opp')[0].style.width = "100px";
-            // console.log(document.getElementsByClassName('opp')[0].style.width);
-            // console.log(q);
-            // hp_bar_el.style.width = q*total;
         }
     
         else if(who_attack == 'opp-attack'){
@@ -317,6 +323,7 @@ async function details_update(num, pp_element, hp_element, description_element, 
             hp_obj.user_hp = x;
             if(hp_obj.user_hp <= 0){
                 alert('opp won!');
+                hp_element.innerText = `User HP : ${hp_obj.user_hp}/${max_user_hp}`;
                 curr_fight_record.winner = "opp";
                 // num_round_record.opp_win += 1;
 

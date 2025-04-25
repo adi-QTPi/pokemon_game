@@ -10,6 +10,8 @@ sessionStorage.setItem('num_round_record_from_battle2', JSON.stringify(num_round
 
 let round_history =[];
 sessionStorage.setItem('round_history', JSON.stringify(round_history));
+sessionStorage.setItem('round_history_from_battle2', JSON.stringify(round_history));
+
 
 //Elements//////////////////////////////
 const left_half = document.getElementsByClassName('half')[0];
