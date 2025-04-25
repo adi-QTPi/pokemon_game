@@ -7,6 +7,11 @@ let difficulty_offset_user = 1;
 let difficulty_offset_opp = 1;
 sessionStorage.setItem('difficulty_offset_opp', JSON.stringify(difficulty_offset_opp));
 
+let offset_dictionary = {
+    "1" : "Normal" ,
+    "2" : "Moderate",
+    "3" : "Strong"
+}
 
 let num_round_record = {
     "user_win" : 0 ,
@@ -126,6 +131,15 @@ async function page_render(left_half) {
     }
     console.log(`user offset ${difficulty_offset_user}`);
 
+    let poke_strength_display_user = document.getElementsByClassName('strength-user')[0];
+    poke_strength_display_user.innerText = `User Pokemon Strength -> ${offset_dictionary[difficulty_offset_user]}`;
+
+    let poke_strength_display_opp = document.getElementsByClassName('strength-opp')[0];
+    let x = sessionStorage.getItem('difficulty_offset_opp');
+    difficulty_offset_opp = JSON.parse(x);
+    console.log(`the offset is on home ${difficulty_offset_opp}`);
+    poke_strength_display_opp.innerText = `Opp Pokemon Strength -> ${offset_dictionary[difficulty_offset_opp]}`;
+
     left_half.innerHTML = ``;
 
     for(let i = difficulty_offset_user; i<= 3*(num_loop_repeat); i+= 3){
@@ -221,6 +235,9 @@ function info_button_init(){
             sessionStorage.setItem('difficulty-offset-opp', JSON.stringify(difficulty_offset_opp));
             let x = sessionStorage.getItem('difficulty-offset-opp');
             console.log(x);
+
+            let poke_strength_display_opp = document.getElementsByClassName('strength-opp')[0];
+            poke_strength_display_opp.innerText = `Opp Pokemon Strength -> ${offset_dictionary[difficulty_offset_opp]}`;
         })
     }
 }
