@@ -11,7 +11,7 @@ console.log(opp_poke_obj_array);
 const coeff_of_attack_dampness = 0.1;
 sessionStorage.setItem('attack_dampness', JSON.stringify(coeff_of_attack_dampness));
 
-const max_round = 6;
+const max_round = 2;
 sessionStorage.setItem('max_round', JSON.stringify(max_round));
 
 //ELEMENTS////////////////////////////
@@ -79,18 +79,20 @@ console.log(round_history);
 // ];
 
 function page_render(){
-    if((num_round_record.user_win+num_round_record.opp_win) === max_round){
-        if(num_round_record.user_win > num_round_record.opp_win){
-            alert('user has won the MATCH... Redirecting to home');
+    setTimeout(()=>{
+        if((num_round_record.user_win+num_round_record.opp_win) === max_round){
+            if(num_round_record.user_win > num_round_record.opp_win){
+                alert('user has won the MATCH... Redirecting to home');
+            }
+            else if (num_round_record.user_win === num_round_record.opp_win){
+                alert('the match is DRAW... Redirecting to home');
+            }
+            else{
+                alert('opp has won the MATCH... Redirecting to home');
+            }
+            window.location = "index.html";
         }
-        else if (num_round_record.user_win === num_round_record.opp_win){
-            alert('the match is DRAW... Redirecting to home');
-        }
-        else{
-            alert('opp has won the MATCH... Redirecting to home');
-        }
-        window.location.href = "index.html";
-    }
+    }, 1000);
 
     let round_num_user_win = document.getElementsByClassName('num-user-win')[0];
     let round_num_opp_win = document.getElementsByClassName('num-opp-win')[0];
