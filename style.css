@@ -161,6 +161,7 @@ body{
 
 .selected-poke-image{
     height: 60%; 
+    scale:1.5;
     /* width: 16%;  */
 }
 

@@ -46,22 +46,45 @@ async function make_selection_screen(element, poke_id, selected_poke_array){ //p
     new_el.addEventListener('click', ()=>{
         if(new_el.classList.contains('clicked-poke-card')){
             new_el.classList.remove('clicked-poke-card');
+            // new_el.id = "";
             selected_poke_array.splice((selected_poke_array.indexOf(poke_name)),1);
             console.log(selected_poke_array);
 
             update_selected_poke_region(selection_left,selected_poke_array);
         }
         else if(selected_poke_array.length>=6){
-            alert('! Your Squad has 6 members ! Lets Battle');
+            // alert('! Your Squad has 6 members ! Lets Battle');
+
+            new_el.classList.add('clicked-poke-card');
+            new_el.id = poke_name;
+            let eliminated = queue_filo_insert(selected_poke_array, poke_name);
+            console.log(selected_poke_array);
+        
+            update_selected_poke_region(selection_left,selected_poke_array);
+
+            let poke_card = document.getElementById(eliminated);
+            poke_card.classList.remove('clicked-poke-card');
+
             return;
         }
         else{
             new_el.classList.add('clicked-poke-card');
+            new_el.id = poke_name;
             selected_poke_array.push(poke_name); 
             console.log(selected_poke_array);
             update_selected_poke_region(selection_left,selected_poke_array);
         }
     })    
+}
+
+function queue_filo_insert(arr_name, new_poke_name){
+    let eliminated = arr_name[0];
+    for(let i = 0; i<(arr_name.length-1); i++){
+        arr_name[i] = arr_name[i+1];
+        console.log(` shifted ${i+1} to ${i}`);
+    }
+    arr_name[arr_name.length-1] = new_poke_name;
+    return eliminated;
 }
 
 async function update_selected_poke_region(element, selected_poke_array){
@@ -74,11 +97,11 @@ async function update_selected_poke_region(element, selected_poke_array){
             let poke_name = json_object.name;
             let poke_img_url = json_object['sprites']['other']["dream_world"]["front_default"];
             let new_poke_img = document.createElement('img'); new_poke_img.classList.add('selected-poke-image')
-            new_poke_img.style.scale = "1.5";
             // new_poke_img.style.transform.scaleY = "-1";
             new_poke_img.src = poke_img_url;
             element.appendChild(new_poke_img);
         }
+
     }
 }
 
