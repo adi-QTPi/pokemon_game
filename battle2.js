@@ -380,10 +380,55 @@ async function details_update(num, pp_element, hp_element, description_element, 
         pp_element.innerText = `PP : ${library[num].move_pp}`;
         description_element.innerText = `${library[num].move_flavor_text}`;
 
+        // if(q<20){
+        //     hp_bar_el.style.background = "#BC2023";
+        // }
+        // else if(q<40){
+        //     hp_bar_el.style.background = "#EB442C";
+        // }
+        // else if(q<60){
+        //     hp_bar_el.style.background = "#F8B324";
+        // }
+        // else if(q<80){
+        //     hp_bar_el.style.background = "#OC6B37";
+        // }
+        // else{
+        //     hp_bar_el.style.background = "#094A25";
+        // }
+        let colors = [
+        {
+            // "r":44,
+            // "g":186,
+            // "b":0
+            "r":255,
+            "g":203,
+            "b":5
+        },
+        {
+            "r":255,
+            "g":51,
+            "b":51
+        }
+        ]
+
+        let blended_color_obj = blend_color(q, colors);
+        console.log(blended_color_obj);
+
+        hp_bar_el.style.backgroundColor = `rgb(${blended_color_obj["r"]}, ${blended_color_obj["g"]}, ${blended_color_obj["b"]})`;
+
         hp_bar_el.style.width = `${q}%`;
     }
 }
 
+function blend_color(percent, colors){
+    
+    let blended_color_obj = {
+        "r": ((colors[0]["r"]*(percent/100)) + (colors[1]["r"]*((100-percent)/100))),
+        "g": ((colors[0]["g"]*(percent/100)) + (colors[1]["g"]*((100-percent)/100))),
+        "b": ((colors[0]["b"]*(percent/100)) + (colors[1]["b"]*((100-percent)/100))),
+    }
+    return blended_color_obj;
+}
 
 //Main EXECution////////////////////
 

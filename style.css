@@ -12,6 +12,9 @@
     --poke-sky-blue : #daeaf7;
     --poke-hp-bar-blue: rgb(20, 80, 176);
 
+    --hp-start-color: rgb(26, 239, 26);
+    --hp-end-color: rgb(167, 41, 41);
+
     --cursor: pointer;
     --disallow_cursor: not-allowed;
     --default : default;
@@ -137,6 +140,8 @@
 }
 
 .strength-flex{
+    position: sticky; z-index: 10;
+    top: 10rem;
     height: fit-content;
     display: flex; flex-direction: row;
 }
@@ -288,7 +293,7 @@ body{
     height: 70vh; width: 50%;
     /* border: solid 3px var(--poke-grass1); */
 
-    position:sticky; top:12rem;
+    position:sticky; top:16.75rem;
 
     background-image: url('images/pokedex-2.png');
     background-size: 100% 100%; background-repeat: no-repeat;
@@ -793,7 +798,7 @@ body{
     width:100%;
 
     height: 100%;
-    background-color: rgb(20, 80, 176);
+    background-color: rgb(255, 203, 5);
 
     border-top-left-radius: 2rem;
 }
@@ -801,7 +806,7 @@ body{
     width:100%;
 
     height: 100%;
-    background-color: rgb(20, 80, 176);
+    background-color: rgb(255, 203, 5);
 
     border-top-right-radius: 2rem;
 }
