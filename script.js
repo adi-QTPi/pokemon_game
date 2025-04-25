@@ -1,5 +1,12 @@
 const api_url = 'https://pokeapi.co/api/v2/pokemon/';
 
+let num_loop_repeat = 40;
+sessionStorage.setItem('num_loop_repeat', JSON.stringify(num_loop_repeat));
+
+let difficulty_offset_user = 1; 
+let difficulty_offset_opp = 1;
+
+
 let num_round_record = {
     "user_win" : 0 ,
     "opp_win" : 0 ,
@@ -112,9 +119,15 @@ async function update_selected_poke_region(element, selected_poke_array){
 const selected_poke_array = [];
 
 async function page_render(left_half) {
+    if(sessionStorage.getItem('difficulty_offset_user')){
+        difficulty_offset_user = sessionStorage.getItem('difficulty_offset_user');
+        console.log("excellent");
+    }
+    console.log(difficulty_offset_user);
 
-    let num_loop_repeat = 50;
-    for(let i = 1; i<= 3*(num_loop_repeat) ; i+= 3){
+    left_half.innerHTML = ``;
+
+    for(let i = difficulty_offset_user; i<= 3*(num_loop_repeat); i+= 3){
         await make_selection_screen(left_half, i, selected_poke_array);
     }
     clear_selected_poke.addEventListener('click', ()=>{
@@ -162,9 +175,27 @@ function info_button_init(){
         background_full.classList.remove('background-no-scroll');
         background_top.classList.remove('background-blur');
         background_below.classList.remove('background-blur');
-
-        console.log(background);
     })
+
+    let target_arr_user = Array.from(document.getElementsByClassName('user-choosing')[0].children);
+    for(let i = 1; i<4; i++){
+        target_arr_user[i].addEventListener('click', ()=>{
+            difficulty_offset_user = i;
+            sessionStorage.setItem('difficulty-offset-user', JSON.stringify(difficulty_offset_user));
+            console.log(difficulty_offset_user);
+            console.log("page rendering");
+            page_render(left_half);
+        })
+    }
+    let target_arr_opp = Array.from(document.getElementsByClassName('opp-choosing')[0].children);
+    for(let i = 1; i<4; i++){
+        target_arr_opp[i].addEventListener('click', ()=>{
+            difficulty_offset_opp = i;
+            sessionStorage.setItem('difficulty-offset-opp', JSON.stringify(difficulty_offset_opp));
+            let x = sessionStorage.getItem('difficulty-offset-opp');
+            console.log(x);
+        })
+    }
 }
 
 info_button_init();

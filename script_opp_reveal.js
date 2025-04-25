@@ -1,5 +1,15 @@
 const api_url = 'https://pokeapi.co/api/v2/pokemon/';
 
+let user_difficulty_choice;
+if(!sessionStorage.getItem('user_difficulty_choice')){
+    user_difficulty_choice = "moderate";
+}
+else{
+    user_difficulty_choice = sessionStorage.getItem('user_difficulty_choice');
+}
+
+let num_loop_repeat = sessionStorage.getItem('num_loop_repeat');
+
 //Elements/////////////////////////////
 let left_half2 = document.getElementsByClassName('my-squad')[0];
 let right_half2 = document.getElementsByClassName('opponent')[0];
@@ -7,6 +17,21 @@ let right_half2 = document.getElementsByClassName('opponent')[0];
 
 let selected_poke_obj_array = [];
 let opp_poke_obj_array = [];
+
+// let difficulty = {
+//     "easy" : {
+//         "low" : 0 , "high" : num_loop_repeat/3
+//     },
+
+//     "moderate" : {
+//         "low" : num_loop_repeat/3 , "high" : num_loop_repeat*(2/3)
+//     },
+
+//     "hard" : {
+//         "low" : num_loop_repeat*(2/3), "high" : num_loop_repeat
+//     }
+// }
+
 
 async function objectify(){
     const session_string = sessionStorage.getItem('pokeArray');
@@ -54,7 +79,11 @@ async function opp_page_render(){
 
 async function random_opp_generator(opp_poke_obj_array) {
     while (opp_poke_obj_array.length<6){
-        let id = ((3*getRandomInt(50))+1);
+        let difficulty_offset_opp = sessionStorage.getItem('difficulty_offset_opp');
+        let id = 3*parseInt(getRandomIntInclusiveExclusive(1,num_loop_repeat)+difficulty_offset_opp);
+        console.log(id);
+        console.log(difficulty_offset_opp);
+        console.log(getRandomIntInclusiveExclusive(1,num_loop_repeat));
         if(!checkIfInArrayOfObjects(id, opp_poke_obj_array)){
             let response = await fetch (api_url+(id));
             let data = await response.json();
@@ -112,6 +141,9 @@ opp_page_render();
 //UTILS/////////////////
 function getRandomInt(max) {
     return Math.floor(Math.random() * max) + 1;
+}
+function getRandomIntInclusiveExclusive(min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
 }
 
 function checkIfInArrayOfObjects(value, array){

@@ -82,6 +82,35 @@
 .tenor-gif{
     width:50%;
 }
+.choose-poke-strength{
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+.difficulty-choice{
+    display: flex;
+}
+.choose-poke-strength{
+    text-align: center;
+}
+.user-choosing{
+    row-gap: 0.25rem;
+    display: flex;
+    width: 50%; 
+    flex-direction: column;
+    align-items: center;
+}
+.opp-choosing{
+    row-gap: 0.25rem;
+    display: flex;
+    width: 50%; 
+    flex-direction: column;
+    align-items: center;
+}
+.info-choice-button{
+    width:40%;
+    height: 2rem;
+}
+
 .info-text{
     padding-left: 4vw;
     display: flex; flex-direction: column;
@@ -120,7 +149,6 @@ body{
 }
 .index-load-screen>img{
     height: fit-content;
-
 }
 
 .selection-panel{
@@ -161,7 +189,8 @@ body{
 
 .selected-poke-image{
     height: 60%; 
-    scale:1.5;
+    scale:1.1;
+    transform: scaleX(1);
     /* width: 16%;  */
 }
 
@@ -273,8 +302,6 @@ body{
     border-style: dashed;
     border-color: black;
 }
-
-
 
 /*///////////////////////////////////////////////////*/
 /*battle_2.html*/
