@@ -11,7 +11,7 @@ console.log(opp_poke_obj_array);
 const coeff_of_attack_dampness = 0.1;
 sessionStorage.setItem('attack_dampness', JSON.stringify(coeff_of_attack_dampness));
 
-const max_round = 3;
+const max_round = 6;
 sessionStorage.setItem('max_round', JSON.stringify(max_round));
 
 //ELEMENTS////////////////////////////
@@ -79,6 +79,19 @@ console.log(round_history);
 // ];
 
 function page_render(){
+    if((num_round_record.user_win+num_round_record.opp_win) === max_round){
+        if(num_round_record.user_win > num_round_record.opp_win){
+            alert('user has won the MATCH... Redirecting to home');
+        }
+        else if (num_round_record.user_win === num_round_record.opp_win){
+            alert('the match is DRAW... Redirecting to home');
+        }
+        else{
+            alert('opp has won the MATCH... Redirecting to home');
+        }
+        window.location.href = "index.html";
+    }
+
     let round_num_user_win = document.getElementsByClassName('num-user-win')[0];
     let round_num_opp_win = document.getElementsByClassName('num-opp-win')[0];
     let round_num_total = document.getElementsByClassName('num-round-total')[0];
@@ -90,22 +103,21 @@ function page_render(){
     poke_card_init(left_battle_poke_list, user_poke_obj_array);
     poke_card_init(right_battle_poke_list, opp_poke_obj_array);
 
-    setTimeout(
-        ()=>{
-            if((num_round_record.user_win+num_round_record.opp_win) == max_round){
-                if(num_round_record.user_win > num_round_record.opp_win){
-                    alert('user has won the MATCH... Redirecting to home');
-                }
-                else if (num_round_record.user_win === num_round_record.opp_win){
-                    alert('the match is DRAW... Redirecting to home');
-                }
-                else{
-                    alert('opp has won the MATCH... Redirecting to home');
-                }
-                window.location.href = "index.html";
-            }
-        },3000
-    )
+    // setTimeout(
+    //     ()=>{
+    //         if((num_round_record.user_win+num_round_record.opp_win) === max_round){
+    //             if(num_round_record.user_win > num_round_record.opp_win){
+    //                 alert('user has won the MATCH... Redirecting to home');
+    //             }
+    //             else if (num_round_record.user_win === num_round_record.opp_win){
+    //                 alert('the match is DRAW... Redirecting to home');
+    //             }
+    //             else{
+    //                 alert('opp has won the MATCH... Redirecting to home');
+    //             }
+    //             window.location.href = "index.html";
+    //         }
+    //     },0)
     
 
     round_history = battle_prep();
@@ -133,7 +145,7 @@ function battle_prep(){
         rand_num = getRandomInt0to5();
         if(round_history.length == 0)isAllowed = true;
         for(obj2 of round_history){
-            if(opp_poke_obj_array[rand_num]["name"] == obj2.opp_poke){
+            if(opp_poke_obj_array[rand_num]["name"] === obj2.opp_poke){
                 isAllowed = false;
                 console.log("isallowed false"+rand_num);
                 break;

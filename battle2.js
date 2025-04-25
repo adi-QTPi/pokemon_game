@@ -11,7 +11,7 @@ const max_round = JSON.parse(session_string4);
 const session_string1 = sessionStorage.getItem('round_history');
 const round_history = JSON.parse(session_string1);
 
-const per_move_gap_time = 2500; //in ms
+const per_move_gap_time = 500; //in ms
 
 let curr_fight_record = round_history.pop();
 
@@ -54,7 +54,7 @@ let max_opp_hp = 0;
 
 document.getElementsByClassName('num-user-win')[0].innerText = num_round_record.user_win;
 document.getElementsByClassName('num-opp-win')[0].innerText = num_round_record.opp_win;
-document.getElementsByClassName('num-round')[0].innerText = `Round : ${num_round_record.total}/${max_round}`;
+document.getElementsByClassName('num-round')[0].innerText = `Round : ${num_round_record.user_win+ num_round_record.opp_win}/${max_round}`;
 
 const floater_user_poke_hp = document.getElementsByClassName('floater-user-poke-hp')[0];
 const floater_opp_poke_hp = document.getElementsByClassName('floater-opp-poke-hp')[0];
@@ -236,8 +236,10 @@ function battle_round(){
                 let target_el = Array.from(right_battle_ability_list.children)[comp_choose_rand_num];
                 target_el.classList.add('poke-ability-card-selected');
                 let hp_bar_el = document.getElementsByClassName('user-bar')[0];
-                details_update(comp_choose_rand_num, target_el.lastElementChild, floater_user_poke_hp, match_description_p, opp_move_info_lib, 'opp-attack', hp_bar_el);
-                // isProcessing = false;
+                if(!curr_fight_record.winner){
+                    details_update(comp_choose_rand_num, target_el.lastElementChild, floater_user_poke_hp, match_description_p, opp_move_info_lib, 'opp-attack', hp_bar_el);
+                }
+                
                 bottom_user_poke_name.classList.remove('active-indicator');
                 bottom_opp_poke_name.classList.add('active-indicator');
             }, per_move_gap_time);
@@ -286,48 +288,27 @@ async function details_update(num, pp_element, hp_element, description_element, 
         if(who_attack == 'user-attack'){
             let x = hp_obj.opp_hp;
             x -= library[num].move_damage;
+            if(x<=0){
+                x = 0;
+            }
             hp_obj.opp_hp = x;
-            if(hp_obj.opp_hp <= 0 ){
+
+            if(hp_obj.opp_hp === 0 ){
                 alert('user won!');
+                // hp_obj.opp_hp = 0;
                 hp_element.innerText = `Opp HP : ${hp_obj.opp_hp}/${max_opp_hp}`;
+                q = (hp_obj.opp_hp/max_opp_hp)*100;
+                hp_bar_el.style.width = `0%`;
 
                 let poke_sprite = document.getElementsByClassName('floater-opp-poke-img')[0];
 
-                
-                for(let i = 0; i<3; i++){
-                    // poke_sprite.classList.remove('player-dead2');
-                    poke_sprite.classList.add('player-dead');
-                    await sleep(500);
-                    poke_sprite.classList.remove('player-dead');
-                    await sleep(500);
-                    // poke_sprite.classList.add('player-dead2');
-                }
                 curr_fight_record.winner = "user";
                 // num_round_record.user_win += 1;
                 update_and_store_num_round("user_win");
                 
+                
                 round_history.push(curr_fight_record);
                 sessionStorage.setItem('round_history_from_battle2', JSON.stringify(round_history));
-                window.location = "battle_page.html";
-    
-                return;
-            }
-
-            hp_element.innerText = `Opp HP : ${hp_obj.opp_hp}/${max_opp_hp}`;
-            q = (hp_obj.opp_hp/max_opp_hp)*100;
-        }
-    
-        else if(who_attack == 'opp-attack'){
-            let x = hp_obj.user_hp;
-            x -= library[num].move_damage;
-            hp_obj.user_hp = x;
-            if(hp_obj.user_hp <= 0){
-                alert('opp won!');
-                hp_element.innerText = `User HP : ${hp_obj.user_hp}/${max_user_hp}`;
-                curr_fight_record.winner = "opp";
-                // num_round_record.opp_win += 1;
-
-                let poke_sprite = document.getElementsByClassName('floater-user-poke-img')[0];
 
                 for(let i = 0; i<3; i++){
                     // poke_sprite.classList.remove('player-dead2');
@@ -337,18 +318,61 @@ async function details_update(num, pp_element, hp_element, description_element, 
                     await sleep(500);
                     // poke_sprite.classList.add('player-dead2');
                 }
+                window.location = "battle_page.html";
+                
+                hp_element.innerText = `Opp HP : ${hp_obj.opp_hp}/${max_opp_hp}`;
+                q = (hp_obj.opp_hp/max_opp_hp)*100;
+                console.log(q);
+                return;
+            }
+            hp_element.innerText = `Opp HP : ${hp_obj.opp_hp}/${max_opp_hp}`;
+            q = (hp_obj.opp_hp/max_opp_hp)*100;
+            console.log(q);
 
-                update_and_store_num_round("opp_win");
+            console.log(q);
+        }
     
+        else if(who_attack === 'opp-attack'){
+            let x = hp_obj.user_hp;
+            x -= library[num].move_damage;
+            if(x <= 0){
+                x = 0;
+            }
+            hp_obj.user_hp = x;
+            if(hp_obj.user_hp <= 0){
+                alert('opp won!');
+                hp_obj.user_hp = 0;
+                hp_element.innerText = `User HP : ${hp_obj.user_hp}/${max_user_hp}`;
+                curr_fight_record.winner = "opp";
+                // num_round_record.opp_win += 1;
+
+                q = (hp_obj.opp_hp/max_opp_hp)*100;
+                hp_bar_el.style.width = `0%`;
+
+                let poke_sprite = document.getElementsByClassName('floater-user-poke-img')[0];
+
+                
+                update_and_store_num_round("opp_win");
+                
                 round_history.push(curr_fight_record);
                 sessionStorage.setItem('round_history_from_battle2', JSON.stringify(round_history));
+                for(let i = 0; i<3; i++){
+                    // poke_sprite.classList.remove('player-dead2');
+                    poke_sprite.classList.add('player-dead');
+                    await sleep(500);
+                    poke_sprite.classList.remove('player-dead');
+                    await sleep(500);
+                    // poke_sprite.classList.add('player-dead2');
+                }
                 window.location = "battle_page.html";
-    
+                
+                console.log(q);
                 return;
             }
             hp_element.innerText = `User HP : ${hp_obj.user_hp}/${max_user_hp}`;
-            
-            q = (hp_obj.user_hp/max_user_hp)*100;            
+    
+            q = (hp_obj.user_hp/max_user_hp)*100;      
+            console.log(q);      
         }
     
         pp -= 1;

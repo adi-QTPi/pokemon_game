@@ -592,7 +592,7 @@ body{
 }
 .poke-ability-card-selected{
     background-color: var(--poke-grey);
-    color: black;
+    color: var(--poke-red-transp);
 }
 .poke-ability-card-no-click{
     opacity: 0.6;
