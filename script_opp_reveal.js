@@ -79,11 +79,10 @@ async function opp_page_render(){
 
 async function random_opp_generator(opp_poke_obj_array) {
     while (opp_poke_obj_array.length<6){
-        let difficulty_offset_opp = sessionStorage.getItem('difficulty_offset_opp');
+        let session_string = sessionStorage.getItem('difficulty_offset_opp');
+        let difficulty_offset_opp = JSON.parse(session_string);
         let id = 3*parseInt(getRandomIntInclusiveExclusive(1,num_loop_repeat)+difficulty_offset_opp);
-        console.log(id);
-        console.log(difficulty_offset_opp);
-        console.log(getRandomIntInclusiveExclusive(1,num_loop_repeat));
+    
         if(!checkIfInArrayOfObjects(id, opp_poke_obj_array)){
             let response = await fetch (api_url+(id));
             let data = await response.json();

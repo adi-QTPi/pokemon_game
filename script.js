@@ -1,10 +1,11 @@
 const api_url = 'https://pokeapi.co/api/v2/pokemon/';
 
-let num_loop_repeat = 40;
+let num_loop_repeat = 80;
 sessionStorage.setItem('num_loop_repeat', JSON.stringify(num_loop_repeat));
 
 let difficulty_offset_user = 1; 
 let difficulty_offset_opp = 1;
+sessionStorage.setItem('difficulty_offset_opp', JSON.stringify(difficulty_offset_opp));
 
 
 let num_round_record = {
@@ -116,14 +117,14 @@ async function update_selected_poke_region(element, selected_poke_array){
 
 //////////////////////////////////////////////////
 
-const selected_poke_array = [];
+let selected_poke_array = [];
 
 async function page_render(left_half) {
     if(sessionStorage.getItem('difficulty_offset_user')){
         difficulty_offset_user = sessionStorage.getItem('difficulty_offset_user');
-        console.log("excellent");
+        // console.log("excellent");
     }
-    console.log(difficulty_offset_user);
+    console.log(`user offset ${difficulty_offset_user}`);
 
     left_half.innerHTML = ``;
 
@@ -184,6 +185,7 @@ function info_button_init(){
             sessionStorage.setItem('difficulty-offset-user', JSON.stringify(difficulty_offset_user));
             console.log(difficulty_offset_user);
             console.log("page rendering");
+            selected_poke_array = [];
             page_render(left_half);
         })
     }
