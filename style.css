@@ -51,6 +51,13 @@
     display: block;
     z-index: 200;
 }
+.background-no-scroll{
+    overflow: hidden;
+}
+.background-blur{
+    filter: blur(0.25rem);
+}
+
 .info-flex{
     position: relative;
     display: flex; 
@@ -377,7 +384,7 @@ body{
     padding: 1rem;
     margin: 2rem;
 }
-.redirect-selection-hover:hover{
+.redirect-selection:hover{
     scale:1;
     color: var(--poke-red-transp);
     background-color: white;

@@ -116,16 +116,31 @@ async function page_render(left_half) {
 function info_button_init(){
     let element = document.getElementsByClassName('info-button')[0];
     let popup = document.getElementsByClassName('info-popup-hidden')[0];
+    let background_top = document.getElementsByClassName('container')[0];
+    let background_below = document.getElementsByClassName('selection-panel')[0];
+    let background_full = document.getElementsByClassName('selection-page-body')[0];
 
     // popup.classList.add('info-popup-unleashed');
 
     element.addEventListener('click', ()=>{
         popup.classList.add('info-popup-unleashed');
+
+        background_full.classList.add('background-no-scroll');
+        background_top.classList.add('background-blur');
+        background_below.classList.add('background-blur');
+
+        console.log('hello');
     })
 
     let cross_button = document.getElementsByClassName('close-button')[0];
     cross_button.addEventListener('click', ()=>{
         popup.classList.remove('info-popup-unleashed');
+        
+        background_full.classList.remove('background-no-scroll');
+        background_top.classList.remove('background-blur');
+        background_below.classList.remove('background-blur');
+
+        console.log(background);
     })
 }
 
