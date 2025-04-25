@@ -177,21 +177,46 @@ function info_button_init(){
         background_top.classList.remove('background-blur');
         background_below.classList.remove('background-blur');
     })
-
+    
     let target_arr_user = Array.from(document.getElementsByClassName('user-choosing')[0].children);
+    target_arr_user[difficulty_offset_user].classList.add('info-choice-button-clicked');
+
     for(let i = 1; i<4; i++){
         target_arr_user[i].addEventListener('click', ()=>{
+            for(el of target_arr_user){
+                el.classList.remove('info-choice-button-clicked');
+            }
+            if(target_arr_user[i].classList.contains('info-choice-button-clicked')){
+                target_arr_user[i].classList.remove('info-choice-button-clicked');
+            }
+            else{
+                target_arr_user[i].classList.add('info-choice-button-clicked');
+            }
+
             difficulty_offset_user = i;
             sessionStorage.setItem('difficulty-offset-user', JSON.stringify(difficulty_offset_user));
             console.log(difficulty_offset_user);
             console.log("page rendering");
             selected_poke_array = [];
             page_render(left_half);
+
         })
     }
     let target_arr_opp = Array.from(document.getElementsByClassName('opp-choosing')[0].children);
+    target_arr_opp[difficulty_offset_opp].classList.add('info-choice-button-clicked');
+
     for(let i = 1; i<4; i++){
         target_arr_opp[i].addEventListener('click', ()=>{
+            for(el of target_arr_opp){
+                el.classList.remove('info-choice-button-clicked');
+            }
+            if(target_arr_opp[i].classList.contains('info-choice-button-clicked')){
+                target_arr_opp[i].classList.remove('info-choice-button-clicked');
+            }
+            else{
+                target_arr_opp[i].classList.add('info-choice-button-clicked');
+            }
+
             difficulty_offset_opp = i;
             sessionStorage.setItem('difficulty-offset-opp', JSON.stringify(difficulty_offset_opp));
             let x = sessionStorage.getItem('difficulty-offset-opp');

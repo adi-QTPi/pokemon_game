@@ -21,6 +21,9 @@
     height: 3rem;
     cursor: var(--cursor);
 }
+.info-button:hover{
+    scale:1.2;
+}
 .info-button-opp-reveal{
     position: fixed;
     top:2vh; right:2vw;
@@ -93,22 +96,36 @@
     text-align: center;
 }
 .user-choosing{
-    row-gap: 0.25rem;
+    row-gap: 0.5rem;
     display: flex;
     width: 50%; 
     flex-direction: column;
     align-items: center;
 }
 .opp-choosing{
-    row-gap: 0.25rem;
+    row-gap: 0.5rem;
     display: flex;
     width: 50%; 
     flex-direction: column;
     align-items: center;
 }
 .info-choice-button{
-    width:40%;
-    height: 2rem;
+    width:fit-content;
+    height: fit-content;
+    font-size: 2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+    background-color: var(--poke-sky-blue);
+    border-color: var(--poke-red-transp);
+    border-radius: 0.5rem; border-width: 0.25rem;
+}
+.info-choice-button:hover{
+    background-color: var(--poke-grass1);
+}
+.info-choice-button-clicked{
+    background-color: var(--poke-red-transp);
+    color: var(--poke-sky-blue);
 }
 
 .info-text{
