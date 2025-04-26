@@ -5,7 +5,7 @@ sessionStorage.setItem('num_loop_repeat', JSON.stringify(num_loop_repeat));
 
 let difficulty_offset_user = 1; 
 let difficulty_offset_opp = 1;
-sessionStorage.setItem('difficulty_offset_opp', JSON.stringify(difficulty_offset_opp));
+// sessionStorage.setItem('difficulty_offset_opp', JSON.stringify(difficulty_offset_opp));
 
 let offset_dictionary = {
     "1" : "Normal" ,
@@ -129,7 +129,7 @@ async function page_render(left_half) {
         difficulty_offset_user = sessionStorage.getItem('difficulty_offset_user');
         // console.log("excellent");
     }
-    
+
     left_half.innerHTML = ``;
 
     for(let i = difficulty_offset_user; i<= 3*(num_loop_repeat); i+= 3){
@@ -155,7 +155,7 @@ async function page_render(left_half) {
 }
 
 function info_button_init(){
-    difficulty_offset_opp = 1;
+    // difficulty_offset_opp = 1;
     let element = document.getElementsByClassName('info-button')[0];
     let popup = document.getElementsByClassName('info-popup-hidden')[0];
     let background_top = document.getElementsByClassName('container')[0];
@@ -223,7 +223,7 @@ function info_button_init(){
             }
 
             difficulty_offset_opp = i;
-            sessionStorage.setItem('difficulty-offset-opp', JSON.stringify(difficulty_offset_opp));
+            sessionStorage.setItem('difficulty_offset_opp', JSON.stringify(difficulty_offset_opp));
 
             let poke_strength_display_opp = document.getElementsByClassName('strength-opp')[0];
             poke_strength_display_opp.innerText = `Opp Pokemon Strength -> ${offset_dictionary[difficulty_offset_opp]}`;
@@ -234,6 +234,8 @@ function info_button_init(){
     
     let poke_strength_display_opp = document.getElementsByClassName('strength-opp')[0];
     poke_strength_display_opp.innerText = `Opp Pokemon Strength -> ${offset_dictionary[difficulty_offset_opp]}`;
+    
+    sessionStorage.setItem('difficulty_offset_opp', JSON.stringify(difficulty_offset_opp));
 }
 
 info_button_init();

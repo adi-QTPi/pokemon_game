@@ -893,6 +893,7 @@ body{
     display: flex;
     justify-content: center;
     align-items:center;
+    display: none;
 }
 .result{
     text-align: center;

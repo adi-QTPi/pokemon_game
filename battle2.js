@@ -11,7 +11,7 @@ const max_round = JSON.parse(session_string4);
 const session_string1 = sessionStorage.getItem('round_history');
 const round_history = JSON.parse(session_string1);
 
-const per_move_gap_time = 2500; //in ms
+const per_move_gap_time = 500; //in ms
 
 let curr_fight_record = round_history.pop();
 
@@ -340,6 +340,9 @@ async function details_update(num, pp_element, hp_element, description_element, 
 
             if(hp_obj.opp_hp === 0 ){
                 alert('user won!');
+                
+                
+
                 // hp_obj.opp_hp = 0;
                 hp_element.innerText = `Opp HP : ${hp_obj.opp_hp}/${max_opp_hp}`;
                 q = (hp_obj.opp_hp/max_opp_hp)*100;
@@ -363,11 +366,19 @@ async function details_update(num, pp_element, hp_element, description_element, 
                     await sleep(500);
                     // poke_sprite.classList.add('player-dead2');
                 }
-                window.location = "battle_page.html";
                 
                 hp_element.innerText = `Opp HP : ${hp_obj.opp_hp}/${max_opp_hp}`;
                 q = (hp_obj.opp_hp/max_opp_hp)*100;
                 console.log(q);
+
+                let popup = document.getElementsByClassName('battle-popup')[0];
+                console.log(popup);
+                popup.style.display = "block";
+                await sleep(3000);
+                popup.style.display = "none";
+
+                window.location = "battle_page.html";
+
                 return;
             }
 
@@ -383,8 +394,9 @@ async function details_update(num, pp_element, hp_element, description_element, 
                 x = 0;
             }
             hp_obj.user_hp = x;
-            if(hp_obj.user_hp <= 0){
+            if(hp_obj.user_hp === 0){
                 alert('opp won!');
+
                 hp_obj.user_hp = 0;
                 hp_element.innerText = `User HP : ${hp_obj.user_hp}/${max_user_hp}`;
                 curr_fight_record.winner = "opp";
@@ -408,9 +420,16 @@ async function details_update(num, pp_element, hp_element, description_element, 
                     await sleep(500);
                     // poke_sprite.classList.add('player-dead2');
                 }
-                window.location = "battle_page.html";
                 
                 console.log(q);
+
+                let popup = document.getElementsByClassName('battle-popup')[0];
+                console.log(popup);
+                popup.style.display = "block";
+                await sleep(3000);
+                popup.style.display = "none";
+
+                window.location = "battle_page.html";
                 return;
             }
             hp_element.innerText = `User HP : ${hp_obj.user_hp}/${max_user_hp}`;

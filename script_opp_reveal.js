@@ -10,6 +10,8 @@ else{
 
 let num_loop_repeat = sessionStorage.getItem('num_loop_repeat');
 
+let difficulty_offset_opp = 1;
+
 //Elements/////////////////////////////
 let left_half2 = document.getElementsByClassName('my-squad')[0];
 let right_half2 = document.getElementsByClassName('opponent')[0];
@@ -17,21 +19,6 @@ let right_half2 = document.getElementsByClassName('opponent')[0];
 
 let selected_poke_obj_array = [];
 let opp_poke_obj_array = [];
-
-// let difficulty = {
-//     "easy" : {
-//         "low" : 0 , "high" : num_loop_repeat/3
-//     },
-
-//     "moderate" : {
-//         "low" : num_loop_repeat/3 , "high" : num_loop_repeat*(2/3)
-//     },
-
-//     "hard" : {
-//         "low" : num_loop_repeat*(2/3), "high" : num_loop_repeat
-//     }
-// }
-
 
 async function objectify(){
     const session_string = sessionStorage.getItem('pokeArray');
@@ -64,6 +51,9 @@ async function objectify(){
 
 async function opp_page_render(){
     info_button_init();
+    let session_string = sessionStorage.getItem('difficulty_offset_opp');
+    let difficulty_offset_opp = JSON.parse(session_string);
+    console.log(`the offset fetched is ${difficulty_offset_opp}`);
     
     let battle_button = document.getElementsByClassName('redirect-battle')[0];
     battle_button.addEventListener('click', ()=>{
@@ -71,17 +61,16 @@ async function opp_page_render(){
     })
 
     objectify();
-    opp_poke_obj_array = await random_opp_generator(opp_poke_obj_array);
+    opp_poke_obj_array = await random_opp_generator(opp_poke_obj_array, difficulty_offset_opp);
 
     sessionStorage.setItem('userPokeObjArray', JSON.stringify(selected_poke_obj_array));
     sessionStorage.setItem('oppPokeObjArray', JSON.stringify(opp_poke_obj_array));
 }
 
-async function random_opp_generator(opp_poke_obj_array) {
+async function random_opp_generator(opp_poke_obj_array, difficulty_offset_opp) {
     while (opp_poke_obj_array.length<6){
-        let session_string = sessionStorage.getItem('difficulty_offset_opp');
-        let difficulty_offset_opp = JSON.parse(session_string);
-        let id = 3*parseInt(getRandomIntInclusiveExclusive(1,num_loop_repeat)+difficulty_offset_opp);
+        console.log("tis while opp reveal "+difficulty_offset_opp);
+        let id = 3* parseInt(getRandomIntInclusiveExclusive(1,num_loop_repeat)+difficulty_offset_opp);
     
         if(!checkIfInArrayOfObjects(id, opp_poke_obj_array)){
             let response = await fetch (api_url+(id));
