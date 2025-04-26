@@ -7,6 +7,7 @@ const session_string4 = sessionStorage.getItem('max_round');
 const max_round = JSON.parse(session_string4);
 
 const audio = new Audio('sounds/battle-vs-trainer.mp3');
+audio.preload = "none";
 
 //Imported data//////////////////
 
@@ -74,6 +75,7 @@ let right_battle_ability_list = document.getElementsByClassName('battle-ability-
 //fill the moves array for user
 
 let user_cry = new Audio('sounds/click-sound.wav'); 
+user_cry.preload = "none";
 
 async function user_poke_ability_init() {
     let children = Array.from(left_battle_ability_list.children);
@@ -145,6 +147,7 @@ async function user_poke_ability_init() {
 }
 
 let opp_cry = new Audio('sounds/click-sound.wav');
+opp_cry.preload = "none";
 
 async function opp_poke_ability_init() {
     let children = Array.from(right_battle_ability_list.children);
@@ -338,6 +341,7 @@ function update_and_store_num_round(who_win){
 
 // let winning_sound = new Audio('sounds/winning-sound.wav');
 let winning_sound = new Audio('sounds/winning-sound2.mp3');
+winning_sound.preload = "none";
 
 async function details_update(num, pp_element, hp_element, description_element, library, who_attack, hp_bar_el){
     let pp = library[num].move_pp;

@@ -7,8 +7,8 @@ const  opp_poke_obj_array = JSON.parse(session_string2);
 console.log(user_poke_obj_array);
 console.log(opp_poke_obj_array);
 //fetch poke-details//////////////////
-const audio = new Audio('sounds/battle-vs-trainer.mp3');
-let click_sound = new Audio('sounds/click-sound.wav');
+// const audio = new Audio('sounds/battle-vs-trainer.mp3');
+// let click_sound = new Audio('sounds/click-sound.wav');
 
 const coeff_of_attack_dampness = 0.1;
 sessionStorage.setItem('attack_dampness', JSON.stringify(coeff_of_attack_dampness));
@@ -80,6 +80,11 @@ console.log(round_history);
 //     // {"user_poke" : "charmander" , "opp_poke" : "wigglytuff" , "winner" : "charmander"} ,
 // ];
 
+const audio = new Audio('sounds/battle-vs-trainer.mp3');
+audio.preload = "none";
+let click_sound = new Audio('sounds/click-sound.wav');
+click_sound.preload = "none";
+
 function page_render(){
 
     playMusicOnFirstClick(audio);
@@ -94,14 +99,12 @@ function page_render(){
     poke_card_init(left_battle_poke_list, user_poke_obj_array);
     poke_card_init(right_battle_poke_list, opp_poke_obj_array);
 
-    round_history = battle_prep();
-    
     if((num_round_record.user_win+num_round_record.opp_win) === max_round){
         let popup = document.getElementsByClassName('battle-popup')[0];
         popup.style.display = "block";
         if(num_round_record.user_win > num_round_record.opp_win){
             popup.firstElementChild.innerText = `You Won the MATCH !!! \n Redirecting to Home.`;
-
+            
             // alert('user has won the MATCH... Redirecting to home');
         }
         else if (num_round_record.user_win === num_round_record.opp_win){
@@ -112,12 +115,14 @@ function page_render(){
             popup.firstElementChild.innerText = `Humanity has fallen :( You LOST \n Redirecting to Home.`;
             // alert('opp has won the MATCH... Redirecting to home');
         }
-
+        
         setTimeout(()=>{
             window.location = "index.html";
         }, 5000);
         return;
     }
+
+    round_history = battle_prep();
 }
 
 function battle_prep(){
@@ -187,7 +192,7 @@ function battle_prep(){
         }
 
         target_el.addEventListener('click',()=>{
-            click_sound.play();
+            
             if(!target_el.classList.contains('used-battle-poke-card')){
                 for(divs of left_battle_poke_list.children){
                     divs.classList.remove('current-use-battle-poke-card');
@@ -230,7 +235,9 @@ function battle_prep(){
                 fetch_and_put_moves(moves_el,poke_name);
 
             }
+            click_sound.play();
         })
+
     } 
 
     return round_history;
