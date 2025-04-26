@@ -6,12 +6,14 @@ const coeff_of_attack_dampness = JSON.parse(session_string3);
 const session_string4 = sessionStorage.getItem('max_round');
 const max_round = JSON.parse(session_string4);
 
+const audio = new Audio('sounds/battle-vs-trainer.mp3');
+
 //Imported data//////////////////
 
 const session_string1 = sessionStorage.getItem('round_history');
 const round_history = JSON.parse(session_string1);
 
-const per_move_gap_time = 1500; //in ms
+const per_move_gap_time = 2000; //in ms
 
 let curr_fight_record = round_history.pop();
 
@@ -71,11 +73,15 @@ let right_battle_ability_list = document.getElementsByClassName('battle-ability-
 
 //fill the moves array for user
 
+let user_cry = new Audio('sounds/click-sound.wav'); 
 
 async function user_poke_ability_init() {
     let children = Array.from(left_battle_ability_list.children);
     let response = await fetch(api_url + curr_fight_record.user_poke);
     let data = await response.json();
+
+    let x = data["cries"]["latest"];
+    user_cry = new Audio(`${x}`);
 
     let moveCount = 0;
     let moveIndex = 0;
@@ -138,10 +144,15 @@ async function user_poke_ability_init() {
     return user_move_info_lib;
 }
 
+let opp_cry = new Audio('sounds/click-sound.wav');
+
 async function opp_poke_ability_init() {
     let children = Array.from(right_battle_ability_list.children);
     let response = await fetch(api_url + curr_fight_record.opp_poke);
     let data = await response.json();
+
+    let x = data["cries"]["latest"];
+    opp_cry = new Audio(`${x}`);
 
     let moveCount = 0;
     let moveIndex = 0;
@@ -248,8 +259,9 @@ function battle_round(){
             //COMPUTER CHOICE/////////////////////
             isProcessing = true;
             
-
             setTimeout(()=>{
+                user_cry.play();
+
                 x.classList.add('hit-img-start');
             }, per_move_gap_time/2);
 
@@ -258,6 +270,8 @@ function battle_round(){
             }, (per_move_gap_time/2) + 200);
             
             setTimeout(()=>{
+                opp_cry.play();
+
                 y.classList.add('hit-img-start');
             }, (per_move_gap_time*(3/2)));
 
@@ -275,7 +289,7 @@ function battle_round(){
                 let target_el = Array.from(right_battle_ability_list.children)[comp_choose_rand_num];
                 target_el.classList.add('poke-ability-card-selected');
                 let hp_bar_el = document.getElementsByClassName('user-bar')[0];
-                if(!curr_fight_record.winner){
+                if(curr_fight_record.winner == null){
                     details_update(comp_choose_rand_num, target_el.lastElementChild, floater_user_poke_hp, match_description_p, opp_move_info_lib, 'opp-attack', hp_bar_el);
                 }
                 
@@ -322,6 +336,9 @@ function update_and_store_num_round(who_win){
     sessionStorage.setItem('num_round_record_from_battle2', JSON.stringify(num_round_record));
 }
 
+// let winning_sound = new Audio('sounds/winning-sound.wav');
+let winning_sound = new Audio('sounds/winning-sound2.mp3');
+
 async function details_update(num, pp_element, hp_element, description_element, library, who_attack, hp_bar_el){
     let pp = library[num].move_pp;
 
@@ -361,15 +378,19 @@ async function details_update(num, pp_element, hp_element, description_element, 
                 round_history.push(curr_fight_record);
                 sessionStorage.setItem('round_history_from_battle2', JSON.stringify(round_history));
 
-                for(let i = 0; i<3; i++){
+                
+                for(let i = 0; i<2; i++){
                     // poke_sprite.classList.remove('player-dead2');
-                    poke_sprite.classList.add('player-dead');
+                    poke_sprite.classList.add('player-dead'); 
                     await sleep(500);
                     poke_sprite.classList.remove('player-dead');
                     await sleep(500);
                     // poke_sprite.classList.add('player-dead2');
                 }
-                
+                audio.pause();
+                sleep(50);
+                winning_sound.play();
+               
                 hp_element.innerText = `Opp HP : ${hp_obj.opp_hp}/${max_opp_hp}`;
                 q = (hp_obj.opp_hp/max_opp_hp)*100;
                 console.log(q);
@@ -499,9 +520,20 @@ function blend_color(percent, colors){
     return blended_color_obj;
 }
 
+function playMusicOnFirstClick(audio){
+    audio.loop = true; // optional, if you want the music to loop
+
+    function handleFirstClick() {
+        audio.play();
+        document.removeEventListener('click', handleFirstClick);
+    }
+
+    document.addEventListener('click', handleFirstClick);
+}
 //Main EXECution////////////////////
 
 async function page_render(){
+    playMusicOnFirstClick(audio);
     user_move_info_lib = await user_poke_ability_init();
     // console.log(user_move_info_lib);
 
@@ -510,4 +542,6 @@ async function page_render(){
 
     battle_round();
 }
+
+
 page_render();

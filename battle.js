@@ -7,6 +7,8 @@ const  opp_poke_obj_array = JSON.parse(session_string2);
 console.log(user_poke_obj_array);
 console.log(opp_poke_obj_array);
 //fetch poke-details//////////////////
+const audio = new Audio('sounds/battle-vs-trainer.mp3');
+let click_sound = new Audio('sounds/click-sound.wav');
 
 const coeff_of_attack_dampness = 0.1;
 sessionStorage.setItem('attack_dampness', JSON.stringify(coeff_of_attack_dampness));
@@ -80,6 +82,7 @@ console.log(round_history);
 
 function page_render(){
 
+    playMusicOnFirstClick(audio);
     let round_num_user_win = document.getElementsByClassName('num-user-win')[0];
     let round_num_opp_win = document.getElementsByClassName('num-opp-win')[0];
     let round_num_total = document.getElementsByClassName('num-round-total')[0];
@@ -184,6 +187,7 @@ function battle_prep(){
         }
 
         target_el.addEventListener('click',()=>{
+            click_sound.play();
             if(!target_el.classList.contains('used-battle-poke-card')){
                 for(divs of left_battle_poke_list.children){
                     divs.classList.remove('current-use-battle-poke-card');
@@ -208,13 +212,14 @@ function battle_prep(){
 
                 document.getElementsByClassName('lets-battle-button')[0].classList.add('lets-battle-button-clickable');
                 let lets_battle_button = document.getElementsByClassName('lets-battle-button-clickable')[0];
-                lets_battle_button.addEventListener('click', ()=>{
-
-                    window.location = "battle_page2.html";
+                lets_battle_button.addEventListener('click', async ()=>{
+                    click_sound.play();
                     if (sessionStorage.getItem('round_history')) {
                         sessionStorage.removeItem('round_history');
                     }
                     sessionStorage.setItem('round_history', JSON.stringify(round_history));
+                    await sleep(500);
+                    window.location = "battle_page2.html";
                 });
 
                 let poke_img_el = document.getElementsByClassName('floater-user-poke-img')[0];
@@ -287,6 +292,17 @@ async function fetch_and_put_sprite(img_element, id, who){
     img_element.src = img_url;
 }
 
+function playMusicOnFirstClick(audio){
+    audio.loop = true; // optional, if you want the music to loop
+
+    function handleFirstClick() {
+        audio.play();
+        document.removeEventListener('click', handleFirstClick);
+    }
+
+    document.addEventListener('click', handleFirstClick);
+}
+
 
 ////////////////////////////////////
 window.onload = page_render;
@@ -297,4 +313,7 @@ window.onload = page_render;
 function getRandomInt0to5() {
     return Math.floor(Math.random() * 6);
 }
-  
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}

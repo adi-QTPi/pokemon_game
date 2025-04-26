@@ -1,5 +1,8 @@
 const api_url = 'https://pokeapi.co/api/v2/pokemon/';
 
+let audio = new Audio('sounds/opp-reveal.mp3');
+let click_sound = new Audio('sounds/click-sound.wav');
+
 let user_difficulty_choice;
 if(!sessionStorage.getItem('user_difficulty_choice')){
     user_difficulty_choice = "moderate";
@@ -49,15 +52,46 @@ async function objectify(){
     }
 }
 
+function music_button_init(audio){
+    let music_button= document.getElementsByClassName('music-button')[0];
+    // music_button.click();
+    audio.loop = true;
+    let isPlaying = true;    
+    music_button.addEventListener('click', ()=>{
+        click_sound.play();
+        if(!isPlaying){
+            audio.play(); isPlaying = true;
+            music_button.src = 'images/volume-button.png';
+        }
+        else{
+            audio.pause(); isPlaying = false;
+            music_button.src = 'images/mute-button.png';
+        }
+    })
+}
+
 async function opp_page_render(){
+
+    music_button_init(audio);
     info_button_init();
     let session_string = sessionStorage.getItem('difficulty_offset_opp');
     let difficulty_offset_opp = JSON.parse(session_string);
     console.log(`the offset fetched is ${difficulty_offset_opp}`);
     
     let battle_button = document.getElementsByClassName('redirect-battle')[0];
-    battle_button.addEventListener('click', ()=>{
-        battle_button.setAttribute('href', 'battle_page.html');
+    battle_button.addEventListener('click',async ()=>{
+        click_sound.play;
+        await sleep(500);
+        window.location.href = "battle_page.html";
+        // battle_button.setAttribute('href', 'battle_page.html');
+    })
+
+    let redirect_button = document.getElementsByClassName('redirect-selection')[0];
+    redirect_button.addEventListener('click', async ()=>{
+        click_sound.play;
+        await sleep(500);
+        window.location.href = "index.html";
+        // battle_button.setAttribute('href', 'index.html');
     })
 
     objectify();
@@ -103,7 +137,7 @@ async function random_opp_generator(opp_poke_obj_array, difficulty_offset_opp) {
 }
 
 /////////////////
-
+let temp_bool = true; // so that only the first time hitting cross makes sound
 function info_button_init(){
     let element = document.getElementsByClassName('info-button')[0];
     let popup = document.getElementsByClassName('info-popup-hidden')[0];
@@ -111,18 +145,23 @@ function info_button_init(){
     popup.classList.add('info-popup-unleashed');
 
     element.addEventListener('click', ()=>{
+        click_sound.play();
         popup.classList.add('info-popup-unleashed');
     })
 
     let cross_button = document.getElementsByClassName('close-button')[0];
     cross_button.addEventListener('click', ()=>{
+        if(temp_bool){
+            audio.play();
+            temp_bool = false;
+        }
+        click_sound.play();
         popup.classList.remove('info-popup-unleashed');
     })
 }
 
 // info_button_init();
 opp_page_render();
-// window.onload = opp_page_render;
 
 /////////////////
 
@@ -147,4 +186,8 @@ function checkIfInArrayOfObjects(value, array){
     else{
         return true;
     }
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }

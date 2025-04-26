@@ -31,6 +31,10 @@
     position: fixed;
     top:2vh; right:2vw;
 }
+.music-button-opp-reveal{
+    position: fixed;
+    top:2vh; right: 8vw;
+}
 .info-popup-hidden{
     display: none;
 
@@ -157,6 +161,17 @@
     border-color: var(--poke-grey);
     border-width: 0.25rem;
 }
+.music-button{
+    height: 3rem;
+    cursor: var(--cursor);
+}
+.music-button:hover{
+    scale: 1.2;
+}
+.music-button-clicked{
+    filter: hue-rotate(180deg);
+}
+
 .cont{
     display: flex;
     flex-direction: column;
@@ -198,6 +213,7 @@ body{
     display:flex; flex-direction: row;
     flex-wrap: wrap;
     position: sticky; top:0; z-index: 5;
+    column-gap: 2rem;
 
     width: 100%; min-height: 8rem;
     align-items: center;
@@ -206,7 +222,7 @@ body{
     padding-bottom: 0rem; padding-top: 0.5rem;
 
     background-color: var(--poke-darkyellow);
-    justify-content: space-around;
+    justify-content: center;
 }
 
 .selection-left{
@@ -214,7 +230,7 @@ body{
 
     margin:0;
     display:flex; flex-direction: row;
-    column-gap: 4rem;
+    column-gap: 2rem;
     /* flex-wrap: wrap;  */
     width: 55%; height: 8rem;
     text-align: center;
@@ -310,8 +326,9 @@ body{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    column-gap: 2rem;
+    column-gap: 1rem;
     width: 40%;
+    justify-content: center ;
 }
 
 .clear-selection-button{
@@ -915,10 +932,12 @@ body{
     0%, 100%{
         top:48%;
         left:38%;
+        scale: 1;
     }
     50% {
         top: 35%;
         left: 55%;
+        scale: 0.6;
         /* top: 30%;
         left: 60%; */
     }
@@ -927,10 +946,13 @@ body{
     0%, 100%{
         top: 30%;
         left: 60%;
+        scale: 1;
     }
     50% {
         top:43%;
         left:43%;
+
+        scale: 1.5;
         /* top:48%;
         left:38%; */
     }

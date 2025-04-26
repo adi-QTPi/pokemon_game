@@ -57,6 +57,7 @@ async function make_selection_screen(element, poke_id, selected_poke_array){ //p
     new_el_poke_name.innerText = poke_name;
 
     new_el.addEventListener('click', ()=>{
+        click_sound.play();
         if(new_el.classList.contains('clicked-poke-card')){
             new_el.classList.remove('clicked-poke-card');
             // new_el.id = "";
@@ -124,7 +125,8 @@ async function update_selected_poke_region(element, selected_poke_array){
 
 let selected_poke_array = [];
 
-async function page_render(left_half) {
+async function page_render(left_half) {    
+
     if(sessionStorage.getItem('difficulty_offset_user')){
         difficulty_offset_user = sessionStorage.getItem('difficulty_offset_user');
         // console.log("excellent");
@@ -135,18 +137,22 @@ async function page_render(left_half) {
     for(let i = difficulty_offset_user; i<= 3*(num_loop_repeat); i+= 3){
         await make_selection_screen(left_half, i, selected_poke_array);
     }
-    clear_selected_poke.addEventListener('click', ()=>{
+    clear_selected_poke.addEventListener('click',async ()=>{
+        click_sound.play();
+        await sleep(500);
         window.location.reload();
         console.log('reloaded');
     })
 
-    battle_button.addEventListener('click', ()=>{
+    battle_button.addEventListener('click',async ()=>{
+        click_sound.play();
         if(selected_poke_array.length != 6){
             alert("You'll need more Poke-Power, Build a squad of 6...");
         }
         else{
-
+            
             sessionStorage.setItem('pokeArray', JSON.stringify(selected_poke_array));
+            await sleep(500);
             window.location.href = "opp_reveal.html";
 
             return;
@@ -168,6 +174,7 @@ function info_button_init(){
     // popup.classList.add('info-popup-unleashed');
 
     element.addEventListener('click', ()=>{
+        click_sound.play();
         popup.classList.add('info-popup-unleashed');
 
         background_full.classList.add('background-no-scroll');
@@ -179,6 +186,7 @@ function info_button_init(){
 
     let cross_button = document.getElementsByClassName('close-button')[0];
     cross_button.addEventListener('click', ()=>{
+        click_sound.play();
         popup.classList.remove('info-popup-unleashed');
         
         background_full.classList.remove('background-no-scroll');
@@ -191,6 +199,7 @@ function info_button_init(){
 
     for(let i = 1; i<4; i++){
         target_arr_user[i].addEventListener('click', ()=>{
+            click_sound.play();
             for(el of target_arr_user){
                 el.classList.remove('info-choice-button-clicked');
             }
@@ -215,6 +224,7 @@ function info_button_init(){
 
     for(let i = 1; i<4; i++){
         target_arr_opp[i].addEventListener('click', ()=>{
+            click_sound.play();
             for(el of target_arr_opp){
                 el.classList.remove('info-choice-button-clicked');
             }
@@ -241,6 +251,42 @@ function info_button_init(){
     sessionStorage.setItem('difficulty_offset_opp', JSON.stringify(difficulty_offset_opp));
 }
 
+let i = 0;
+let audio = new Audio('sounds/home-page.mp3'); 
+let click_sound = new Audio('sounds/click-sound.wav');
+
+function music_button_init(audio){
+    let music_button= document.getElementsByClassName('music-button')[0];
+    audio.loop = true;
+    let isPlaying = true;
+
+    music_button.addEventListener('click', ()=>{
+        click_sound.play();
+        if(!isPlaying){
+            audio.play(); isPlaying = true;
+            music_button.src = 'images/volume-button.png';
+        }
+        else{
+            audio.pause(); isPlaying = false;
+            music_button.src = 'images/mute-button.png';
+        }
+    })
+}
+
+function playMusicOnFirstClick(audio){
+    audio.loop = true; // optional, if you want the music to loop
+
+    function handleFirstClick() {
+        audio.play();
+        document.removeEventListener('click', handleFirstClick);
+    }
+
+    document.addEventListener('click', handleFirstClick);
+}
+
+
+playMusicOnFirstClick(audio);
+music_button_init(audio);
 info_button_init();
 page_render(left_half);
 
@@ -253,3 +299,6 @@ page_render(left_half);
 //     }   
 // }
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
