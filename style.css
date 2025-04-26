@@ -782,6 +782,33 @@ body{
     transform: translate(-50%,-50%);
     height: 25%;
 }
+.hit-img{
+    position: fixed;
+    /* top: 42vh; left: 50vw; */
+    transform: translate(-50%, -50%);
+    width: 0vw; 
+    opacity: 0.5;
+    transition: opacity 200ms cubic-bezier(0.05, 0.9, 0.1, 1), width 200ms cubic-bezier(0.05, 0.9, 0.1, 1);
+}
+.hit-img.user-img{
+    top: 30vh; left: 60vw;
+}
+.hit-img.opp-img{
+    top: 48vh; left: 40vw;
+}
+.hit-img-start{
+    opacity:0.999;
+    width: 25vw;
+}
+
+/* .hit-img.user{
+    top:45vh;
+    left:42vw;
+}
+.hit-img.opp{
+    top:30vh;
+    left:60vw;
+} */
 .floater-opp-poke-img{
     position:absolute; 
     top:30%; left:60%; 
@@ -791,6 +818,11 @@ body{
 
 .active-indicator{
     color: var(--poke-yellow);
+}
+
+.floater-end{
+    position:fixed;
+
 }
 
 .health-bar-container{
@@ -845,4 +877,40 @@ body{
 }
 .player-dead2{
     filter:invert(0.8);
+}
+
+
+/* Keyframes */
+
+@keyframes horizontal-shaking {
+    0% { transform: translateX(0) }
+    25% { transform: translateX(5px) }
+    50% { transform: translateX(-5px) }
+    75% { transform: translateX(5px) }
+    100% { transform: translateX(0) }
+}
+
+@keyframes diagonalMove_user {
+    0%, 100%{
+        top:48%;
+        left:38%;
+    }
+    50% {
+        top: 35%;
+        left: 55%;
+        /* top: 30%;
+        left: 60%; */
+    }
+}
+@keyframes diagonalMove_opp {
+    0%, 100%{
+        top: 30%;
+        left: 60%;
+    }
+    50% {
+        top:43%;
+        left:43%;
+        /* top:48%;
+        left:38%; */
+    }
 }

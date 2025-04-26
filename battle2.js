@@ -11,7 +11,7 @@ const max_round = JSON.parse(session_string4);
 const session_string1 = sessionStorage.getItem('round_history');
 const round_history = JSON.parse(session_string1);
 
-const per_move_gap_time = 500; //in ms
+const per_move_gap_time = 2500; //in ms
 
 let curr_fight_record = round_history.pop();
 
@@ -237,9 +237,33 @@ function battle_round(){
             details_update(i, target_arr, floater_opp_poke_hp, match_description_p, user_move_info_lib, 'user-attack', hp_bar_el);
 
             bottom_user_poke_name.classList.add('active-indicator');
+            
+            floater_user_poke_img.style.animation = `diagonalMove_user ${per_move_gap_time}ms`;
 
+            let x = document.getElementsByClassName('hit-img')[0];
+            let y = document.getElementsByClassName('hit-img')[1];
+            
             //COMPUTER CHOICE/////////////////////
             isProcessing = true;
+            
+
+            setTimeout(()=>{
+                x.classList.add('hit-img-start');
+            }, per_move_gap_time/2);
+
+            setTimeout(()=>{
+                x.classList.remove('hit-img-start');
+            }, (per_move_gap_time/2) + 200);
+            
+            setTimeout(()=>{
+                y.classList.add('hit-img-start');
+            }, (per_move_gap_time*(3/2)));
+
+            setTimeout(()=>{
+                y.classList.remove('hit-img-start');
+            }, (per_move_gap_time*(3/2) + 200));
+
+
             setTimeout(()=>{
                 console.log("attack in progress");
 
@@ -255,6 +279,11 @@ function battle_round(){
                 
                 bottom_user_poke_name.classList.remove('active-indicator');
                 bottom_opp_poke_name.classList.add('active-indicator');
+
+                // x.classList.remove('hit-img-start');
+                // x.classList.add('hit-img-end');
+                floater_user_poke_img.style.animation = ``;
+                floater_opp_poke_img.style.animation = `diagonalMove_opp ${per_move_gap_time}ms`; 
             }, per_move_gap_time);
             
 
@@ -275,6 +304,8 @@ function battle_round(){
                     obj.classList.add('poke-ability-card-clickable');
                 }
 
+                floater_opp_poke_img.style.animation = ``; 
+
             }, 2*per_move_gap_time);
             
             // for(obj of children){
@@ -293,8 +324,9 @@ async function details_update(num, pp_element, hp_element, description_element, 
     let pp = library[num].move_pp;
 
     if(pp === 0){
-        alert('player tried to play an exhausted move...But other player is mercyless...');
-        description_element.innerText = "Player tried to play exhausted move";
+        // alert('player tried to play an exhausted move...But other player is mercyless...');
+        description_element.animation = 'horizontal-shaking 0.5s';
+        // description_element.innerText = "Chosen move is exhausted!... ";
     }
     else{
         let q = 20;
@@ -338,10 +370,9 @@ async function details_update(num, pp_element, hp_element, description_element, 
                 console.log(q);
                 return;
             }
+
             hp_element.innerText = `Opp HP : ${hp_obj.opp_hp}/${max_opp_hp}`;
             q = (hp_obj.opp_hp/max_opp_hp)*100;
-            console.log(q);
-
             console.log(q);
         }
     
@@ -414,6 +445,8 @@ async function details_update(num, pp_element, hp_element, description_element, 
 
         hp_bar_el.style.backgroundColor = `rgb(${blended_color_obj["r"]}, ${blended_color_obj["g"]}, ${blended_color_obj["b"]})`;
 
+        let hp_bar_bezier = `cubic-bezier(0.175, 0.885, 0.32, 1.275)`;
+        hp_bar_el.style.transition = `width ${per_move_gap_time/3}ms ${hp_bar_bezier}`;
         hp_bar_el.style.width = `${q}%`;
     }
 }
