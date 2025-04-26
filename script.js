@@ -41,7 +41,7 @@ async function make_selection_screen(element, poke_id, selected_poke_array){ //p
     let json_object = await response.json();
     let poke_name = json_object.name;
     let poke_img_url = json_object['sprites']['front_default'];
-    let poke_description = json_object
+    // let poke_description = json_object
 
     // console.log(poke_name);
     // console.log(poke_img_url);
