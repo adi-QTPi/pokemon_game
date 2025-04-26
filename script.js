@@ -155,12 +155,15 @@ async function page_render(left_half) {
 }
 
 function info_button_init(){
-    // difficulty_offset_opp = 1;
     let element = document.getElementsByClassName('info-button')[0];
     let popup = document.getElementsByClassName('info-popup-hidden')[0];
     let background_top = document.getElementsByClassName('container')[0];
     let background_below = document.getElementsByClassName('selection-panel')[0];
     let background_full = document.getElementsByClassName('selection-page-body')[0];
+
+    // difficulty_offset_opp = 1;
+    // let session_string = sessionStorage.getItem('difficulty_offset_opp');
+    // difficulty_offset_opp = JSON.parse(session_string);
 
     // popup.classList.add('info-popup-unleashed');
 
@@ -234,7 +237,7 @@ function info_button_init(){
     
     let poke_strength_display_opp = document.getElementsByClassName('strength-opp')[0];
     poke_strength_display_opp.innerText = `Opp Pokemon Strength -> ${offset_dictionary[difficulty_offset_opp]}`;
-    
+
     sessionStorage.setItem('difficulty_offset_opp', JSON.stringify(difficulty_offset_opp));
 }
 

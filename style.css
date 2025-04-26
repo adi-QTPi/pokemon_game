@@ -881,7 +881,7 @@ body{
 
 .battle-popup{
     position: fixed;
-    top:35vh; left:50vw; 
+    top:40vh; left:50vw; 
     transform: translate(-50%, -50%);
     width: 50vw; 
     height: 50vh;
@@ -889,13 +889,14 @@ body{
     z-index: 20;
 
     background-color: var(--poke-sky-blue);
+    border-radius: 2rem;
 
-    display: flex;
-    justify-content: center;
-    align-items:center;
     display: none;
 }
 .result{
+    position:absolute;
+    top:50%; left:50%;
+    transform: translate(-50%,-50%);
     text-align: center;
 }
 

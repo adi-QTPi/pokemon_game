@@ -79,22 +79,6 @@ console.log(round_history);
 // ];
 
 function page_render(){
-    if((num_round_record.user_win+num_round_record.opp_win) === max_round){
-        setTimeout(()=>{
-            if(num_round_record.user_win > num_round_record.opp_win){
-                alert('user has won the MATCH... Redirecting to home');
-            }
-            else if (num_round_record.user_win === num_round_record.opp_win){
-                alert('the match is DRAW... Redirecting to home');
-            }
-            else{
-                alert('opp has won the MATCH... Redirecting to home');
-            }
-            window.location = "index.html";
-        }, 1000);
-        return;
-    }
-    
 
     let round_num_user_win = document.getElementsByClassName('num-user-win')[0];
     let round_num_opp_win = document.getElementsByClassName('num-opp-win')[0];
@@ -107,35 +91,30 @@ function page_render(){
     poke_card_init(left_battle_poke_list, user_poke_obj_array);
     poke_card_init(right_battle_poke_list, opp_poke_obj_array);
 
-    // setTimeout(
-    //     ()=>{
-    //         if((num_round_record.user_win+num_round_record.opp_win) === max_round){
-    //             if(num_round_record.user_win > num_round_record.opp_win){
-    //                 alert('user has won the MATCH... Redirecting to home');
-    //             }
-    //             else if (num_round_record.user_win === num_round_record.opp_win){
-    //                 alert('the match is DRAW... Redirecting to home');
-    //             }
-    //             else{
-    //                 alert('opp has won the MATCH... Redirecting to home');
-    //             }
-    //             window.location.href = "index.html";
-    //         }
-    //     },0)
-    
-
     round_history = battle_prep();
     
-    // let lets_battle_button = document.getElementsByClassName('lets-battle-button-clickable')[0];
-    // lets_battle_button.addEventListener('click', ()=>{
+    if((num_round_record.user_win+num_round_record.opp_win) === max_round){
+        let popup = document.getElementsByClassName('battle-popup')[0];
+        popup.style.display = "block";
+        if(num_round_record.user_win > num_round_record.opp_win){
+            popup.firstElementChild.innerText = `You Won the MATCH !!! \n Redirecting to Home.`;
 
-    //     window.location = "battle_page2.html";
-    //     if (sessionStorage.getItem('round_history')) {
-    //         sessionStorage.removeItem('round_history');
-    //     }
-    //     sessionStorage.setItem('round_history', JSON.stringify(round_history));
-    // });
-    // console.log(round_history); // this has no effect of the clicky things! :(
+            // alert('user has won the MATCH... Redirecting to home');
+        }
+        else if (num_round_record.user_win === num_round_record.opp_win){
+            popup.firstElementChild.innerText = `It's a fight for some other day, Match DRAW... \n Redirecting to Home.`;
+            // alert('the match is DRAW... Redirecting to home');
+        }
+        else{
+            popup.firstElementChild.innerText = `Humanity has fallen :( You LOST \n Redirecting to Home.`;
+            // alert('opp has won the MATCH... Redirecting to home');
+        }
+
+        setTimeout(()=>{
+            window.location = "index.html";
+        }, 5000);
+        return;
+    }
 }
 
 function battle_prep(){

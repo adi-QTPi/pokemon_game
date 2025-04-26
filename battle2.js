@@ -11,9 +11,11 @@ const max_round = JSON.parse(session_string4);
 const session_string1 = sessionStorage.getItem('round_history');
 const round_history = JSON.parse(session_string1);
 
-const per_move_gap_time = 500; //in ms
+const per_move_gap_time = 1500; //in ms
 
 let curr_fight_record = round_history.pop();
+
+let isGameOver = false;
 
 // let curr_fight_record = {
 //     "user_poke" : "4", 
@@ -325,8 +327,8 @@ async function details_update(num, pp_element, hp_element, description_element, 
 
     if(pp === 0){
         // alert('player tried to play an exhausted move...But other player is mercyless...');
-        description_element.animation = 'horizontal-shaking 0.5s';
-        // description_element.innerText = "Chosen move is exhausted!... ";
+        // description_element.animation = 'horizontal-shaking 0.5s';
+        description_element.innerText = "Chosen move is exhausted!... ";
     }
     else{
         let q = 20;
@@ -339,10 +341,11 @@ async function details_update(num, pp_element, hp_element, description_element, 
             hp_obj.opp_hp = x;
 
             if(hp_obj.opp_hp === 0 ){
-                alert('user won!');
-                
-                
-
+                // if(isGameOver){
+                //     return;
+                // }
+                isGameOver = true;
+                // alert('user won!');
                 // hp_obj.opp_hp = 0;
                 hp_element.innerText = `Opp HP : ${hp_obj.opp_hp}/${max_opp_hp}`;
                 q = (hp_obj.opp_hp/max_opp_hp)*100;
@@ -374,7 +377,13 @@ async function details_update(num, pp_element, hp_element, description_element, 
                 let popup = document.getElementsByClassName('battle-popup')[0];
                 console.log(popup);
                 popup.style.display = "block";
-                await sleep(3000);
+
+                let user_poke_name_temp = document.getElementsByClassName('user-poke-details')[0].innerText;
+                let opp_poke_name_temp = document.getElementsByClassName('opp-poke-details')[0].innerText;
+                let result = document.getElementsByClassName('result')[0];
+                result.innerText = `${user_poke_name_temp} beats ${opp_poke_name_temp}`;
+
+                await sleep(5000);
                 popup.style.display = "none";
 
                 window.location = "battle_page.html";
@@ -388,6 +397,7 @@ async function details_update(num, pp_element, hp_element, description_element, 
         }
     
         else if(who_attack === 'opp-attack'){
+            if(isGameOver)return;
             let x = hp_obj.user_hp;
             x -= library[num].move_damage;
             if(x <= 0){
@@ -395,7 +405,10 @@ async function details_update(num, pp_element, hp_element, description_element, 
             }
             hp_obj.user_hp = x;
             if(hp_obj.user_hp === 0){
-                alert('opp won!');
+                if(isGameOver){
+                    return;
+                }
+                // alert('opp won!');
 
                 hp_obj.user_hp = 0;
                 hp_element.innerText = `User HP : ${hp_obj.user_hp}/${max_user_hp}`;
@@ -426,7 +439,13 @@ async function details_update(num, pp_element, hp_element, description_element, 
                 let popup = document.getElementsByClassName('battle-popup')[0];
                 console.log(popup);
                 popup.style.display = "block";
-                await sleep(3000);
+
+                let user_poke_name_temp = document.getElementsByClassName('user-poke-details')[0].innerText;
+                let opp_poke_name_temp = document.getElementsByClassName('opp-poke-details')[0].innerText;
+                let result = document.getElementsByClassName('result')[0];
+                result.innerText = `${opp_poke_name_temp} beats ${user_poke_name_temp}`;
+
+                await sleep(5000);
                 popup.style.display = "none";
 
                 window.location = "battle_page.html";
