@@ -11,7 +11,7 @@ const max_round = JSON.parse(session_string4);
 const session_string1 = sessionStorage.getItem('round_history');
 const round_history = JSON.parse(session_string1);
 
-const per_move_gap_time = 1500; //in ms
+const per_move_gap_time = 500; //in ms
 
 let curr_fight_record = round_history.pop();
 
@@ -123,7 +123,14 @@ async function user_poke_ability_init() {
     hp_obj.user_hp = data.stats[0].base_stat;
     max_user_hp = hp_obj.user_hp;
     floater_user_poke_hp.innerText = `User HP: ${hp_obj.user_hp}`;
-    floater_user_poke_img.src = data["sprites"]["other"]["showdown"]["back_default"];
+
+    if(!data["sprites"]["other"]["showdown"]["back_default"]){
+        floater_user_poke_img.src = data["sprites"]["back_default"];
+    }
+    else{
+        floater_user_poke_img.src = data["sprites"]["other"]["showdown"]["back_default"];
+    }
+
     document.getElementsByClassName('user-poke-details')[0].innerText = data.name;
 
     return user_move_info_lib;
@@ -182,7 +189,13 @@ async function opp_poke_ability_init() {
     hp_obj.opp_hp = data.stats[0].base_stat;
     max_opp_hp = hp_obj.opp_hp;
     floater_opp_poke_hp.innerText = `Opp HP: ${hp_obj.opp_hp}`;
-    floater_opp_poke_img.src = data["sprites"]["other"]["showdown"]["front_default"];
+    
+    if(!data["sprites"]["other"]["showdown"]["front_default"]){
+        floater_opp_poke_img.src = data["sprites"]["front_default"];}
+    else{
+        floater_opp_poke_img.src = data["sprites"]["other"]["showdown"]["front_default"];
+    }
+
     document.getElementsByClassName('opp-poke-details')[0].innerText = data.name;
 
     return opp_move_info_lib;
@@ -380,21 +393,6 @@ async function details_update(num, pp_element, hp_element, description_element, 
         pp_element.innerText = `PP : ${library[num].move_pp}`;
         description_element.innerText = `${library[num].move_flavor_text}`;
 
-        // if(q<20){
-        //     hp_bar_el.style.background = "#BC2023";
-        // }
-        // else if(q<40){
-        //     hp_bar_el.style.background = "#EB442C";
-        // }
-        // else if(q<60){
-        //     hp_bar_el.style.background = "#F8B324";
-        // }
-        // else if(q<80){
-        //     hp_bar_el.style.background = "#OC6B37";
-        // }
-        // else{
-        //     hp_bar_el.style.background = "#094A25";
-        // }
         let colors = [
         {
             // "r":44,

@@ -725,39 +725,68 @@ body{
     font-size: 4rem;
 }
 
-.floater-user{
+/* .floater-user{
+    transform: translate(-50%,-50%);
     position: absolute;
     top:35vh; left:35vw;
     scale:1;
 }
 
 .floater-opp{
+    transform: translate(-50%,-50%);
     position: absolute;
     top:28vh; right:35vw;
     scale:1;
-}
+} */
 
 .floater-user-poke-hp{
+    width: 50%;
     text-align: center; padding:0.5rem;
     font-size: 1rem; color: var(--poke-blue);
     font-weight: 700;
     background-color: var(--poke-grass1);
-
-    border-radius: 1rem;
+    border-top-left-radius: 2rem;
+    /* border-right:solid 0.25rem var(--poke-red); */
+    padding-left: 1rem;
 }
 .floater-opp-poke-hp{
+    width: 50%;
     text-align: center; padding:0.5rem; 
     font-size: 1rem; color: var(--poke-red);
     background-color: var(--poke-grass1);
     font-weight: 700;
-
-    border-radius: 1rem;
+    border-top-right-radius: 2rem;
+    /* border-left:solid 0.25rem var(--poke-red); */
+    padding-right: 1rem;
 }
+.floater-hp{
+    display: flex; row-gap: 0;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    bottom: 31vh; left:50%;
+    width: 25vw;
+    border: solid 0.25rem;
+    border-color: var(--poke-darkred);
+    background-color: var(--poke-grass1);
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
+    justify-content: center;
+    
+    height: fit-content;
+}
+
+
 .floater-user-poke-img{
-    width: 10rem;
+    position:absolute; 
+    top:48%; left:38%;
+    transform: translate(-50%,-50%);
+    height: 25%;
 }
 .floater-opp-poke-img{
-    width: 10rem;
+    position:absolute; 
+    top:30%; left:60%; 
+    transform: translate(-50%,-50%);
+    height: 18%;
 }
 
 .active-indicator{

@@ -79,8 +79,8 @@ console.log(round_history);
 // ];
 
 function page_render(){
-    setTimeout(()=>{
-        if((num_round_record.user_win+num_round_record.opp_win) === max_round){
+    if((num_round_record.user_win+num_round_record.opp_win) === max_round){
+        setTimeout(()=>{
             if(num_round_record.user_win > num_round_record.opp_win){
                 alert('user has won the MATCH... Redirecting to home');
             }
@@ -91,8 +91,10 @@ function page_render(){
                 alert('opp has won the MATCH... Redirecting to home');
             }
             window.location = "index.html";
-        }
-    }, 1000);
+        }, 1000);
+        return;
+    }
+    
 
     let round_num_user_win = document.getElementsByClassName('num-user-win')[0];
     let round_num_opp_win = document.getElementsByClassName('num-opp-win')[0];
