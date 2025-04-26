@@ -879,6 +879,25 @@ body{
     filter:invert(0.8);
 }
 
+.battle-popup{
+    position: fixed;
+    top:35vh; left:50vw; 
+    transform: translate(-50%, -50%);
+    width: 50vw; 
+    height: 50vh;
+
+    z-index: 20;
+
+    background-color: var(--poke-sky-blue);
+
+    display: flex;
+    justify-content: center;
+    align-items:center;
+}
+.result{
+    text-align: center;
+}
+
 
 /* Keyframes */
 
