@@ -935,7 +935,7 @@ body{
         scale: 1;
     }
     50% {
-        top: 35%;
+        top: 25%;
         left: 55%;
         scale: 0.6;
         /* top: 30%;
@@ -949,7 +949,7 @@ body{
         scale: 1;
     }
     50% {
-        top:43%;
+        top:48%;
         left:43%;
 
         scale: 1.5;
