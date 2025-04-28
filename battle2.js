@@ -14,7 +14,7 @@ audio.preload = "none";
 const session_string1 = sessionStorage.getItem('round_history');
 const round_history = JSON.parse(session_string1);
 
-const per_move_gap_time = 500; //in ms
+const per_move_gap_time = 2000; //in ms
 
 let curr_fight_record = round_history.pop();
 
