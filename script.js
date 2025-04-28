@@ -147,7 +147,20 @@ async function page_render(left_half) {
     battle_button.addEventListener('click',async ()=>{
         click_sound.play();
         if(selected_poke_array.length != 6){
-            alert("You'll need more Poke-Power, Build a squad of 6...");
+            let popup = document.getElementsByClassName('battle-popup')[0];
+            let popup_message = document.getElementsByClassName('result')[0];
+            popup_message.innerText = `Your squad must contain 6 Pokemons...`;
+
+            if(popup.style.display === "block"){
+                popup.style.display = "none";
+            }
+            else{
+                popup.style.display = "block";
+                await sleep(2000);
+                popup.style.display = "none";
+            }
+
+            // alert("You'll need more Poke-Power, Build a squad of 6...");
         }
         else{
             
