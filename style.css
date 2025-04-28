@@ -908,14 +908,17 @@ body{
 
     background-color: var(--poke-sky-blue);
     border-radius: 2rem;
+    border : solid 1rem var(--poke-grass1);
 
-    display: none;
+    display: block;
 }
 .result{
     position:absolute;
     top:50%; left:50%;
     transform: translate(-50%,-50%);
     text-align: center;
+
+    font-size: 5rem;
 }
 
 
