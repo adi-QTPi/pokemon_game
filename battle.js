@@ -121,8 +121,9 @@ function page_render(){
         }, 5000);
         return;
     }
-
-    round_history = battle_prep();
+    else{
+        round_history = battle_prep();
+    }
 }
 
 function battle_prep(){
