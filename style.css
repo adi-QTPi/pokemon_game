@@ -899,7 +899,7 @@ body{
 
 .battle-popup{
     position: fixed;
-    top:40vh; left:50vw; 
+    top:35vh; left:50vw; 
     transform: translate(-50%, -50%);
     width: 50vw; 
     height: 50vh;
