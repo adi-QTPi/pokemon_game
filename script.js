@@ -5,7 +5,7 @@ sessionStorage.setItem('num_loop_repeat', JSON.stringify(num_loop_repeat));
 
 let difficulty_offset_user = 1; 
 let difficulty_offset_opp = 1;
-// sessionStorage.setItem('difficulty_offset_opp', JSON.stringify(difficulty_offset_opp));
+sessionStorage.setItem('difficulty_offset_opp', JSON.stringify(difficulty_offset_opp));
 
 let offset_dictionary = {
     "1" : "Normal" ,
@@ -105,6 +105,8 @@ async function update_selected_poke_region(element, selected_poke_array){
     if(!selected_poke_array.length)element.innerHTML = `<p class="exciting-text">Select Your Pokemon !!!</p>` ;
     else{
         element.innerHTML = ``;
+        let temp = [];
+        let isProcessing = true;
         for(let id of selected_poke_array){
             let response = await fetch(api_url+id);
             let json_object = await response.json();
@@ -114,8 +116,12 @@ async function update_selected_poke_region(element, selected_poke_array){
             // new_poke_img.style.transform.scaleY = "-1";
             new_poke_img.src = poke_img_url;
             element.appendChild(new_poke_img);
-        }
 
+            // temp.push(new_poke_img);
+        }
+        // for (img of temp){
+        //     element.appendChild(img);
+        // }
     }
 }
 
@@ -188,6 +194,9 @@ function info_button_init(){
 
     element.addEventListener('click', ()=>{
         click_sound.play();
+
+        // info_button_init();
+
         popup.classList.add('info-popup-unleashed');
 
         background_full.classList.add('background-no-scroll');

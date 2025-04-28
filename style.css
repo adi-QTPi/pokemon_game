@@ -367,6 +367,7 @@ body{
 /*battle_2.html*/
 
 #opp-reveal-body{
+    margin-top:13vh;
     position: relative;
     background-image: url("images/opp-reveal-bg.png");
     background-size: 100% 100vh;
