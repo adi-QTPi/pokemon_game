@@ -6,9 +6,7 @@ const  opp_poke_obj_array = JSON.parse(session_string2);
 
 console.log(user_poke_obj_array);
 console.log(opp_poke_obj_array);
-//fetch poke-details//////////////////
-// const audio = new Audio('sounds/battle-vs-trainer.mp3');
-// let click_sound = new Audio('sounds/click-sound.wav');
+
 
 const coeff_of_attack_dampness = 0.1;
 sessionStorage.setItem('attack_dampness', JSON.stringify(coeff_of_attack_dampness));
@@ -55,10 +53,6 @@ if(sessionStorage.getItem('num_round_record_from_battle2')){
     num_round_record = JSON.parse(intermediate);
 }
 
-// let num_user_win = num_round_record.user_win;
-// let num_opp_win = num_round_record.opp_win;
-// let num_total_round = num_round_record.total;
-
 let round_history = [];
 
 if(sessionStorage.getItem('round_history_from_battle2')){
@@ -68,17 +62,6 @@ if(sessionStorage.getItem('round_history_from_battle2')){
 
 console.log(num_round_record);
 console.log(round_history);
-
-// if(sessionStorage.getItem('round_history_from_battle2')){
-//     round_history = sessionStorage.getItem('round_history_from_battle2');
-// }
-// else{
-//     round_history =[];
-// }
-
-// let round_history = [
-//     // {"user_poke" : "charmander" , "opp_poke" : "wigglytuff" , "winner" : "charmander"} ,
-// ];
 
 const audio = new Audio('sounds/battle-vs-trainer.mp3');
 audio.preload = "none";
@@ -104,16 +87,12 @@ function page_render(){
         popup.style.display = "block";
         if(num_round_record.user_win > num_round_record.opp_win){
             popup.firstElementChild.innerText = `You Won the MATCH !!! \n Redirecting to Home.`;
-            
-            // alert('user has won the MATCH... Redirecting to home');
         }
         else if (num_round_record.user_win === num_round_record.opp_win){
             popup.firstElementChild.innerText = `It's a fight for some other day, Match DRAW... \n Redirecting to Home.`;
-            // alert('the match is DRAW... Redirecting to home');
         }
         else{
             popup.firstElementChild.innerText = `Humanity has fallen :( You LOST \n Redirecting to Home.`;
-            // alert('opp has won the MATCH... Redirecting to home');
         }
         
         setTimeout(()=>{
@@ -204,10 +183,6 @@ function battle_prep(){
 
                 curr_round_obj["user_poke"] = poke_name;
 
-                // curr_round_obj["winner"] = poke_name;
-
-
-                // console.log(curr_round_obj);
                 round_history.push(curr_round_obj);
                 console.log(round_history);
 
@@ -252,7 +227,6 @@ async function fetch_and_put_hp(element, id){
     let base_hp = data.stats[0].base_stat;
 
     element.innerText += `${base_hp}`;
-    // console.log(base_hp);
 }
 
 async function fetch_and_put_moves(element, id){
@@ -301,7 +275,7 @@ async function fetch_and_put_sprite(img_element, id, who){
 }
 
 function playMusicOnFirstClick(audio){
-    audio.loop = true; // optional, if you want the music to loop
+    audio.loop = true; 
 
     function handleFirstClick() {
         audio.play();

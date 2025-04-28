@@ -54,7 +54,6 @@ async function objectify(){
 
 function music_button_init(audio){
     let music_button= document.getElementsByClassName('music-button')[0];
-    // music_button.click();
     audio.loop = true;
     let isPlaying = true;    
     music_button.addEventListener('click', ()=>{
@@ -83,7 +82,6 @@ async function opp_page_render(){
         click_sound.play;
         await sleep(500);
         window.location.href = "battle_page.html";
-        // battle_button.setAttribute('href', 'battle_page.html');
     })
 
     let redirect_button = document.getElementsByClassName('redirect-selection')[0];
@@ -91,7 +89,6 @@ async function opp_page_render(){
         click_sound.play;
         await sleep(500);
         window.location.href = "index.html";
-        // battle_button.setAttribute('href', 'index.html');
     })
 
     objectify();
@@ -137,7 +134,7 @@ async function random_opp_generator(opp_poke_obj_array, difficulty_offset_opp) {
 }
 
 /////////////////
-let temp_bool = true; // so that only the first time hitting cross makes sound
+let temp_bool = true; // only the first time hit cross makes sound
 function info_button_init(){
     let element = document.getElementsByClassName('info-button')[0];
     let popup = document.getElementsByClassName('info-popup-hidden')[0];

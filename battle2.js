@@ -2,36 +2,15 @@ const api_url = 'https://pokeapi.co/api/v2/pokemon/';
 
 const session_string3 = sessionStorage.getItem('attack_dampness');
 const coeff_of_attack_dampness = JSON.parse(session_string3);
-
 const session_string4 = sessionStorage.getItem('max_round');
 const max_round = JSON.parse(session_string4);
-
 const audio = new Audio('sounds/battle-vs-trainer.mp3');
 audio.preload = "none";
-
-//Imported data//////////////////
-
 const session_string1 = sessionStorage.getItem('round_history');
 const round_history = JSON.parse(session_string1);
-
-const per_move_gap_time = 2000; //in ms
-
+const per_move_gap_time = 2000; 
 let curr_fight_record = round_history.pop();
-
 let isGameOver = false;
-
-// let curr_fight_record = {
-//     "user_poke" : "4", 
-//     "opp_poke" : "1" , 
-//     "winner" : ""
-// };
-
-// let num_round_record = {
-//     "user_win" : 3 ,
-//     "opp_win" : 1 ,
-    
-//     get total(){return this.user_win + this.opp_win;}
-// };
 
 let num_round_record = {};
 
@@ -241,7 +220,6 @@ function battle_round(){
             for(obj of children){
                 obj.classList.remove('poke-ability-card-selected');
                 obj.classList.remove('poke-ability-card-clickable');
-                // obj.classList.add('redirect-selection-hover');
             }
 
             console.log(user_move_info_lib);
@@ -285,22 +263,15 @@ function battle_round(){
 
             setTimeout(()=>{
                 console.log("attack in progress");
-
-                // let comp_choose_rand_num = getRandomInteger();
                 let comp_choose_rand_num = getRandomIntInclusiveLowerExclusiveUpper(0, opp_move_info_lib.length);
-
                 let target_el = Array.from(right_battle_ability_list.children)[comp_choose_rand_num];
                 target_el.classList.add('poke-ability-card-selected');
                 let hp_bar_el = document.getElementsByClassName('user-bar')[0];
                 if(curr_fight_record.winner == null){
                     details_update(comp_choose_rand_num, target_el.lastElementChild, floater_user_poke_hp, match_description_p, opp_move_info_lib, 'opp-attack', hp_bar_el);
                 }
-                
                 bottom_user_poke_name.classList.remove('active-indicator');
                 bottom_opp_poke_name.classList.add('active-indicator');
-
-                // x.classList.remove('hit-img-start');
-                // x.classList.add('hit-img-end');
                 floater_user_poke_img.style.animation = ``;
                 floater_opp_poke_img.style.animation = `diagonalMove_opp ${per_move_gap_time}ms`; 
             }, per_move_gap_time);
@@ -326,10 +297,6 @@ function battle_round(){
                 floater_opp_poke_img.style.animation = ``; 
 
             }, 2*per_move_gap_time);
-            
-            // for(obj of children){
-            //     obj.classList.add('poke-ability-card-clickable');
-            // }//to add hover effect back
         })
     }
 }
@@ -339,7 +306,6 @@ function update_and_store_num_round(who_win){
     sessionStorage.setItem('num_round_record_from_battle2', JSON.stringify(num_round_record));
 }
 
-// let winning_sound = new Audio('sounds/winning-sound.wav');
 let winning_sound = new Audio('sounds/winning-sound2.mp3');
 winning_sound.preload = "none";
 
@@ -347,8 +313,6 @@ async function details_update(num, pp_element, hp_element, description_element, 
     let pp = library[num].move_pp;
 
     if(pp === 0){
-        // alert('player tried to play an exhausted move...But other player is mercyless...');
-        // description_element.animation = 'horizontal-shaking 0.5s';
         description_element.innerText = "Chosen move is exhausted!... ";
     }
     else{
@@ -362,12 +326,7 @@ async function details_update(num, pp_element, hp_element, description_element, 
             hp_obj.opp_hp = x;
 
             if(hp_obj.opp_hp === 0 ){
-                // if(isGameOver){
-                //     return;
-                // }
                 isGameOver = true;
-                // alert('user won!');
-                // hp_obj.opp_hp = 0;
                 hp_element.innerText = `Opp HP : ${hp_obj.opp_hp}/${max_opp_hp}`;
                 q = (hp_obj.opp_hp/max_opp_hp)*100;
                 hp_bar_el.style.width = `0%`;
@@ -375,21 +334,17 @@ async function details_update(num, pp_element, hp_element, description_element, 
                 let poke_sprite = document.getElementsByClassName('floater-opp-poke-img')[0];
 
                 curr_fight_record.winner = "user";
-                // num_round_record.user_win += 1;
                 update_and_store_num_round("user_win");
-                
                 
                 round_history.push(curr_fight_record);
                 sessionStorage.setItem('round_history_from_battle2', JSON.stringify(round_history));
 
                 
                 for(let i = 0; i<2; i++){
-                    // poke_sprite.classList.remove('player-dead2');
                     poke_sprite.classList.add('player-dead'); 
                     await sleep(500);
                     poke_sprite.classList.remove('player-dead');
                     await sleep(500);
-                    // poke_sprite.classList.add('player-dead2');
                 }
                 audio.pause();
                 sleep(50);
@@ -433,12 +388,9 @@ async function details_update(num, pp_element, hp_element, description_element, 
                 if(isGameOver){
                     return;
                 }
-                // alert('opp won!');
-
                 hp_obj.user_hp = 0;
                 hp_element.innerText = `User HP : ${hp_obj.user_hp}/${max_user_hp}`;
                 curr_fight_record.winner = "opp";
-                // num_round_record.opp_win += 1;
 
                 q = (hp_obj.opp_hp/max_opp_hp)*100;
                 hp_bar_el.style.width = `0%`;
@@ -451,12 +403,10 @@ async function details_update(num, pp_element, hp_element, description_element, 
                 round_history.push(curr_fight_record);
                 sessionStorage.setItem('round_history_from_battle2', JSON.stringify(round_history));
                 for(let i = 0; i<3; i++){
-                    // poke_sprite.classList.remove('player-dead2');
                     poke_sprite.classList.add('player-dead');
                     await sleep(500);
                     poke_sprite.classList.remove('player-dead');
                     await sleep(500);
-                    // poke_sprite.classList.add('player-dead2');
                 }
                 
                 console.log(q);
@@ -489,9 +439,6 @@ async function details_update(num, pp_element, hp_element, description_element, 
 
         let colors = [
         {
-            // "r":44,
-            // "g":186,
-            // "b":0
             "r":255,
             "g":203,
             "b":5
@@ -539,11 +486,7 @@ function playMusicOnFirstClick(audio){
 async function page_render(){
     playMusicOnFirstClick(audio);
     user_move_info_lib = await user_poke_ability_init();
-    // console.log(user_move_info_lib);
-
     opp_move_info_lib = await opp_poke_ability_init();
-    // console.log(opp_move_info_lib);
-
     battle_round();
 }
 
