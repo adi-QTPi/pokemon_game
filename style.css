@@ -11,10 +11,8 @@
     --poke-grey : #878787;
     --poke-sky-blue : #daeaf7;
     --poke-hp-bar-blue: rgb(20, 80, 176);
-
     --hp-start-color: rgb(26, 239, 26);
     --hp-end-color: rgb(167, 41, 41);
-
     --cursor: pointer;
     --disallow_cursor: not-allowed;
     --default : default;
@@ -73,7 +71,6 @@
     display: flex; 
     flex-wrap: wrap;
     width: 90%; height: fit-content;
-    /* border: solid 3px teal; */
     margin:0 auto;
     margin-top:1rem;
     flex-direction: column;
@@ -178,7 +175,6 @@
 }
 
 body{
-    /* background-color: var(--poke-grass2); */
     margin: 0; position: relative;
 
     font-family: "Jersey 10", sans-serif;
@@ -231,13 +227,10 @@ body{
     margin:0;
     display:flex; flex-direction: row;
     column-gap: 2rem;
-    /* flex-wrap: wrap;  */
     width: 55%; height: 8rem;
     text-align: center;
     justify-content: space-around;
     align-items: center;
-    /* justify-content: center; */
-
     margin-top:0.5rem;
     padding:0;
     padding-left: 1rem; padding-right:1rem;
@@ -250,7 +243,6 @@ body{
     height: 60%; 
     scale:1.1;
     transform: scaleX(1);
-    /* width: 16%;  */
 }
 
 .exciting-text{
@@ -262,7 +254,6 @@ body{
     display:flex;
     flex-direction: row;
     width:90%;
-    /* align-items:; */
     margin: 0 auto;
     margin-top : 1rem;
     column-gap: 2rem;
@@ -272,7 +263,6 @@ body{
     flex-direction: row;
     flex-wrap: wrap;
     width:50%;
-    /* border: solid 5px teal; */
     justify-content: center;
     padding:1rem;
 
@@ -307,8 +297,6 @@ body{
     display: flex;
     flex-direction: column;
     height: 70vh; width: 50%;
-    /* border: solid 3px var(--poke-grass1); */
-
     position:sticky; top:16.75rem;
 
     background-image: url('images/pokedex-2.png');
@@ -364,7 +352,6 @@ body{
 }
 
 /*///////////////////////////////////////////////////*/
-/*battle_2.html*/
 
 #opp-reveal-body{
     margin-top:13vh;
@@ -534,9 +521,7 @@ body{
 .left-battle-poke-card{
     cursor: var(--cursor);
 }
-.left-battle-poke-card:hover{
-    /* opacity: 0.2; */
-}
+
 .right-battle-poke-card{
     cursor: var(--disallow_cursor);
 }
@@ -565,16 +550,6 @@ body{
     justify-content: space-around;
 }
 
-/* .num-user-win{
-
-}
-.num-round{
-
-}
-.num-opp-win{
-
-} */
-
 .bottom-space{
     cursor: var(--default);
     position:absolute;  left:2%; right:2%; bottom:8vh;
@@ -590,7 +565,6 @@ body{
     padding-left: 2rem;
     padding-right: 1rem;
     height: 100%; width: 40%; 
-    /* border: solid 4px teal; */
     display: flex; flex-direction: column;
 }
 .name{
@@ -611,7 +585,6 @@ body{
     padding-left: 2rem;
     padding-right: 1rem;
     height: 100%; width: 40%; 
-    /* border: solid 4px teal; */
     display: flex; flex-direction: column;
 } 
 
@@ -638,21 +611,6 @@ body{
     background-color: var(--poke-red-transp);
     border: solid 2px gray;
 }
-
-/* .floater-battle{
-    display:flex; flex-direction: row-reverse;
-    position: absolute;
-    top:25vh;
-    left:30vw;
-    width:40vw; 
-    height: 20vh;
-    justify-content: space-around;
-}*/
-
-
-
-
-
 
 /*for battle_page2.html */
 .battle2-page-body{
@@ -737,25 +695,10 @@ body{
 }
 .attack-who-to-who{
     height: 30%; 
-    /* border:solid 0.25rem teal; */
 }
 .opp-poke-details{
     font-size: 4rem;
 }
-
-/* .floater-user{
-    transform: translate(-50%,-50%);
-    position: absolute;
-    top:35vh; left:35vw;
-    scale:1;
-}
-
-.floater-opp{
-    transform: translate(-50%,-50%);
-    position: absolute;
-    top:28vh; right:35vw;
-    scale:1;
-} */
 
 .floater-user-poke-hp{
     width: 50%;
@@ -764,7 +707,6 @@ body{
     font-weight: 700;
     background-color: var(--poke-grass1);
     border-top-left-radius: 2rem;
-    /* border-right:solid 0.25rem var(--poke-red); */
     padding-left: 1rem;
 }
 .floater-opp-poke-hp{
@@ -774,7 +716,6 @@ body{
     background-color: var(--poke-grass1);
     font-weight: 700;
     border-top-right-radius: 2rem;
-    /* border-left:solid 0.25rem var(--poke-red); */
     padding-right: 1rem;
 }
 .floater-hp{
@@ -802,7 +743,6 @@ body{
 }
 .hit-img{
     position: fixed;
-    /* top: 42vh; left: 50vw; */
     transform: translate(-50%, -50%);
     width: 0vw; 
     opacity: 0.5;
@@ -819,14 +759,6 @@ body{
     width: 25vw;
 }
 
-/* .hit-img.user{
-    top:45vh;
-    left:42vw;
-}
-.hit-img.opp{
-    top:30vh;
-    left:60vw;
-} */
 .floater-opp-poke-img{
     position:absolute; 
     top:30%; left:60%; 
@@ -862,7 +794,6 @@ body{
 .user{
     display: flex; flex-direction: row;
     width:100%; 
-    /* height: 5vh; */
     justify-content: flex-end;
     border-right:solid 0.1rem var(--poke-darkred);
 }
@@ -870,7 +801,6 @@ body{
     border-left:solid 0.1rem var(--poke-darkred);
     display: flex; flex-direction: row-reverse;
     width:100%; 
-    /* height: 5vh; */
     justify-content: flex-end;
 }
 .user-bar{
@@ -942,8 +872,6 @@ body{
         top: 25%;
         left: 55%;
         scale: 0.6;
-        /* top: 30%;
-        left: 60%; */
     }
 }
 @keyframes diagonalMove_opp {
@@ -955,9 +883,6 @@ body{
     50% {
         top:48%;
         left:43%;
-
         scale: 1.5;
-        /* top:48%;
-        left:38%; */
     }
 }
