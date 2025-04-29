@@ -1,5 +1,6 @@
 const api_url = 'https://pokeapi.co/api/v2/pokemon/';
 
+const pp_dampener = 0.4;
 const session_string3 = sessionStorage.getItem('attack_dampness');
 const coeff_of_attack_dampness = JSON.parse(session_string3);
 const session_string4 = sessionStorage.getItem('max_round');
@@ -82,8 +83,8 @@ async function user_poke_ability_init() {
         let new_obj = {
             "move_id": moveIndex - 1,
             "move_name": data2.name,
-            "move_damage": (data2.power * coeff_of_attack_dampness),
-            "move_pp": data2.pp,
+            "move_damage": Math.round((data2.power * coeff_of_attack_dampness)),
+            "move_pp": Math.round(data2.pp * pp_dampener),
             "move_flavor_text": data2.flavor_text_entries.find(f => f.language.name === 'en')?.flavor_text || 'No flavor text'
         };
 
@@ -154,8 +155,8 @@ async function opp_poke_ability_init() {
         let new_obj = {
             "move_id": moveIndex - 1,
             "move_name": data2.name,
-            "move_damage": (data2.power * coeff_of_attack_dampness),
-            "move_pp": data2.pp,
+            "move_damage": Math.round((data2.power * coeff_of_attack_dampness)),
+            "move_pp": Math.round(data2.pp * pp_dampener),
             "move_flavor_text": data2.flavor_text_entries.find(f => f.language.name === 'en')?.flavor_text || 'No flavor text'
         };
 
@@ -319,7 +320,7 @@ async function details_update(num, pp_element, hp_element, description_element, 
         let q = 20;
         if(who_attack == 'user-attack'){
             let x = hp_obj.opp_hp;
-            x -= library[num].move_damage;
+            x -= Math.round(library[num].move_damage *10)/10;
             if(x<=0){
                 x = 0;
             }
@@ -379,7 +380,7 @@ async function details_update(num, pp_element, hp_element, description_element, 
         else if(who_attack === 'opp-attack'){
             if(isGameOver)return;
             let x = hp_obj.user_hp;
-            x -= library[num].move_damage;
+            x -= Math.round(library[num].move_damage * 10)/10;
             if(x <= 0){
                 x = 0;
             }

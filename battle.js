@@ -243,7 +243,7 @@ async function fetch_and_put_moves(element, id){
         let temp_move_name = data.moves[x].move.name;
         let temp_move_power = data2.power;
         if(temp_move_power){
-            element.innerText += `\n${temp_move_name} (${temp_move_power*coeff_of_attack_dampness})`;
+            element.innerText += `\n${temp_move_name} (${Math.round(temp_move_power*coeff_of_attack_dampness)})`;
             count++;
         }
         if(count == 3)break;
