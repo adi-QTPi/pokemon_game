@@ -91,7 +91,7 @@ function queue_filo_insert(arr_name, new_poke_name){
 }
 
 async function update_selected_poke_region(element, selected_poke_array){
-    if(!selected_poke_array.length)element.innerHTML = `<p class="exciting-text">Select Your Pokemon !!!</p>` ;
+    if(!selected_poke_array.length)element.innerHTML = `<p class="exciting-text">Selest 6 Pokemons !!!</p>` ;
     else{
         element.innerHTML = ``;
         let temp = [];
