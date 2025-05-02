@@ -243,8 +243,8 @@ function info_button_init(){
 }
 
 let i = 0;
-let audio = new Audio('assets/sounds/home-page.mp3'); 
-let click_sound = new Audio('assets/sounds/click-sound.wav');
+let audio = new Audio('./assets/sounds/home-page.mp3'); 
+let click_sound = new Audio('./assets/sounds/click-sound.wav');
 
 function music_button_init(audio){
     let music_button= document.getElementsByClassName('music-button')[0];
