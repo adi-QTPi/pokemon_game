@@ -81,14 +81,14 @@ async function opp_page_render(){
     battle_button.addEventListener('click',async ()=>{
         click_sound.play;
         await sleep(500);
-        window.location.href = "html/battle_page.html";
+        window.location.href = "battle_page.html";
     })
 
     let redirect_button = document.getElementsByClassName('redirect-selection')[0];
     redirect_button.addEventListener('click', async ()=>{
         click_sound.play;
         await sleep(500);
-        window.location.href = "index.html";
+        window.location.href = "../index.html";
     })
 
     objectify();
