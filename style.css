@@ -51,7 +51,7 @@
     right: 1rem;
     height: 3rem; width: 3rem;
     color:red;
-    background-image: url('images/cross-button.png');
+    background-image: url('assets/images/cross-button.png');
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -189,7 +189,7 @@ body{
 }
 .selection-page-body{
     cursor: var(--default);
-    background-image: url("images/background-lab.jpg");
+    background-image: url("assets/images/background-lab.jpg");
 }
 
 .index-load-screen{
@@ -235,7 +235,7 @@ body{
     padding:0;
     padding-left: 1rem; padding-right:1rem;
 
-    background-image: url(images/grass-1.png);
+    background-image: url("assets/images/grass-1.png");
     background-size:100% 105%;
 }
 
@@ -299,7 +299,7 @@ body{
     height: 70vh; width: 50%;
     position:sticky; top:16.75rem;
 
-    background-image: url('images/pokedex-2.png');
+    background-image: url('assets/images/pokedex-2.png');
     background-size: 100% 100%; background-repeat: no-repeat;
 }
 
@@ -356,7 +356,7 @@ body{
 #opp-reveal-body{
     margin-top:13vh;
     position: relative;
-    background-image: url("images/opp-reveal-bg.png");
+    background-image: url("assets/images/opp-reveal-bg.png");
     background-size: 100% 100vh;
     background-repeat: no-repeat;
     background-attachment:fixed;
@@ -476,7 +476,7 @@ body{
 .battle-page-body{
     cursor: var(--default);
     margin: 0; position:relative; height: 100vh; width: 100vw;
-    background-image: url("images/background-battle-center.jpg"), url("images/background-battle-bottom.png");
+    background-image: url("assets/images/background-battle-center.jpg"), url("assets/images/background-battle-bottom.png");
     background-size: 60% 70vh, 100% 30vh;
     background-position:top, bottom;
 }
@@ -616,7 +616,7 @@ body{
 .battle2-page-body{
     cursor: var(--default);
     margin: 0; position:relative; height: 100vh; width: 100vw;
-    background-image: url("images/background-battle-center.jpg"), url("images/background-battle-bottom.png");
+    background-image: url("assets/images/background-battle-center.jpg"), url("assets/images/background-battle-bottom.png");
     background-size: 60% 70vh, 100% 30vh;
     background-position:top, bottom;
 

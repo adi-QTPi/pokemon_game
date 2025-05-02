@@ -1,7 +1,7 @@
 const api_url = 'https://pokeapi.co/api/v2/pokemon/';
 
-let audio = new Audio('../sounds/opp-reveal.mp3');
-let click_sound = new Audio('sounds/click-sound.wav');
+let audio = new Audio('../assets/sounds/opp-reveal.mp3');
+let click_sound = new Audio('../assets/sounds/click-sound.wav');
 
 let user_difficulty_choice;
 if(!sessionStorage.getItem('user_difficulty_choice')){
@@ -60,11 +60,11 @@ function music_button_init(audio){
         click_sound.play();
         if(!isPlaying){
             audio.play(); isPlaying = true;
-            music_button.src = '../images/volume-button.png';
+            music_button.src = '../assets/images/volume-button.png';
         }
         else{
             audio.pause(); isPlaying = false;
-            music_button.src = '../images/mute-button.png';
+            music_button.src = '../assets/images/mute-button.png';
         }
     })
 }

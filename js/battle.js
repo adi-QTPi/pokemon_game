@@ -63,9 +63,9 @@ if(sessionStorage.getItem('round_history_from_battle2')){
 console.log(num_round_record);
 console.log(round_history);
 
-const audio = new Audio('../sounds/battle-vs-trainer.mp3');
+const audio = new Audio('../assets/sounds/battle-vs-trainer.mp3');
 audio.preload = "none";
-let click_sound = new Audio('../sounds/click-sound.wav');
+let click_sound = new Audio('../assets/sounds/click-sound.wav');
 click_sound.preload = "none";
 
 function page_render(){
