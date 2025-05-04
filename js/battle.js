@@ -200,7 +200,7 @@ function battle_prep(){
                     }
                     sessionStorage.setItem('round_history', JSON.stringify(round_history));
                     await sleep(500);
-                    window.location = "battle_page2.html";
+                    window.location = "./arena.html";
                 });
 
                 let poke_img_el = document.getElementsByClassName('floater-user-poke-img')[0];
