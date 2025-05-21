@@ -11,7 +11,7 @@ console.log(opp_poke_obj_array);
 const coeff_of_attack_dampness = 0.1;
 sessionStorage.setItem('attack_dampness', JSON.stringify(coeff_of_attack_dampness));
 
-const max_round = 6;
+const max_round = 3;
 sessionStorage.setItem('max_round', JSON.stringify(max_round));
 
 //ELEMENTS////////////////////////////

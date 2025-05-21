@@ -313,7 +313,7 @@ winning_sound.preload = "none";
 async function details_update(num, pp_element, hp_element, description_element, library, who_attack, hp_bar_el){
     let pp = library[num].move_pp;
 
-    if(pp === 0){
+    if(pp == 0){
         description_element.innerText = "Chosen move is exhausted!... ";
     }
     else{
