@@ -96,7 +96,7 @@ function page_render(){
         }
         
         setTimeout(()=>{
-            window.location = "index.html";
+            window.location = "../index.html";
         }, 5000);
         return;
     }
